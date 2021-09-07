@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testSuite id="1a8c9d1e-d4ba-42e9-9de5-0da5ffc6f943" name="Access Facility Payment" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="1a8c9d1e-d4ba-42e9-9de5-0da5ffc6f943fileName">Access-Facility-Payment</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:runType>SEQUENTIAL</con:runType>
+  <con:properties/>
+  <con:reportParameters/>
+</con:testSuite>

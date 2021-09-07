@@ -1,0 +1,2181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="4ecd5b2c-d540-44b7-9b0f-8e4c1e65ae0d" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="TC68611" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" zephyrTestName="" zephyrTestId="" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:description>Test Case Name:
+Savings Account: Reduced installment payment from account to AF
+
+Description:
+Perform a reduced installment payment  from savings account to AF account.
+
+Expected Result:
+Reduce balance on AF Recalculate repayment amount based on outstanding balance &amp; remaining term. Term remains the same, but repayment reduced.</con:description>
+  <con:settings>
+    <con:setting id="4ecd5b2c-d540-44b7-9b0f-8e4c1e65ae0dfileName">TC68611</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="datasource" name="UsernamePasswordDataSource" id="773e7e05-1811-432b-83d6-0ddc814f8e64">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/UsernamePassword.xlsx</file>
+          <worksheet>Sheet1</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>false</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>grant_type</con:property>
+      <con:property>username</con:property>
+      <con:property>password</con:property>
+      <con:startRow/>
+      <con:endRow/>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:failOnEmpty>true</con:failOnEmpty>
+      <con:trimValues>true</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="UsernamePassword" id="be3df750-cba7-4422-b42d-69152ce1f4e2">
+    <con:settings/>
+    <con:config>
+      <script>//Get URL Encoded
+def grant_type = context.expand( '${UsernamePasswordDataSource#grant_type}' )
+def username = context.expand( '${UsernamePasswordDataSource#username}' )
+def password = context.expand( '${UsernamePasswordDataSource#password}' )
+
+//Build URLEncoded
+//grant_type=password&amp;username=CP343094&amp;password=Vadyca!22
+def URLEncoded = ('grant_type='+grant_type+'&amp;username='+username+'&amp;password='+password)
+log.info(URLEncoded)
+//Create variable 
+testRunner.testCase.setPropertyValue( "URLEncoded", URLEncoded )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Token" id="182d5e44-98d0-41dc-8341-5f23bc50da90">
+    <con:settings/>
+    <con:config service="https://idp-non-prod.int.capinet" resourcePath="/token" methodName="Token" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Token" id="3fff67e7-5a37-44b8-8893-cbce56d10cf0" mediaType="Form URL Encoded" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/x-www-form-urlencoded" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect</con:endpoint>
+        <con:request>${#TestCase#URLEncoded}</con:request>
+        <con:originalUri>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="bc731ccc-e45b-4121-969b-7b4dde6be7e9" name="Check for existence of [access_token]">
+          <con:configuration>
+            <path>$['access_token']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:username>Platform-DEV</con:username>
+          <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+          <con:selectedAuthProfile>Basic</con:selectedAuthProfile>
+          <con:preemptive>true</con:preemptive>
+          <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
+          <con:authType>Preemptive</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:parameterOrder/>
+        <con:environmentSpec>
+          <con:entry environmentId="d762859b-28b7-4b5a-be3e-b89bb67042dc">
+            <con:authProfile>Basic</con:authProfile>
+            <con:username>Platform-DEV</con:username>
+            <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+            <con:preemptive>true</con:preemptive>
+          </con:entry>
+          <con:entry environmentId="c6d10c3f-13fd-496d-a352-d5e1b3ffb3e4">
+            <con:authProfile>Basic</con:authProfile>
+            <con:username>Platform-INT</con:username>
+            <con:password>3a6198ea-eed5-43b2-bee2-a5a4895096ec</con:password>
+            <con:preemptive>true</con:preemptive>
+          </con:entry>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>Basic</con:authProfile>
+            <con:username>Platform-DEV</con:username>
+            <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+            <con:preemptive>true</con:preemptive>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="TransferToken" id="30555f55-499a-4878-b8e8-54ce0ba418e9">
+    <con:settings/>
+    <con:config>
+      <script>//Get token value
+def token = context.expand( '${Token#Response#$[\'access_token\']}' )
+return 'Bearer ' + token</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasource" name="DataSource" id="7f46b869-eeb6-48b7-94ac-d83dcc006ca2">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/1.ProductInfo.xlsx</file>
+          <worksheet>Sheet1</worksheet>
+          <cell>E5</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>customerNumber</con:property>
+      <con:property>transferAmount</con:property>
+      <con:property>statementDescription</con:property>
+      <con:property>paymentOptions</con:property>
+      <con:startRow>1</con:startRow>
+      <con:endRow>1</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="ProductInfo" id="4bc5633d-cca4-4d3f-a664-f1d7e56ff249">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/productInfo" methodName="ProductInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="ProductInfo" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="sourceSystemIdentifier" value="USSD" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="discardResponse">false</con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>{\r
+   "accountNumber" : "",\r
+   "transferAmount" : ""\r
+}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="d66da373-023f-449b-9b61-b19efb12c2a6" name="Check for existence of [accountNumber]">
+          <con:configuration>
+            <path>$['accountNumber']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d0be1a4b-0752-4283-bda3-0d44f9b5abf1" name="Check for existence of [approvedDate]">
+          <con:configuration>
+            <path>$['approvedDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0bac3ac3-d10d-4de9-a097-ff9ed9dfef04" name="Check for existence of [availableLimit]">
+          <con:configuration>
+            <path>$['availableLimit']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="97955657-c446-4947-8a76-9dff6086aba5" name="Check for existence of [interestRateYearly]">
+          <con:configuration>
+            <path>$['interestRateYearly']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="2b469790-cc56-4d0e-8974-f02d9bf9cc47" name="Check for existence of [accountBalance]">
+          <con:configuration>
+            <path>$['accountBalance']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="17f0f37d-5a69-44c9-ad1c-8e809851ef11" name="Check for existence of [availableToTransfer]">
+          <con:configuration>
+            <path>$['availableToTransfer']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b1695fd5-c56f-41b2-b68b-5077e9bce9ad" name="Check for existence of [remainingTerm]">
+          <con:configuration>
+            <path>$['remainingTerm']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="4307ab89-cf5a-4a71-b9a5-826e24002bc6" name="Check for existence of [nextInstalmentDue]">
+          <con:configuration>
+            <path>$['nextInstalmentDue']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="f253700a-0421-4e34-b412-0d4bb773b308" name="Check for existence of [nextInstalmentDate]">
+          <con:configuration>
+            <path>$['nextInstalmentDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0751e283-a671-4474-a8a7-c2a646bd6631" name="Check for existence of [autoLimitIncrease]">
+          <con:configuration>
+            <path>$['autoLimitIncrease']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="383e0422-831b-482f-ba11-b24dc6c0bc56" name="Check for existence of [monthlyServiceFee]">
+          <con:configuration>
+            <path>$['monthlyServiceFee']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="737626d8-ec94-49ac-8340-621b714ba2fb" name="Check for existence of [minimumTerm]">
+          <con:configuration>
+            <path>$['minimumTerm']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="3284d06a-3ee9-49bc-8bf9-6771dc5f3fa8" name="Check for existence of [maximumTerm]">
+          <con:configuration>
+            <path>$['maximumTerm']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="ab1984d2-611f-4f8b-8b3f-4fc6dfd60e81" name="Check for existence of [minimumTransferAmount]">
+          <con:configuration>
+            <path>$['minimumTransferAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="40715926-3258-4a50-9b54-d628c4877084" name="Check for existence of [maximumRepayment]">
+          <con:configuration>
+            <path>$['maximumRepayment']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="20ee2386-3fe6-4085-b00b-e7f1571bfbd4" name="Check for existence of [termBasis]">
+          <con:configuration>
+            <path>$['termBasis']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="cb110b71-60e9-46e8-be24-3e1b235f5e92" name="Check for existence of [lastArrearsDate]">
+          <con:configuration>
+            <path>$['lastArrearsDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="dee5ccc1-0129-4fec-80af-e3b707c222d3" name="Check for existence of [decemberArrears]">
+          <con:configuration>
+            <path>$['decemberArrears']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="88740023-2d4c-4d9a-9e32-860b4e88afdf" name="Check for existence of [totalArrearsPayable]">
+          <con:configuration>
+            <path>$['totalArrearsPayable']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="9e16e8a5-4c42-4a40-abd8-2c2160e133f0" name="Check for existence of [productInsurance]">
+          <con:configuration>
+            <path>$['productInsurance']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="Authorization" value="${TransferToken#result}"/>
+          <con:entry key="customerNumber" value="${DataSource#customerNumber}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>customerNumber</con:entry>
+          <con:entry>Authorization</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ProductInfoSinkData" id="089c1043-f953-4248-a662-18ca700bbdb3">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("ProductInfoSaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//accountNumber
+def accountNumber = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("accountNumber", accountNumber.toString()) 
+
+//approvedDate
+def approvedDate = context.expand( '${ProductInfo#Response#$[\'approvedDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("approvedDate", approvedDate.toString())
+
+//availableLimit
+def availableLimit = context.expand( '${ProductInfo#Response#$[\'availableLimit\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("availableLimit", availableLimit.toString())
+
+//interestRateYearly
+def interestRateYearly = context.expand( '${ProductInfo#Response#$[\'interestRateYearly\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("interestRateYearly", interestRateYearly.toString())
+
+//accountBalance
+def accountBalance = context.expand( '${ProductInfo#Response#$[\'accountBalance\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("accountBalance", accountBalance.toString())
+
+//availableToTransfer
+def availableToTransfer = context.expand( '${ProductInfo#Response#$[\'availableToTransfer\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("availableToTransfer", availableToTransfer.toString())
+
+//remainingTerm
+def remainingTerm = context.expand( '${ProductInfo#Response#$[\'remainingTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("remainingTerm", remainingTerm.toString())
+
+//nextInstalmentDue
+def nextInstalmentDue = context.expand( '${ProductInfo#Response#$[\'nextInstalmentDue\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("nextInstalmentDue", nextInstalmentDue.toString())
+
+//nextInstalmentDate
+def nextInstalmentDate = context.expand( '${ProductInfo#Response#$[\'nextInstalmentDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("nextInstalmentDate", nextInstalmentDate.toString())
+
+//autoLimitIncrease
+def autoLimitIncrease = context.expand( '${ProductInfo#Response#$[\'autoLimitIncrease\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("autoLimitIncrease", autoLimitIncrease.toString())
+
+//monthlyServiceFee
+def monthlyServiceFee = context.expand( '${ProductInfo#Response#$[\'monthlyServiceFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("monthlyServiceFee", monthlyServiceFee.toString())
+
+//minimumTerm
+def minimumTerm = context.expand( '${ProductInfo#Response#$[\'minimumTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("minimumTerm", minimumTerm.toString())
+
+//maximumTerm
+def maximumTerm = context.expand( '${ProductInfo#Response#$[\'maximumTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("maximumTerm", maximumTerm.toString())
+
+//maximumRepayment
+def maximumRepayment = context.expand( '${ProductInfo#Response#$[\'maximumRepayment\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("maximumRepayment", maximumRepayment.toString())
+
+//termBasis
+def termBasis = context.expand( '${ProductInfo#Response#$[\'termBasis\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("termBasis", termBasis.toString())
+
+//lastArrearsDate
+def lastArrearsDate = context.expand( '${ProductInfo#Response#$[\'lastArrearsDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("lastArrearsDate", lastArrearsDate.toString())
+
+//decemberArrears
+def decemberArrears = context.expand( '${ProductInfo#Response#$[\'decemberArrears\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("decemberArrears", decemberArrears.toString())
+
+//totalArrearsPayable
+def totalArrearsPayable = context.expand( '${ProductInfo#Response#$[\'totalArrearsPayable\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("totalArrearsPayable", totalArrearsPayable.toString())
+
+//productInsurance
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("productInsurance", "-".toString())
+
+//insuranceExpiry
+def insuranceExpiry = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceExpiry\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceExpiry", insuranceExpiry.toString()) 
+
+//insuranceDeathRate
+def insuranceDeathRate = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceDeathRate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceDeathRate", insuranceDeathRate.toString()) 
+
+//insuranceDisabilityRate
+def insuranceDisabilityRate = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceDisabilityRate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceDisabilityRate", insuranceDisabilityRate.toString()) 
+
+//insuranceRetrenchmentRate
+def insuranceRetrenchmentRate = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceRetrenchmentRate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceRetrenchmentRate", insuranceRetrenchmentRate.toString()) 
+
+//insuranceOption
+def insuranceOption = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceOption\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceOption", insuranceOption.toString())
+
+//clientName
+def clientName = context.expand( '${ProductInfo#Response#$[\'clientName\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("clientName", clientName.toString()) 
+
+//fixedIntiationFee
+def fixedInitiationFee = context.expand( '${ProductInfo#Response#$[\'fixedInitiationFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("fixedInitiationFee", fixedInitiationFee.toString()) 
+
+//interestRateMargin
+def interestRateMargin = context.expand( '${ProductInfo#Response#$[\'interestRateMargin\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("interestRateMargin", interestRateMargin.toString()) 
+
+//maxIntiationFee
+def maxInitiationFee = context.expand( '${ProductInfo#Response#$[\'maxInitiationFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("maxInitiationFee", maxInitiationFee.toString()) 
+
+//interestRateType
+def interestRateType = context.expand( '${ProductInfo#Response#$[\'interestRateType\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("interestRateType", interestRateType.toString()) 
+
+//initiationFee1
+def initiationFee1 = context.expand( '${ProductInfo#Response#$[\'initiationFee1\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("initiationFee1", initiationFee1.toString()) 
+
+//initiationFee2
+def initiationFee2 = context.expand( '${ProductInfo#Response#$[\'initiationFee2\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("initiationFee2", initiationFee2.toString()) 
+
+//cummulativeTransferTotal
+def cummulativeTransferTotal = context.expand( '${ProductInfo#Response#$[\'cummulativeTransferTotal\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("cummulativeTransferTotal", cummulativeTransferTotal.toString()) 
+
+//nonUsageServiceFee
+def nonUsageServiceFee = context.expand( '${ProductInfo#Response#$[\'nonUsageServiceFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("nonUsageServiceFee", nonUsageServiceFee.toString()) 
+
+//initiationFeeBracketAmt
+def initiationFeeBracketAmt = context.expand( '${ProductInfo#Response#$[\'initiationFeeBracketAmt\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("initiationFeeBracketAmt", initiationFeeBracketAmt.toString()) 
+
+//riskCategory
+def riskCategory = context.expand( '${ProductInfo#Response#$[\'riskCategory\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("riskCategory", riskCategory.toString()) 
+
+//minimumTransferAmount
+def minimumTransferAmount = context.expand( '${ProductInfo#Response#$[\'minimumTransferAmount\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("minimumTransferAmount", minimumTransferAmount.toString()) 
+
+//contractedCapital
+def contractedCapital = context.expand( '${ProductInfo#Response#$[\'contractedCapital\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractedCapital", contractedCapital.toString()) 
+
+//contractedTerm
+def contractedTerm = context.expand( '${ProductInfo#Response#$[\'contractedTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractedTerm", contractedTerm.toString()) 
+
+//contractCapitalDate
+def contractCapitalDate = context.expand( '${ProductInfo#Response#$[\'contractCapitalDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractCapitalDate", contractCapitalDate.toString()) 
+
+//collectionDate
+def collectionDate = context.expand( '${ProductInfo#Response#$[\'collectionDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("collectionDate", collectionDate.toString()) 
+
+//contractedRepayment
+def contractedRepayment = context.expand( '${ProductInfo#Response#$[\'contractedRepayment\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractedRepayment", contractedRepayment.toString()) 
+
+//suspensiveCondition
+def suspensiveCondition = context.expand( '${ProductInfo#Response#$[\'suspensiveCondition\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("suspensiveCondition", suspensiveCondition.toString()) 
+if(suspensiveCondition.equals("Y")) {
+	log.info "FAIL: Client has a suspensive condition."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client has a suspensive condition.")
+}
+
+//ccsStatus
+def ccsStatus = context.expand( '${ProductInfo#Response#$[\'ccsStatus\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("ccsStatus", ccsStatus.toString()) 
+
+//deActiveDate
+def deActiveDate = context.expand( '${ProductInfo#Response#$[\'deActiveDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("deActiveDate", deActiveDate.toString()) 
+
+//suspensiveDate
+def suspensiveDate = context.expand( '${ProductInfo#Response#$[\'suspensiveDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("suspensiveDate", suspensiveDate.toString()) 
+
+//loanStop
+def loanStop = context.expand( '${ProductInfo#Response#$[\'loanStop\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("loanStop", loanStop.toString()) 
+
+//clientUnderAdminstration
+def clientUnderAdminstration = context.expand( '${ProductInfo#Response#$[\'clientUnderAdminstration\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("clientUnderAdminstration", clientUnderAdminstration.toString()) 
+
+//afInArrears
+def afInArrears = context.expand( '${ProductInfo#Response#$[\'afInArrears\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("afInArrears", afInArrears.toString()) 
+
+//unEmployed
+def unEmployed = context.expand( '${ProductInfo#Response#$[\'unEmployed\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("unEmployed", unEmployed.toString()) 
+
+//debtRestructuring
+def debtRestructuring = context.expand( '${ProductInfo#Response#$[\'debtRestructuring\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("debtRestructuring", debtRestructuring.toString()) 
+
+//otherAccountInArrears
+def otherAccountInArrears = context.expand( '${ProductInfo#Response#$[\'otherAccountInArrears\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("otherAccountInArrears", otherAccountInArrears.toString())</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="ProductInfoSaveResponse" id="b64bfcb9-95fd-49d0-89eb-26cf7f8cac79">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/1.ProductInfoResults.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E6</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>accountNumber</con:name>
+          <con:value>1688843734</con:value>
+        </con:property>
+        <con:property>
+          <con:name>approvedDate</con:name>
+          <con:value>2020-02-14</con:value>
+        </con:property>
+        <con:property>
+          <con:name>availableLimit</con:name>
+          <con:value>249999.99</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interestRateYearly</con:name>
+          <con:value>17.9</con:value>
+        </con:property>
+        <con:property>
+          <con:name>accountBalance</con:name>
+          <con:value>4089.96</con:value>
+        </con:property>
+        <con:property>
+          <con:name>availableToTransfer</con:name>
+          <con:value>245910.03</con:value>
+        </con:property>
+        <con:property>
+          <con:name>remainingTerm</con:name>
+          <con:value>57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>nextInstalmentDue</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>nextInstalmentDate</con:name>
+          <con:value>2020-03-25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>autoLimitIncrease</con:name>
+          <con:value>Y</con:value>
+        </con:property>
+        <con:property>
+          <con:name>monthlyServiceFee</con:name>
+          <con:value>69.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>minimumTerm</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>maximumTerm</con:name>
+          <con:value>60</con:value>
+        </con:property>
+        <con:property>
+          <con:name>maximumRepayment</con:name>
+          <con:value>65075.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>termBasis</con:name>
+          <con:value>MONTHLY</con:value>
+        </con:property>
+        <con:property>
+          <con:name>lastArrearsDate</con:name>
+          <con:value>0001-01-01</con:value>
+        </con:property>
+        <con:property>
+          <con:name>decemberArrears</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalArrearsPayable</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>productInsurance</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceExpiry</con:name>
+          <con:value>2020-05-14</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceDeathRate</con:name>
+          <con:value>1.17</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceDisabilityRate</con:name>
+          <con:value>0.11</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceRetrenchmentRate</con:name>
+          <con:value>3.22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceOption</con:name>
+          <con:value>CAPITEC_BANK_CREDIT_INSURANCE</con:value>
+        </con:property>
+        <con:property>
+          <con:name>clientName</con:name>
+          <con:value>MRS GLADNESS SONO                               G</con:value>
+        </con:property>
+        <con:property>
+          <con:name>fixedInitiationFee</con:name>
+          <con:value>250.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interestRateMargin</con:name>
+          <con:value>8.4</con:value>
+        </con:property>
+        <con:property>
+          <con:name>maxInitiationFee</con:name>
+          <con:value>250.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interestRateType</con:name>
+          <con:value>V</con:value>
+        </con:property>
+        <con:property>
+          <con:name>initiationFee1</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>initiationFee2</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>cummulativeTransferTotal</con:name>
+          <con:value>4000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>nonUsageServiceFee</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>initiationFeeBracketAmt</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>riskCategory</con:name>
+          <con:value>AE</con:value>
+        </con:property>
+        <con:property>
+          <con:name>minimumTransferAmount</con:name>
+          <con:value>1000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractedCapital</con:name>
+          <con:value>4089.96</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractedTerm</con:name>
+          <con:value>56</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractCapitalDate</con:name>
+          <con:value>2020-03-17</con:value>
+        </con:property>
+        <con:property>
+          <con:name>collectionDate</con:name>
+          <con:value>2020-03-25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractedRepayment</con:name>
+          <con:value>190.04</con:value>
+        </con:property>
+        <con:property>
+          <con:name>suspensiveCondition</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>ccsStatus</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>deActiveDate</con:name>
+          <con:value>0001-01-01</con:value>
+        </con:property>
+        <con:property>
+          <con:name>suspensiveDate</con:name>
+          <con:value>0001-01-01</con:value>
+        </con:property>
+        <con:property>
+          <con:name>loanStop</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>clientUnderAdminstration</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>afInArrears</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>unEmployed</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>debtRestructuring</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>otherAccountInArrears</con:name>
+          <con:value/>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Operations(Payment)" id="c2be4193-2ab9-4c1c-844a-57ca5a172599">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Operations(Payment)" id="4da46116-2d86-4ebf-9368-58f74d8456fd" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>{\r
+   "accountNumber" : "",\r
+   "transferAmount" : ""\r
+}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="d69098ec-8b92-43ce-a428-e44332a32664" name="Check for existence of [loanBalance]">
+          <con:configuration>
+            <path>$['loanBalance']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="fc03a275-5768-4ebe-bf82-45aec7cb1256" name="Check for existence of [originalLimit]">
+          <con:configuration>
+            <path>$['originalLimit']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d9b196bd-eae4-4059-a588-83cb8f6f1c68" name="Check for existence of [currentInstalmentDue]">
+          <con:configuration>
+            <path>$['currentInstalmentDue']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b05264b4-9b2c-4ce0-ad9d-e5151d59a41f" name="Check for existence of [currentInstalmentDate]">
+          <con:configuration>
+            <path>$['currentInstalmentDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="8415f4d5-c9e5-43e3-9aba-924c15d55297" name="Check for existence of [currentNoOfInstalment]">
+          <con:configuration>
+            <path>$['currentNoOfInstalment']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b80121fb-7712-4386-9afc-0a3d3d08a431" name="Check for existence of [followingInstalmentDue]">
+          <con:configuration>
+            <path>$['followingInstalmentDue']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="eaab4e05-7159-476f-b854-dea4dc41209f" name="Check for existence of [followingInstalmentDate]">
+          <con:configuration>
+            <path>$['followingInstalmentDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="48911d9b-4d80-4953-b700-a5391c3d59d2" name="Check for existence of [followingNoOfInstalment]">
+          <con:configuration>
+            <path>$['followingNoOfInstalment']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="c647bbd7-089d-489c-82cb-4688295d2ba2" name="Check for existence of [operatableAccount]">
+          <con:configuration>
+            <path>$['operatableAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="operationIdentifier" value="payment"/>
+          <con:entry key="accountNumber" value="${ProductInfo#Response#$['accountNumber']}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>accountNumber</con:entry>
+          <con:entry>operationIdentifier</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Operations(Payment)SinkData" id="1a009b09-904f-4fe1-8c66-93df0a767f80">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("Operations(Payment)SaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//loanBalance
+def loanBalance = context.expand( '${Operations(Payment)#Response#$[\'loanBalance\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("loanBalance", loanBalance.toString()) 
+
+//originalLimit
+def originalLimit = context.expand( '${Operations(Payment)#Response#$[\'originalLimit\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("originalLimit", originalLimit.toString())
+
+//currentInstalmentDue
+def currentInstalmentDue = context.expand( '${Operations(Payment)#Response#$[\'currentInstalmentDue\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("currentInstalmentDue", currentInstalmentDue.toString())
+
+//currentInstalmentDate
+def currentInstalmentDate = context.expand( '${Operations(Payment)#Response#$[\'currentInstalmentDate\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("currentInstalmentDate", currentInstalmentDate.toString())
+
+//currentNoOfInstalment
+def currentNoOfInstalment = context.expand( '${Operations(Payment)#Response#$[\'currentNoOfInstalment\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("currentNoOfInstalment", currentNoOfInstalment.toString())
+
+//followingInstalmentDue
+def followingInstalmentDue = context.expand( '${Operations(Payment)#Response#$[\'followingInstalmentDue\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("followingInstalmentDue", followingInstalmentDue.toString())
+
+//followingInstalmentDate
+def followingInstalmentDate = context.expand( '${Operations(Payment)#Response#$[\'followingInstalmentDate\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("followingInstalmentDate", followingInstalmentDate.toString())
+
+//followingNoOfInstalment
+def followingNoOfInstalment = context.expand( '${Operations(Payment)#Response#$[\'followingNoOfInstalment\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("followingNoOfInstalment", followingNoOfInstalment.toString())
+
+//operatableAccount
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("operatableAccount", "-".toString()) 
+def Records = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\']}' )
+//Records is now a string of all your items in the array
+def RecordsArray = JsonUtil.parseTrimmedText(Records );
+//Convereted back to an arry
+def n = RecordsArray.size()
+//Count how many records items  there are in the array
+for (int i=0; i&lt; n; i=i+1){
+	//Create a for loop to go through all the elements of the array
+	def accountName = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\']['+i+'][\'accountName\']}' )
+	def accountNumber = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\']['+i+'][\'accountNumber\']}' )
+	//Log accountName
+	testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("accountName"+i, accountName.toString()) 
+	//Log accountNumber
+	testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("accountNumber"+i, accountNumber.toString()) 
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="Operations(Payment)SaveResponse" id="c1c7b3e9-c448-4506-b237-88827236f475">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/2.Operations(Payment)Results.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E6</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>loanBalance</con:name>
+          <con:value>4089.96</con:value>
+        </con:property>
+        <con:property>
+          <con:name>originalLimit</con:name>
+          <con:value>249999.99</con:value>
+        </con:property>
+        <con:property>
+          <con:name>currentInstalmentDue</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>currentInstalmentDate</con:name>
+          <con:value>2020-03-25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>currentNoOfInstalment</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>followingInstalmentDue</con:name>
+          <con:value>190.04</con:value>
+        </con:property>
+        <con:property>
+          <con:name>followingInstalmentDate</con:name>
+          <con:value>2020-04-25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>followingNoOfInstalment</con:name>
+          <con:value>56</con:value>
+        </con:property>
+        <con:property>
+          <con:name>operatableAccount</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>accountName0</con:name>
+          <con:value>SAVINGS ACCOUNT</con:value>
+        </con:property>
+        <con:property>
+          <con:name>accountNumber0</con:name>
+          <con:value>1546059863</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="RepaymentInfoData" id="3c52dbf4-d70f-4e89-bcae-bb7292799039">
+    <con:settings/>
+    <con:config>
+      <script>//Get data values
+def toAccount = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+def fromAccount = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\'][0][\'accountNumber\']}' )
+def transferAmount = context.expand( '${ProductInfo#Response#$[\'minimumTransferAmount\']}' )
+if (transferAmount &lt; "1") {
+	transferAmount = context.expand( '${DataSource#transferAmount}' );	
+}
+def paymentOptions = context.expand( '${DataSource#paymentOptions}' )
+
+//Build JSON message
+def jsonMessage = '{"fromAccount": "'+fromAccount+'","toAccount": "'+toAccount+'","transferAmount": "'+transferAmount+'","paymentOptions": "'+paymentOptions+'" }'
+
+log.info(jsonMessage)
+//Create variable 
+testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RepaymentInfo" id="24a6dea2-bb79-4326-a896-3b8298ee6be2">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/payment/repaymentInfo" methodName="RepaymentInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RepaymentInfo" id="e3e23ea5-7a1a-49fd-ae51-a433b78c894a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="e1f68df2-41a8-47e7-8219-4cf801167bea" name="Check for existence of [fromAccount]">
+          <con:configuration>
+            <path>$['fromAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d595267e-cd4a-4410-b634-03d019f6eefc" name="Check for existence of [toAccount]">
+          <con:configuration>
+            <path>$['toAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="06bddaec-4fe5-4263-ab6f-3086bd4096c1" name="Check for existence of [transferAmount]">
+          <con:configuration>
+            <path>$['transferAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="413d2cdb-aff7-4885-841b-ad5d4eeb5085" name="Check for existence of [deathRate]">
+          <con:configuration>
+            <path>$['deathRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="aacb6659-6360-4728-905f-9e74db2be25a" name="Check for existence of [retrenchRate]">
+          <con:configuration>
+            <path>$['retrenchRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="c297704f-6bbb-46c8-8208-4854c2a12d12" name="Check for existence of [disabilityRate]">
+          <con:configuration>
+            <path>$['disabilityRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="48f4c23d-fd87-45fd-9fc3-3fa41a7e6b05" name="Check for existence of [monthlyServiceFee]">
+          <con:configuration>
+            <path>$['monthlyServiceFee']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="7564e6f3-8691-4b95-9af4-252165d956b9" name="Check for existence of [noOfInstalments]">
+          <con:configuration>
+            <path>$['noOfInstalments']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0c6ef2fa-f175-48af-a0c8-6f02f60c2201" name="Check for existence of [instalmentAmount]">
+          <con:configuration>
+            <path>$['instalmentAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="RepaymentInfoSinkData" id="2de3c1c8-ca36-4300-9874-e0d3e2ec5334">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("RepaymentInfoSaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//fromAccount
+def fromAccount = context.expand( '${RepaymentInfo#Response#$[\'fromAccount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("fromAccount", fromAccount.toString()) 
+
+//toAccount
+def toAccount = context.expand( '${RepaymentInfo#Response#$[\'toAccount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("toAccount", toAccount.toString())
+
+//transferAmount
+def transferAmount = context.expand( '${RepaymentInfo#Response#$[\'transferAmount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("transferAmount", transferAmount.toString())
+
+//deathRate
+def deathRate = context.expand( '${RepaymentInfo#Response#$[\'deathRate\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("deathRate", deathRate.toString())
+
+//retrenchRate
+def retrenchRate = context.expand( '${RepaymentInfo#Response#$[\'retrenchRate\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("retrenchRate", retrenchRate.toString())
+
+//disabilityRate
+def disabilityRate = context.expand( '${RepaymentInfo#Response#$[\'disabilityRate\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("disabilityRate", disabilityRate.toString())
+
+//monthlyServiceFee
+def monthlyServiceFee = context.expand( '${RepaymentInfo#Response#$[\'monthlyServiceFee\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("monthlyServiceFee", monthlyServiceFee.toString())
+
+//noOfInstalments
+def noOfInstalments = context.expand( '${RepaymentInfo#Response#$[\'noOfInstalments\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("noOfInstalments", noOfInstalments.toString())
+
+//instalmentAmount
+def instalmentAmount = context.expand( '${RepaymentInfo#Response#$[\'instalmentAmount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("instalmentAmount", instalmentAmount.toString())</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="RepaymentInfoSaveResponse" id="66e52538-05ec-4e18-87a6-252a6558cf77">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/3.RepaymentInfoResults.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E6</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>fromAccount</con:name>
+          <con:value>1546059863</con:value>
+        </con:property>
+        <con:property>
+          <con:name>toAccount</con:name>
+          <con:value>1688843734</con:value>
+        </con:property>
+        <con:property>
+          <con:name>transferAmount</con:name>
+          <con:value>1000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>deathRate</con:name>
+          <con:value>1.17</con:value>
+        </con:property>
+        <con:property>
+          <con:name>retrenchRate</con:name>
+          <con:value>3.22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>disabilityRate</con:name>
+          <con:value>0.11</con:value>
+        </con:property>
+        <con:property>
+          <con:name>monthlyServiceFee</con:name>
+          <con:value>69.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>noOfInstalments</con:name>
+          <con:value>36</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount</con:name>
+          <con:value>190.04</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="6eb8aa51-b2be-431c-9e76-c3f3aa8f037c">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//fromAccount
+def fromAccount = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+//Remove last character from accountNumber string
+def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasource" name="ConnectionString" id="147471d8-bdb9-4a1b-9160-94d6abddd4f6">
+    <con:settings>
+      <con:setting id="com.eviware.soapui.impl.wsdl.teststeps.datasource.DataSourceContainer@prepared-properties">&lt;xml-fragment/></con:setting>
+    </con:settings>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/JDBCConnectionString.xlsx</file>
+          <worksheet/>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>ConnectionString</con:property>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:restartOnRun>true</con:restartOnRun>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="SQLQueryBefore" id="31fb6e82-08ea-4fc6-9dbd-b2d1c44befff">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>${ConnectionString#ConnectionString}</con:connectionString>
+      <con:connectionProperties/>
+      <con:query>SELECT TOP 100
+DBO.GETCIFWITHCHECKDIGIT(RIGHT(A.CUSTOMER_NO,8)) AS 'CUSTOMER',
+DBO.GETACCOUNTWITHCHECKDIGIT(RIGHT(A.KEY_1,9))   AS 'AF ACCT',
+A.LOAN_BAL                                       AS 'AF BAL',
+A.THEO_LOAN_BAL                                  AS 'AF THEO BAL',
+DBO.GETACCOUNTWITHCHECKDIGIT(RIGHT(B.KEY_1,9))   AS 'SAV ACCT',
+B.CURR_BAL                                       AS 'SAV BAL',
+DBO.GETACCOUNTWITHCHECKDIGIT(RIGHT(CC.KEY_1,9))  AS 'CC ACCT',
+CC.CURR_BAL AS 'CC BAL'
+FROM BORM A (NOLOCK)
+JOIN INVM B (NOLOCK) ON A.CUSTOMER_NO = B.CUSTOMER_NO AND ACCT_TYPE = 0X30333030 AND CURR_STATUS = 0X3030
+LEFT JOIN INVM CC (NOLOCK) ON A.CUSTOMER_NO = CC.CUSTOMER_NO AND CC.ACCT_TYPE = 0X30313031 AND CC.CURR_STATUS = 0X3030
+WHERE A.ACT_TYPE = 0X36303030 -- ACCESS FACILITY ACCOUNT TYPE 6000
+AND STAT = 0X3038 --08 OPEN STATUS 
+AND RIGHT(A.KEY_1,9) = :fromAccount
+AND A.KEY_1 > 0X30303330303030303030313635383037343639 
+--AND (A.LOAN_BAL > 0 AND A.THEO_LOAN_BAL > 0 )</con:query>
+      <con:assertion type="XPath Match" id="28ceb49b-0e30-4155-910b-9f606a8840cb" name="Check for existence of [CUSTOMER]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/CUSTOMER)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="924946fc-7a8d-4af7-b099-cfa3c7d5de31" name="Check for existence of [AFACCT]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/AFACCT)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="d15e2d5c-5e42-4bf6-87a1-779d0d5cc7c5" name="Check for existence of [AFBAL]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/AFBAL)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="d9f12dca-3f23-420c-a616-7653b580351b" name="Check for existence of [AFTHEOBAL]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/AFTHEOBAL)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="e5bb8405-f3c0-4d6b-97f0-4d6569978496" name="Check for existence of [SAVACCT]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/SAVACCT)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="4a2dfef1-8e04-4cde-8e90-072b54ea7518" name="Check for existence of [SAVBAL]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/SAVBAL)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:properties>
+        <con:property>
+          <con:name>fromAccount</con:name>
+          <con:value>${SinkDataFromAccountBefore#result}</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="GetSQLResponseBefore" id="fa22457d-dda2-4199-ac5d-c37ac744018d">
+    <con:settings/>
+    <con:config>
+      <script>import groovy.xml.*
+import groovy.json.*
+
+//newPaymentPlan
+def Records = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]}' )
+
+//Create a for loop to go through all the elements of the array
+def CUSTOMER = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CUSTOMER[1]}' )
+def AFACCT = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFACCT[1]}' )
+def AFBAL = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFBAL[1]}' )
+def AFTHEOBAL = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFTHEOBAL[1]}' )
+def SAVACCT = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVACCT[1]}' )
+def SAVBAL = context.expand( '${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVBAL[1]}' )
+	
+//Log CUSTOMER
+testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("CUSTOMER(BeforeTransfer)", CUSTOMER.toString()) 
+//Log AFACCT
+testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("AFACCT(BeforeTransfer)", AFACCT.toString()) 
+//Log AFBAL
+testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("AFBAL(BeforeTransfer)", AFBAL.toString()) 
+//Log AFTHEOBAL
+testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("AFTHEOBAL(BeforeTransfer)", AFTHEOBAL.toString()) 
+//Log SAVACCT
+testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("SAVACCT(BeforeTransfer)", SAVACCT.toString()) 
+//Log SAVBAL
+testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("SAVBAL(BeforeTransfer)", SAVBAL.toString())</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="SaveSQLDataBefore" id="4c1a5529-0f06-45f7-b5f6-ee6eb82c5ee6">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/4.SQLData_TransferBefore.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E6</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:properties>
+        <con:property>
+          <con:name>CUSTOMER(BeforeTransfer)</con:name>
+          <con:value>252370457</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFACCT(BeforeTransfer)</con:name>
+          <con:value>1688843734</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFBAL(BeforeTransfer)</con:name>
+          <con:value>4089.960</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFTHEOBAL(BeforeTransfer)</con:name>
+          <con:value>4089.960</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SAVACCT(BeforeTransfer)</con:name>
+          <con:value>1546059863</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SAVBAL(BeforeTransfer)</con:name>
+          <con:value>4045.970</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="PaymentData" id="1d8f0d57-22bb-44f8-b161-a7178fc5afd6">
+    <con:settings/>
+    <con:config>
+      <script>//Get data values
+def toAccount = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+def fromAccount = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\'][0][\'accountNumber\']}' )
+def repaymentAmount = context.expand( '${RepaymentInfo#Response#$[\'instalmentAmount\']}' )  as Double
+assert repaymentAmount instanceof Double
+//Deduct R30 from repayment amount
+def transferAmount = repaymentAmount - 30
+def statementDescription = context.expand( '${DataSource#statementDescription}' )
+def paymentOptions = context.expand( '${DataSource#paymentOptions}' )
+
+//Build JSON message
+def jsonMessage = '{"fromAccount": "'+fromAccount+'","toAccount": "'+toAccount+'","transferAmount": "'+transferAmount+'","statementDescription": "'+statementDescription+'","paymentOptions": "'+paymentOptions+'" }'
+
+log.info(jsonMessage)
+//Create variable 
+testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Payment" id="2b49ab0c-090d-4def-9bdd-602d7eefec05">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/payment" methodName="Payment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Payment" id="e3e23ea5-7a1a-49fd-ae51-a433b78c894a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="a0aaddf3-d516-45c6-80b8-865eafe1c025" name="Check for existence of [fromAccount]">
+          <con:configuration>
+            <path>$['fromAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0bddf878-6caf-4b50-9e75-2a6f3818bced" name="Check for existence of [toAccount]">
+          <con:configuration>
+            <path>$['toAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="76d80803-1919-472a-a75f-958497ebc95d" name="Check for existence of [transferAmount]">
+          <con:configuration>
+            <path>$['transferAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b51c20e1-f529-42e2-97be-1d7886a072ed" name="Check for existence of [statementDescription]">
+          <con:configuration>
+            <path>$['statementDescription']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="17bec0d7-3947-47e4-8a96-ef7a2753b658" name="Check for existence of [deathRate]">
+          <con:configuration>
+            <path>$['deathRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="754a8503-fd97-487b-89a2-7ffb1b168e37" name="Check for existence of [retrenchRate]">
+          <con:configuration>
+            <path>$['retrenchRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="7794b7fe-e2e1-4849-9561-3b5cf6cdfb6c" name="Check for existence of [disabilityRate]">
+          <con:configuration>
+            <path>$['disabilityRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d1ccd33a-cdfe-43a6-9f4d-ec6acce8e3f9" name="Check for existence of [monthlyServiceFee]">
+          <con:configuration>
+            <path>$['monthlyServiceFee']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="94af9284-4441-40e8-b394-7c556bbd16fa" name="Check for existence of [paymentPlan]">
+          <con:configuration>
+            <path>$['paymentPlan']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="PaymentSinkData" id="9e9fa827-fa6c-4f53-8c0c-42026ce42f9c">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("PaymentSaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//fromAccount
+def fromAccount = context.expand( '${Payment#Response#$[\'fromAccount\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("fromAccount", fromAccount.toString()) 
+
+//toAccount
+def toAccount = context.expand( '${Payment#Response#$[\'toAccount\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("toAccount", toAccount.toString())
+
+//transferAmount
+def transferAmount = context.expand( '${Payment#Response#$[\'transferAmount\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("transferAmount", transferAmount.toString())
+
+//statementDescription
+def statementDescription = context.expand( '${Payment#Response#$[\'statementDescription\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("statementDescription", statementDescription.toString())
+
+//deathRate
+def deathRate = context.expand( '${Payment#Response#$[\'deathRate\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("deathRate", deathRate.toString())
+
+//retrenchRate
+def retrenchRate = context.expand( '${Payment#Response#$[\'retrenchRate\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("retrenchRate", retrenchRate.toString())
+
+//disabilityRate
+def disabilityRate = context.expand( '${Payment#Response#$[\'disabilityRate\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("disabilityRate", disabilityRate.toString())
+
+//monthlyServiceFee
+def monthlyServiceFee = context.expand( '${Payment#Response#$[\'monthlyServiceFee\']}' )
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("monthlyServiceFee", monthlyServiceFee.toString())
+
+//paymentPlan
+testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("paymentPlan", "-".toString()) 
+def Records = context.expand( '${Payment#Response#$[\'paymentPlan\']}' )
+//Records is now a string of all your items in the array
+def RecordsArray = JsonUtil.parseTrimmedText(Records );
+//Convereted back to an arry
+def n = RecordsArray.size()
+//Count how many records items  there are in the array
+for (int i=0; i&lt; n; i=i+1){
+	//Create a for loop to go through all the elements of the array
+	def firstInstalmentDate = context.expand( '${Payment#Response#$[\'paymentPlan\']['+i+'][\'firstInstalmentDate\']}' )
+	def noOfInstalments = context.expand( '${Payment#Response#$[\'paymentPlan\']['+i+'][\'noOfInstalments\']}' )
+	def instalmentAmount = context.expand( '${Payment#Response#$[\'paymentPlan\']['+i+'][\'instalmentAmount\']}' )	
+	//Log firstInstalmentDate
+	testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("firstInstalmentDate"+i, firstInstalmentDate.toString()) 
+	//Log noOfInstalments
+	testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("noOfInstalments"+i, noOfInstalments.toString()) 
+	//Log instalmentAmount
+	testRunner.testCase.testSteps["PaymentSaveResponse"].setPropertyValue("instalmentAmount"+i, instalmentAmount.toString()) 
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="PaymentSaveResponse" id="d9ddf895-1253-43b2-990d-73b4bd2cd47b">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/4.PaymentResults.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E6</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>fromAccount</con:name>
+          <con:value>1546059863</con:value>
+        </con:property>
+        <con:property>
+          <con:name>toAccount</con:name>
+          <con:value>1688843734</con:value>
+        </con:property>
+        <con:property>
+          <con:name>transferAmount</con:name>
+          <con:value>160.04</con:value>
+        </con:property>
+        <con:property>
+          <con:name>statementDescription</con:name>
+          <con:value>Payment to Access Facility</con:value>
+        </con:property>
+        <con:property>
+          <con:name>deathRate</con:name>
+          <con:value>1.17</con:value>
+        </con:property>
+        <con:property>
+          <con:name>retrenchRate</con:name>
+          <con:value>3.22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>disabilityRate</con:name>
+          <con:value>0.11</con:value>
+        </con:property>
+        <con:property>
+          <con:name>monthlyServiceFee</con:name>
+          <con:value>69.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>paymentPlan</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>firstInstalmentDate0</con:name>
+          <con:value>2020-03-25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>noOfInstalments0</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount0</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>firstInstalmentDate1</con:name>
+          <con:value>2020-04-25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>noOfInstalments1</con:name>
+          <con:value>53</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount1</con:name>
+          <con:value>190.04</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="8600b766-9c4c-491a-a2f9-d3125a60fdf1">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//fromAccount
+def fromAccount = context.expand( '${Payment#Response#$[\'toAccount\']}' )
+//Remove last character from accountNumber string
+def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="SQLQueryAfter" id="47a8ae2b-48ea-47fe-8ac7-ac992cd21dae">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>${ConnectionString#ConnectionString}</con:connectionString>
+      <con:connectionProperties/>
+      <con:query>SELECT TOP 100
+DBO.GETCIFWITHCHECKDIGIT(RIGHT(A.CUSTOMER_NO,8)) AS 'CUSTOMER',
+DBO.GETACCOUNTWITHCHECKDIGIT(RIGHT(A.KEY_1,9))   AS 'AF ACCT',
+A.LOAN_BAL                                       AS 'AF BAL',
+A.THEO_LOAN_BAL                                  AS 'AF THEO BAL',
+DBO.GETACCOUNTWITHCHECKDIGIT(RIGHT(B.KEY_1,9))   AS 'SAV ACCT',
+B.CURR_BAL                                       AS 'SAV BAL',
+DBO.GETACCOUNTWITHCHECKDIGIT(RIGHT(CC.KEY_1,9))  AS 'CC ACCT',
+CC.CURR_BAL AS 'CC BAL'
+FROM BORM A (NOLOCK)
+JOIN INVM B (NOLOCK) ON A.CUSTOMER_NO = B.CUSTOMER_NO AND ACCT_TYPE = 0X30333030 AND CURR_STATUS = 0X3030
+LEFT JOIN INVM CC (NOLOCK) ON A.CUSTOMER_NO = CC.CUSTOMER_NO AND CC.ACCT_TYPE = 0X30313031 AND CC.CURR_STATUS = 0X3030
+WHERE A.ACT_TYPE = 0X36303030 -- ACCESS FACILITY ACCOUNT TYPE 6000
+AND STAT = 0X3038 --08 OPEN STATUS 
+AND RIGHT(A.KEY_1,9) = :fromAccount
+AND A.KEY_1 > 0X30303330303030303030313635383037343639 
+--AND (A.LOAN_BAL > 0 AND A.THEO_LOAN_BAL > 0 )</con:query>
+      <con:assertion type="XPath Match" id="28ceb49b-0e30-4155-910b-9f606a8840cb" name="Check for existence of [CUSTOMER]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/CUSTOMER)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="924946fc-7a8d-4af7-b099-cfa3c7d5de31" name="Check for existence of [AFACCT]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/AFACCT)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="d15e2d5c-5e42-4bf6-87a1-779d0d5cc7c5" name="Check for existence of [AFBAL]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/AFBAL)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="d9f12dca-3f23-420c-a616-7653b580351b" name="Check for existence of [AFTHEOBAL]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/AFTHEOBAL)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="e5bb8405-f3c0-4d6b-97f0-4d6569978496" name="Check for existence of [SAVACCT]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/SAVACCT)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:assertion type="XPath Match" id="4a2dfef1-8e04-4cde-8e90-072b54ea7518" name="Check for existence of [SAVBAL]">
+        <con:configuration>
+          <path>exists( //Results/ResultSet/Row/SAVBAL)</path>
+          <content>true</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:properties>
+        <con:property>
+          <con:name>fromAccount</con:name>
+          <con:value>${SinkDataFromAccountAfter#result}</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="GetSQLResponseAfter" id="261989b5-66c7-4ff6-bbe4-6fe701647e22">
+    <con:settings/>
+    <con:config>
+      <script>import groovy.xml.*
+import groovy.json.*
+
+//newPaymentPlan
+def Records = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]}' )
+
+//Create a for loop to go through all the elements of the array
+def CUSTOMER = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CUSTOMER[1]}' )
+def AFACCT = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFACCT[1]}' )
+def AFBAL = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFBAL[1]}' )
+def AFTHEOBAL = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFTHEOBAL[1]}' )
+def SAVACCT = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVACCT[1]}' )
+def SAVBAL = context.expand( '${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVBAL[1]}' )
+	
+//Log CUSTOMER
+testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("CUSTOMER(AfterTransfer)", CUSTOMER.toString()) 
+//Log AFACCT
+testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("AFACCT(AfterTransfer)", AFACCT.toString()) 
+//Log AFBAL
+testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("AFBAL(AfterTransfer)", AFBAL.toString()) 
+//Log AFTHEOBAL
+testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("AFTHEOBAL(AfterTransfer)", AFTHEOBAL.toString()) 
+//Log SAVACCT
+testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVACCT(AfterTransfer)", SAVACCT.toString()) 
+//Log SAVBAL
+testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVBAL(AfterTransfer)", SAVBAL.toString())</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="SaveSQLDataAfter" id="78d74a40-85bd-487e-9850-82ccbc92b269">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/PaymentToAF/4.SQLData_TransferAfter.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E6</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:properties>
+        <con:property>
+          <con:name>CUSTOMER(AfterTransfer)</con:name>
+          <con:value>252370457</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFACCT(AfterTransfer)</con:name>
+          <con:value>1688843734</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFBAL(AfterTransfer)</con:name>
+          <con:value>3929.920</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFTHEOBAL(AfterTransfer)</con:name>
+          <con:value>3929.920</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SAVACCT(AfterTransfer)</con:name>
+          <con:value>1546059863</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SAVBAL(AfterTransfer)</con:name>
+          <con:value>3885.930</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation" id="a5830a98-6f55-40ae-b0d4-c80368d8c8c2">
+    <con:settings/>
+    <con:config>
+      <script>import groovy.xml.*
+import groovy.json.*
+
+//CIF
+def customerBefore = context.expand( '${SaveSQLDataBefore#CUSTOMER(BeforeTransfer)}' )
+def customerAfter = context.expand( '${SaveSQLDataAfter#CUSTOMER(AfterTransfer)}' )
+if(customerBefore.equals(customerAfter)) {
+	log.info "PASS: Client CIF is the same."
+} else {
+	log.info "FAIL: Client CIF is not the same, Before:'${customerBefore}' does not match After:'${customerAfter}'."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client CIF is not the same, Before:'${customerBefore}' does not match After:'${customerAfter}'.")
+}
+
+//AF Account
+def afacctBefore = context.expand( '${SaveSQLDataBefore#AFACCT(BeforeTransfer)}' )
+def afacctAfter = context.expand( '${SaveSQLDataAfter#AFACCT(AfterTransfer)}' )
+if(afacctBefore.equals(afacctAfter)) {
+	log.info "PASS: Client AF account is the same."
+} else {
+	log.info "FAIL: Client AF account is not the same, Before:'${afacctBefore}' does not match After:'${afacctAfter}'."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client AF account is not the same, Before:'${afacctBefore}' does not match After:'${afacctAfter}'." )
+}
+
+//AF Balance
+def afbalBefore = context.expand( '${SaveSQLDataBefore#AFBAL(BeforeTransfer)}') as Double
+assert afbalBefore instanceof Double
+
+def afbalAfter = context.expand( '${SaveSQLDataAfter#AFBAL(AfterTransfer)}' ) as Double
+assert afbalAfter instanceof Double
+
+def afbaldiffTotal = (afbalBefore - afbalAfter)
+if(afbalBefore.equals(afbalAfter)) {
+	log.info "FAIL: Client AF balance is the same, transfer did not occur."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client AF balance is the same, transfer did not occur." )
+} else {
+	log.info "PASS: Client AF balance is not the same, Before:'${afbalBefore}' does not match After:'${afbalAfter}'."
+	log.info "PASS: Client AF balance difference = '${afbaldiffTotal}'."
+}
+
+//AF Theo Balance
+def aftheobalBefore = context.expand( '${SaveSQLDataBefore#AFTHEOBAL(BeforeTransfer)}' ) as Double
+assert aftheobalBefore instanceof Double
+def aftheobalAfter = context.expand( '${SaveSQLDataAfter#AFTHEOBAL(AfterTransfer)}' ) as Double
+assert aftheobalAfter instanceof Double
+
+def aftheodiffTotal = (aftheobalBefore - aftheobalAfter)
+def paymentOptions = context.expand( '${DataSource#paymentOptions}' )
+//Payment Option 1
+if (paymentOptions == '1'){
+	if(aftheobalBefore.equals(aftheobalAfter)) {
+		log.info "PASS: Client AF theo balance is the same. With payment option 1 done, Before:'${aftheobalBefore}' is the same as After:'${aftheobalAfter}'."
+	} else {
+		log.info "FAIL: Client AF theo balance difference = '${aftheodiffTotal} '."
+		testRunner.fail(testRunner.testCase.name + " FAIL: Client AF theo balance is not the same. With payment option 1 done, AF theo balance should not change." )
+	}
+//Payment Option 2
+}else if (paymentOptions == "2"){
+	if(aftheobalBefore.equals(aftheobalAfter)) {
+		log.info "FAIL: Client AF theo balance is the same. With payment option 2 done, AF theo balance should change."
+		testRunner.fail(testRunner.testCase.name + " Failed: Client AF theo balance is the same. With payment option 2 done, AF theo balance should change." )
+	} else {
+		log.info "PASS: Client AF theo balance is not the same. With payment option 2 done, Before:'${aftheobalBefore}' does not match After:'${aftheobalAfter}'."
+		log.info "PASS: Client AF theo balance difference = '${aftheodiffTotal} '."
+	}	
+//Payment Option 3
+}else if (paymentOptions == "3"){
+	if(aftheobalBefore.equals(aftheobalAfter)) {
+		log.info "FAIL: Client AF theo balance is the same. With payment option 3 done, AF theo balance should change."
+		testRunner.fail(testRunner.testCase.name + " Failed: Client AF theo balance is the same. With payment option 3 done, AF theo balance should change." )
+	} else {
+		log.info "PASS: Client AF theo balance is not the same. With payment option 3 done, Before:'${aftheobalBefore}' does not match After:'${aftheobalAfter}'."
+		log.info "PASS: Client AF theo balance difference = '${aftheodiffTotal} '."
+	}
+}
+
+//Sav Acc
+def savacctBefore = context.expand( '${SaveSQLDataBefore#SAVACCT(BeforeTransfer)}' )
+def savacctAfter = context.expand( '${SaveSQLDataAfter#SAVACCT(AfterTransfer)}' )
+if(savacctBefore.equals(savacctAfter)) {
+	log.info "PASS: Client savings account is the same."
+} else {
+	log.info "FAIL: Client savings account is not the same, Before:'${savacctBefore}' does not match After:'${savacctAfter}'."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client savings account is not the same, Before:'${savacctBefore}' does not match After:'${savacctAfter}'." )
+}
+
+//Sav Bal
+def savbalBefore = context.expand( '${SaveSQLDataBefore#SAVBAL(BeforeTransfer)}' ) as Double
+assert savbalBefore instanceof Double
+def savbalAfter = context.expand( '${SaveSQLDataAfter#SAVBAL(AfterTransfer)}' ) as Double
+assert savbalAfter instanceof Double
+def savbaldiffTotal = (savbalBefore - savbalAfter)
+if(savbalBefore.equals(savbalAfter)) {
+	log.info "FAIL: Client AF theo balance is the same."
+} else {
+	log.info "PASS: Client savings balance is not the same, Before:'${savbalBefore}' does not match After:'${savbalAfter}'."
+	log.info "PASS: Client savings balance difference = '${savbaldiffTotal} '."
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>JSONMessageProperty</con:name>
+      <con:value>{"fromAccount": "1546059863","toAccount": "1688843734","transferAmount": "160.04","statementDescription": "Payment to Access Facility","paymentOptions": "2" }</con:value>
+    </con:property>
+    <con:property>
+      <con:name>URLEncoded</con:name>
+      <con:value>grant_type=password&amp;username=CP343094&amp;password=Vadyca#33</con:value>
+    </con:property>
+  </con:properties>
+  <con:reportParameters/>
+  <con:breakPoints>
+    <con:testStepId>f13583e6-efd8-4455-bf54-a239a38fb43a</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>12b1d010-5905-47b5-9b79-1770e233d129</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>80452e58-885e-4f2b-968f-2a34b2fc288f</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>7f28bc80-a770-45ae-bdf9-fb2faf40e59c</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>37284600-ea02-42c0-ae5e-92ed601e8cd6</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>242d1894-ec7e-4562-8e14-6a1edae2a7b3</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>719f85de-47da-46bf-802f-dce9e9826ff5</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>3579ec8c-6538-422b-801d-1d821e4fcff6</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>9c2667ea-c318-4689-8d4f-6f6118a2e776</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>5e407c84-57f4-4768-80f1-a897ce6091e9</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>20b1a2f8-8028-4096-a3ea-d93c7240bcf0</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>9c8803b5-8e8f-429b-934e-0bc2700ee465</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>b99f1267-44ad-45f4-b11a-65e8b69cec77</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>856c4143-774b-4005-9ab5-82480e7bf26c</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>30a0ef14-fb95-479c-ad18-79a3648001bf</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>d937c66e-c931-43ac-bf88-fee3686de337</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>7709da2f-326f-4b36-9bd7-4e82730b8691</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>7aaa2f33-ef7b-4402-9cf0-682c0fa3cf47</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>e056c94c-95f2-4ae0-bab0-5d475d990898</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>bdb2d14a-43fc-440e-981a-8a07d720bcf6</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>078d6354-3f42-4a93-a232-72bcf4806d02</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>608fd331-905e-4f49-8615-bad043c82aec</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>c4ae0ccb-07a8-4a88-b1e6-e694daf435b1</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>d571bb22-1b11-4335-a38d-15db3e649140</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>f6d99562-4ed4-46ee-be50-022b59be5518</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>0aa51a5c-8fcd-4462-af41-46861c87b251</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>ad4c0870-cd27-4963-ade8-adaf709a93d7</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+</con:testCase>
