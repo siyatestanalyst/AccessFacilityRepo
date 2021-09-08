@@ -620,7 +620,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
       <con:dataSink type="Excel">
         <con:configuration>
           <file/>
-          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/TransferFromAF/1.ProductInfoResults.xlsx</outfile>
+          <outfile>O:/UAT/Test Automation/Credit Products Automation/Credit Product Service/TransferFromAF/1.ProductInfoResults.xlsx</outfile>
           <worksheet>Sheet1</worksheet>
           <cell>E1</cell>
           <evaluateFormulas>false</evaluateFormulas>
@@ -647,11 +647,11 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>accountBalance</con:name>
-          <con:value>187942.54</con:value>
+          <con:value>188942.55</con:value>
         </con:property>
         <con:property>
           <con:name>availableToTransfer</con:name>
-          <con:value>12057.46</con:value>
+          <con:value>11057.45</con:value>
         </con:property>
         <con:property>
           <con:name>remainingTerm</con:name>
@@ -659,11 +659,11 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>nextInstalmentDue</con:name>
-          <con:value>6687.51</con:value>
+          <con:value>6697.47</con:value>
         </con:property>
         <con:property>
           <con:name>nextInstalmentDate</con:name>
-          <con:value>2021-07-27</con:value>
+          <con:value>2021-09-27</con:value>
         </con:property>
         <con:property>
           <con:name>autoLimitIncrease</con:name>
@@ -755,7 +755,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>cummulativeTransferTotal</con:name>
-          <con:value>219879.0</con:value>
+          <con:value>220879.01</con:value>
         </con:property>
         <con:property>
           <con:name>nonUsageServiceFee</con:name>
@@ -775,7 +775,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>contractedCapital</con:name>
-          <con:value>187942.54</con:value>
+          <con:value>188942.55</con:value>
         </con:property>
         <con:property>
           <con:name>contractedTerm</con:name>
@@ -783,7 +783,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>contractCapitalDate</con:name>
-          <con:value>2021-06-29</con:value>
+          <con:value>2021-09-08</con:value>
         </con:property>
         <con:property>
           <con:name>collectionDate</con:name>
@@ -791,7 +791,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>contractedRepayment</con:name>
-          <con:value>6687.51</con:value>
+          <con:value>6662.83</con:value>
         </con:property>
         <con:property>
           <con:name>suspensiveCondition</con:name>
@@ -2914,7 +2914,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="49ebc529-63bc-4ca9-9809-ad1ccde06ad0" disabled="true">
+  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="49ebc529-63bc-4ca9-9809-ad1ccde06ad0">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -2925,14 +2925,14 @@ def fromAccount = context.expand( '${PaymentPlan#Response#$[\'accountNumber\']}'
 def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ConnectionString" id="8bd66088-c5f8-4a86-8187-1447b0fb03a3" disabled="true">
+  <con:testStep type="datasource" name="ConnectionString" id="8bd66088-c5f8-4a86-8187-1447b0fb03a3">
     <con:settings>
       <con:setting id="com.eviware.soapui.impl.wsdl.teststeps.datasource.DataSourceContainer@prepared-properties">&lt;xml-fragment/></con:setting>
     </con:settings>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
         <con:configuration>
-          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/JDBCConnectionString.xlsx</file>
+          <file>C:/Temp/Access Facility/JDBCConnectionString.xlsx</file>
           <worksheet/>
           <cell>A2</cell>
           <ignoreEmpty>false</ignoreEmpty>
@@ -2946,7 +2946,7 @@ def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
       <con:restartOnRun>true</con:restartOnRun>
     </con:config>
   </con:testStep>
-  <con:testStep type="jdbc" name="SQLQueryBefore" id="b1c3fdfa-2053-441b-9d3d-c641dc0f1ced" disabled="true">
+  <con:testStep type="jdbc" name="SQLQueryBefore" id="b1c3fdfa-2053-441b-9d3d-c641dc0f1ced">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -3069,38 +3069,66 @@ testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("SAVBAL(Befo
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
         <con:configuration>
-          <file/>
-          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/TransferFromAF/5.SQLData_TransferBefore.xlsx</outfile>
+          <file>C:/Temp/Access Facility/Transfer/Template/SQLDataTransferBeforeTemplate.xlsx</file>
+          <outfile>C:/Temp/Access Facility/Transfer/${#TestCase#tsDay}/SQLBeforeAFTransfer Response ${#TestCase#tsMin}.xls</outfile>
           <worksheet>Sheet1</worksheet>
-          <cell>E1</cell>
+          <cell>A2</cell>
           <evaluateFormulas>false</evaluateFormulas>
           <append>false</append>
         </con:configuration>
       </con:dataSink>
       <con:properties>
         <con:property>
+          <con:name>TestCaseNumber</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>TestCaseName</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>TestDescription</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>ExpectedResult</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>CustomerNumber</con:name>
+        </con:property>
+        <con:property>
+          <con:name>TransferAmount</con:name>
+        </con:property>
+        <con:property>
+          <con:name>StatementDescription</con:name>
+        </con:property>
+        <con:property>
+          <con:name>SourceSystemIdentifier</con:name>
+        </con:property>
+        <con:property>
           <con:name>CUSTOMER(BeforeTransfer)</con:name>
-          <con:value>130771325</con:value>
         </con:property>
         <con:property>
           <con:name>AFACCT(BeforeTransfer)</con:name>
-          <con:value>1688843521</con:value>
         </con:property>
         <con:property>
           <con:name>AFBAL(BeforeTransfer)</con:name>
-          <con:value>35250.000</con:value>
         </con:property>
         <con:property>
           <con:name>AFTHEOBAL(BeforeTransfer)</con:name>
-          <con:value>35250.000</con:value>
         </con:property>
         <con:property>
           <con:name>SAVACCT(BeforeTransfer)</con:name>
-          <con:value>1209720017</con:value>
         </con:property>
         <con:property>
           <con:name>SAVBAL(BeforeTransfer)</con:name>
-          <con:value>35175.380</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CCACCT(BeforeTransfer)</con:name>
+        </con:property>
+        <con:property>
+          <con:name>CCBAL(BeforeTransfer)</con:name>
         </con:property>
       </con:properties>
     </con:config>
@@ -3335,7 +3363,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="623c073f-894e-42f3-aa84-bf776ca35ccd" disabled="true">
+  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="623c073f-894e-42f3-aa84-bf776ca35ccd">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -3346,7 +3374,7 @@ def fromAccount = context.expand( '${Transfer#Response#$[\'fromAccount\']}' )
 def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="jdbc" name="SQLQueryAfter" id="8b5c0387-91af-4edc-be98-4154c82fae3c" disabled="true">
+  <con:testStep type="jdbc" name="SQLQueryAfter" id="8b5c0387-91af-4edc-be98-4154c82fae3c">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -3464,43 +3492,115 @@ testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVACCT(Afte
 testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVBAL(AfterTransfer)", SAVBAL.toString())</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="SaveSQLDataAfter" id="223ca7f8-f8c1-4af5-a790-a99347921540" disabled="true">
+  <con:testStep type="datasink" name="SaveSQLDataAfter" id="223ca7f8-f8c1-4af5-a790-a99347921540">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
         <con:configuration>
-          <file/>
-          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/TransferFromAF/5.SQLData_TransferAfter.xlsx</outfile>
+          <file>C:/Temp/Access Facility/Transfer/Template/SQLDataTransferTemplate.xlsx</file>
+          <outfile>C:/Temp/Access Facility/Transfer/${#TestCase#tsDay}/SQL DB AFTransfer Response ${#TestCase#tsMin}.xls</outfile>
           <worksheet>Sheet1</worksheet>
-          <cell>E1</cell>
+          <cell>A2</cell>
           <evaluateFormulas>false</evaluateFormulas>
           <append>false</append>
         </con:configuration>
       </con:dataSink>
       <con:properties>
         <con:property>
+          <con:name>TestCaseNumber</con:name>
+          <con:value>${DataSource#Test CaseNumber}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TestCaseName</con:name>
+          <con:value>${DataSource#Test CaseName}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TestDescription</con:name>
+          <con:value>${DataSource#TestDescription}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ExpectedResult</con:name>
+          <con:value>${DataSource#ExpectedResult}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CustomerNumber</con:name>
+          <con:value>${DataSource#CustomerNumber}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferAmount</con:name>
+          <con:value>${DataSource#TransferAmount}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>StatementDescription</con:name>
+          <con:value>${DataSource#StatementDescription}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SourceSystemIdentifier</con:name>
+          <con:value>${DataSource#SourceSystemIdentifier}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CUSTOMER(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CUSTOMER[1]}</con:value>
+        </con:property>
+        <con:property>
           <con:name>CUSTOMER(AfterTransfer)</con:name>
-          <con:value>130771325</con:value>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CUSTOMER[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFACCT(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFACCT[1]}</con:value>
         </con:property>
         <con:property>
           <con:name>AFACCT(AfterTransfer)</con:name>
-          <con:value>1688843521</con:value>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFACCT[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFBAL(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFBAL[1]}</con:value>
         </con:property>
         <con:property>
           <con:name>AFBAL(AfterTransfer)</con:name>
-          <con:value>36250.000</con:value>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFBAL[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>AFTHEOBAL(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFTHEOBAL[1]}</con:value>
         </con:property>
         <con:property>
           <con:name>AFTHEOBAL(AfterTransfer)</con:name>
-          <con:value>36250.000</con:value>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/AFTHEOBAL[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SAVACCT(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVACCT[1]}</con:value>
         </con:property>
         <con:property>
           <con:name>SAVACCT(AfterTransfer)</con:name>
-          <con:value>1209720017</con:value>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVACCT[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SAVBAL(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVBAL[1]}</con:value>
         </con:property>
         <con:property>
           <con:name>SAVBAL(AfterTransfer)</con:name>
-          <con:value>36175.380</con:value>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/SAVBAL[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CCACCT(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CCACCT[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CCACCT(AfterTransfer)</con:name>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CCACCT[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CCBAL(BeforeTransfer)</con:name>
+          <con:value>${SQLQueryBefore#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CCBAL[1]}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CCBAL(AfterTransfer)</con:name>
+          <con:value>${SQLQueryAfter#ResponseAsXml#//Results[1]/ResultSet[1]/Row[1]/CCBAL[1]}</con:value>
         </con:property>
       </con:properties>
     </con:config>
@@ -3739,18 +3839,18 @@ if(savbalBefore.equals(savbalAfter)) {
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasourceloop" name="DataSource Loop" id="5e16b948-0e1d-4252-b0ba-45b74159e5da" disabled="true">
+  <con:testStep type="datasourceloop" name="DataSource Loop" id="5e16b948-0e1d-4252-b0ba-45b74159e5da">
     <con:settings/>
     <con:config>
-      <dataSourceStep>GetData</dataSourceStep>
-      <targetStep>RequestToken</targetStep>
+      <dataSourceStep>DataSource</dataSourceStep>
+      <targetStep>ProductInfo</targetStep>
       <discardResults>false</discardResults>
     </con:config>
   </con:testStep>
   <con:properties>
     <con:property>
       <con:name>JSONMessageProperty</con:name>
-      <con:value>{"fromAccount": "1688843521","toAccount": "1209720017","transferAmount": "1000.0","statementDescription": "Access Facility Transfer","repaymentNoOfInstalment": "60","repaymentInstalmentAmount": "1180.86","paymentPlan": [ { "firstInstalmentDate": "2020-03-13","noOfInstalments": "1","instalmentAmount": "0.0" } ] }</con:value>
+      <con:value>{"accountNumber": "1727709983","transferAmount": "1000" }</con:value>
     </con:property>
     <con:property>
       <con:name>URLEncoded</con:name>
@@ -3758,7 +3858,7 @@ if(savbalBefore.equals(savbalAfter)) {
     </con:property>
     <con:property>
       <con:name>tsMin</con:name>
-      <con:value>11-49-02</con:value>
+      <con:value>17-59-22</con:value>
     </con:property>
     <con:property>
       <con:name>tsDay</con:name>

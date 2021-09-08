@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="DecreaseLimit" path="/access-facility/decreaseLimit" id="2f0df3a2-468b-473e-940e-0ea1fad4496b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="2f0df3a2-468b-473e-940e-0ea1fad4496bfileName">DecreaseLimit</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="DecreaseLimit" id="7d5d7c31-6b94-4aa0-a7d8-8d50cd8cfe13" method="PUT">
+    <con:settings/>
+    <con:parameters/>
+    <con:representation type="FAULT">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>401</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:request name="decreaseLimit" id="209e490c-2f65-49c5-9c0b-16b07db5264b" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="Bearer access_token"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+  &lt;con:entry key="Content-Type" value="application/json"/>
+&lt;/xml-fragment></con:setting>
+        <con:setting id="RecordRequestRepresentations">false</con:setting>
+      </con:settings>
+      <con:endpoint>https://onramp-dev.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+      <con:request>{
+  "accountNumber": "1680807283",
+  "afLimit": 11000
+}</con:request>
+      <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v2/credit-products/v2/access-facility/decreaseLimit</con:originalUri>
+      <con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>

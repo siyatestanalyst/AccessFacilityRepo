@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="ProductInfo" path="/access-facility/productInfo" id="43c2ac3f-7b06-4707-bdf5-7531026cf0cd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="43c2ac3f-7b06-4707-bdf5-7531026cf0cdfileName">ProductInfo</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="ProductInfo" id="2d2249bc-6ce7-436d-a8bc-0fcdfffcabc9" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>customerNumber</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>Authorization</con:name>
+        <con:value/>
+        <con:style>HEADER</con:style>
+        <con:default/>
+      </con:parameter>
+    </con:parameters>
+    <con:representation type="REQUEST">
+      <con:mediaType>application/json</con:mediaType>
+      <con:params/>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>401 500 404</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json; charset=utf-8</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:tran="https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer">tran:Response</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>409 412</con:status>
+      <con:params/>
+      <con:element xmlns:tran="https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer">tran:Fault</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>text/plain</con:mediaType>
+      <con:status>502</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>0</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/text</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>application/text</con:mediaType>
+      <con:status>412 400</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:request name="productinfo" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="sourceSystemIdentifier" value="USSD" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        <con:setting id="RecordRequestRepresentations">true</con:setting>
+      </con:settings>
+      <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+      <con:request>{\r
+   "accountNumber" : "",\r
+   "transferAmount" : ""\r
+}</con:request>
+      <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+      <con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="Authorization" value="Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJadUpkTkFaa3VqX3VFSE5Jci1OaVJuSHNIZTNNWXBuanZnX1BOTDBjdlkwIn0.eyJqdGkiOiJhMTE1MmZhNy0yYjA4LTRkYjktYmZiOS0wYWE3MzUyMTUzMzAiLCJleHAiOjE1OTM2OTUwMjUsIm5iZiI6MCwiaWF0IjoxNTkzNjkzMjI1LCJpc3MiOiJodHRwczovL2lkcC1ub24tcHJvZC5pbnQuY2FwaW5ldC9hdXRoL3JlYWxtcy9JTlQiLCJhdWQiOiJQbGF0Zm9ybS1JTlQiLCJzdWIiOiI3ZmY1OTc4My1kODEwLTQ2M2YtYjAwZi00MTlhYjQ0ZmRhMTQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJQbGF0Zm9ybS1JTlQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiJmNGIwNGQxZC0wNzFmLTQyNWUtODMwZS0zZmQwNmNiYmRhMTciLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3QiXSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJDcmVkaXRQcm9kdWN0U2VydmljZUNsaWVudHMiXSwibmFtZSI6IkR5bGFuIEtsZWluaGVudHoiLCJjbGllbnRfaXAiOiIxMC4yMjQuMzEuMTIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjcDM0MzA5NCIsImdpdmVuX25hbWUiOiJEeWxhbiIsImZhbWlseV9uYW1lIjoiS2xlaW5oZW50eiIsImVtYWlsIjoiRHlsYW5LbGVpbmhlbnR6QGNhcGl0ZWNiYW5rLmNvLnphIn0.IbhZmKBP55GN9jH1wJBa15AYopsTumoq-3AW2O6I-zgPhYghHzTk9hENA-JQ7LK0V_5-FnjGlgDGWoTnkBICCUehlj7LIXgkiDeeUDpF-hBxee62CuryhOESzR6km7L4qZkl8ZJWOMIEEzPXZ8TsiQ40roV4XZL8Kf_eiYqzziMN6dB4ZcB7VsO3OUwhcDwQrtzTgebhcqFI2vcWJgVrmGZ6JZxmXwbd0_7m1ELiMiiMvg8DOVyyRPz-QwoQOf2jp0asUtwfF_4mgKKdcN-IwMU--8imIP27zdePdBIV55g-Ei6yYxU3QG75wVhaFIfihUZsnZ5sePvqyoPoAjfT-Q"/>
+        <con:entry key="customerNumber" value="176153640"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>customerNumber</con:entry>
+        <con:entry>Authorization</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+          <con:authProfile>No Authorization</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:request>
+    <con:environmentSpec>
+      <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+        <con:authProfile>Inherit From Parent</con:authProfile>
+      </con:entry>
+    </con:environmentSpec>
+  </con:method>
+  <con:environmentSpec>
+    <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:resource>
