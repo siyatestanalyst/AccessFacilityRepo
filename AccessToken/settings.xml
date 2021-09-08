@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:interface xsi:type="con:RestService" id="a8f7ee65-8ac4-4ee5-917c-3d0c017c8f99" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://idp-non-prod.int.capinet" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+<con:interface xsi:type="con:RestService" id="a8f7ee65-8ac4-4ee5-917c-3d0c017c8f99" wadlVersion="http://wadl.dev.java.net/2009/02" name="AccessToken" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="a8f7ee65-8ac4-4ee5-917c-3d0c017c8f99fileName">https%3A%2F%2Fidp-non-prod.int.capinet</con:setting>
+    <con:setting id="a8f7ee65-8ac4-4ee5-917c-3d0c017c8f99fileName">AccessToken</con:setting>
   </con:settings>
   <con:definitionCache type="TEXT" rootPart=""/>
   <con:endpoints>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:interface xsi:type="con:RestService" id="a753f306-88b2-4c77-8043-7e04dbe56383" wadlVersion="http://wadl.dev.java.net/2009/02" name="Access Facility" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="a753f306-88b2-4c77-8043-7e04dbe56383fileName">Access-Facility</con:setting>
+  </con:settings>
+  <con:definitionCache type="TEXT" rootPart=""/>
+  <con:endpoints>
+    <con:endpoint>https://onramp-dev.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+    <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+    <con:endpoint>https://onramp-qa.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+  </con:endpoints>
+  <con:environmentSpec>
+    <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:interface>

@@ -11,12 +11,37 @@ Expected Result:</con:description>
     <con:setting id="3d836a25-2430-4518-ac5a-ee3268f74a8efileName">Transfer</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="groovy" name="Date&amp;Time" id="04306ed4-fa4e-4db9-98e3-8cdf7e309281">
+    <con:settings/>
+    <con:config>
+      <script>//Define date and time
+def date = new Date() 
+def dtTimeStamp = date.format("dd-MM-yyyy-HH-mm-ss") 
+def dt = date.format("dd-MM-yyyy") 
+def projectFolder = context.expand( "C://Temp" )
+def resultFolder = projectFolder + "//Access Facility//Transfer//" + dt
+
+//Create results folder
+def resultDir = new File(resultFolder)
+if(!resultDir.exists()){
+	resultDir.mkdirs()
+	log.info "Folder is created"
+}else{
+    log.info "Folder already exists"
+}
+
+//Set time and date variables
+context.testCase.setPropertyValue("tsMin", date.format("HH-mm-ss"))
+context.testCase.setPropertyValue("tsDay", date.format("dd-MM-yyyy"))
+return resultFolder</script>
+    </con:config>
+  </con:testStep>
   <con:testStep type="datasource" name="UsernamePasswordDataSource" id="d431b2d0-e9cf-477f-a985-b6268718e642">
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
         <con:configuration>
-          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/UsernamePassword.xlsx</file>
+          <file>C:/Temp/Access Facility/UsernamePassword.xlsx</file>
           <worksheet>Sheet1</worksheet>
           <cell>A2</cell>
           <ignoreEmpty>false</ignoreEmpty>
@@ -39,31 +64,15 @@ Expected Result:</con:description>
       <con:expandProperties>false</con:expandProperties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="UsernamePassword" id="d3421078-1c88-4f20-9e64-639c96f77275">
-    <con:settings/>
-    <con:config>
-      <script>//Get URL Encoded
-def grant_type = context.expand( '${UsernamePasswordDataSource#grant_type}' )
-def username = context.expand( '${UsernamePasswordDataSource#username}' )
-def password = context.expand( '${UsernamePasswordDataSource#password}' )
-
-//Build URLEncoded
-//grant_type=password&amp;username=CP343094&amp;password=Vadyca!22
-def URLEncoded = ('grant_type='+grant_type+'&amp;username='+username+'&amp;password='+password)
-log.info(URLEncoded)
-//Create variable 
-testRunner.testCase.setPropertyValue( "URLEncoded", URLEncoded )</script>
-    </con:config>
-  </con:testStep>
   <con:testStep type="restrequest" name="Token" id="fd153c36-63e4-486a-9cd5-0fc0f5aba298">
     <con:settings/>
-    <con:config service="https://idp-non-prod.int.capinet" resourcePath="/token" methodName="Token" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="AccessToken" resourcePath="/token" methodName="Token" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Token" id="3fff67e7-5a37-44b8-8893-cbce56d10cf0" mediaType="Form URL Encoded" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/x-www-form-urlencoded" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect</con:endpoint>
-        <con:request>${#TestCase#URLEncoded}</con:request>
+        <con:request>grant_type=${UsernamePasswordDataSource#grant_type}&amp;username=${UsernamePasswordDataSource#username}&amp;password=${UsernamePasswordDataSource#password}</con:request>
         <con:originalUri>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:originalUri>
         <con:assertion type="JsonPath Existence Match" id="bc731ccc-e45b-4121-969b-7b4dde6be7e9" name="Check for existence of [access_token]">
           <con:configuration>
@@ -112,14 +121,6 @@ testRunner.testCase.setPropertyValue( "URLEncoded", URLEncoded )</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="TransferToken" id="9c2b0db6-512f-4dc8-bdbe-9c8a2d08a6c8">
-    <con:settings/>
-    <con:config>
-      <script>//Get token value
-def token = context.expand( '${Token#Response#$[\'access_token\']}' )
-return 'Bearer ' + token</script>
-    </con:config>
-  </con:testStep>
   <con:testStep type="datasource" name="DataSource" id="1e04f3ee-e10c-4074-a27d-19a69ec7391a">
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -134,22 +135,24 @@ return 'Bearer ' + token</script>
       </con:dataSource>
       <con:shared>true</con:shared>
       <con:restartShared>true</con:restartShared>
-      <con:property>Test Case Number</con:property>
-      <con:property>Test Case Name</con:property>
-      <con:property>Test Description</con:property>
-      <con:property>Expected Result</con:property>
-      <con:property>customerNumber</con:property>
-      <con:property>transferAmount</con:property>
-      <con:property>statementDescription</con:property>
+      <con:property>Test CaseNumber</con:property>
+      <con:property>Test CaseName</con:property>
+      <con:property>TestDescription</con:property>
+      <con:property>ExpectedResult</con:property>
+      <con:property>CustomerNumber</con:property>
+      <con:property>TransferAmount</con:property>
+      <con:property>StatementDescription</con:property>
+      <con:property>SourceSystemIdentifier</con:property>
+      <con:property>ExpectedHTTPStatusCode</con:property>
       <con:restartOnRun>true</con:restartOnRun>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="ProductInfo" id="2985319e-217a-4b04-8d82-a6366f20e73f">
     <con:settings/>
-    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/productInfo" methodName="ProductInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="Access Facility" resourcePath="/access-facility/productInfo" methodName="ProductInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="ProductInfo" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="sourceSystemIdentifier" value="USSD" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="sourceSystemIdentifier" value="${DataSource#SourceSystemIdentifier}" xmlns="http://eviware.com/soapui/config"/></con:setting>
           <con:setting id="discardResponse">false</con:setting>
         </con:settings>
         <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
@@ -345,8 +348,8 @@ return 'Bearer ' + token</script>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="Authorization" value="${TransferToken#result}"/>
-          <con:entry key="customerNumber" value="${DataSource#customerNumber}"/>
+          <con:entry key="Authorization" value="Bearer ${Token#Response#$['access_token']}"/>
+          <con:entry key="customerNumber" value="${DataSource#CustomerNumber}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>customerNumber</con:entry>
@@ -588,7 +591,7 @@ def addDuesDate = context.expand( '${ProductInfo#Response#$[\'addDuesDate\']}' )
 testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDuesDate", addDuesDate.toString())</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="ProductInfoSaveResponse" id="7ba94a20-4f7a-4685-9da9-1daf3527c92d">
+  <con:testStep type="datasink" name="ProductInfoSaveResponse" id="7ba94a20-4f7a-4685-9da9-1daf3527c92d" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -605,39 +608,39 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
       <con:properties>
         <con:property>
           <con:name>accountNumber</con:name>
-          <con:value>1688843521</con:value>
+          <con:value>1727709983</con:value>
         </con:property>
         <con:property>
           <con:name>approvedDate</con:name>
-          <con:value>2020-02-14</con:value>
+          <con:value>2020-09-04</con:value>
         </con:property>
         <con:property>
           <con:name>availableLimit</con:name>
-          <con:value>60000.0</con:value>
+          <con:value>200000.0</con:value>
         </con:property>
         <con:property>
           <con:name>interestRateYearly</con:name>
-          <con:value>23.6</con:value>
+          <con:value>17.5</con:value>
         </con:property>
         <con:property>
           <con:name>accountBalance</con:name>
-          <con:value>35250.0</con:value>
+          <con:value>187942.54</con:value>
         </con:property>
         <con:property>
           <con:name>availableToTransfer</con:name>
-          <con:value>24750.0</con:value>
+          <con:value>12057.46</con:value>
         </con:property>
         <con:property>
           <con:name>remainingTerm</con:name>
-          <con:value>61</con:value>
+          <con:value>42</con:value>
         </con:property>
         <con:property>
           <con:name>nextInstalmentDue</con:name>
-          <con:value>0.0</con:value>
+          <con:value>6687.51</con:value>
         </con:property>
         <con:property>
           <con:name>nextInstalmentDate</con:name>
-          <con:value>2020-03-13</con:value>
+          <con:value>2021-07-27</con:value>
         </con:property>
         <con:property>
           <con:name>autoLimitIncrease</con:name>
@@ -653,11 +656,11 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>maximumTerm</con:name>
-          <con:value>60</con:value>
+          <con:value>42</con:value>
         </con:property>
         <con:property>
           <con:name>maximumRepayment</con:name>
-          <con:value>55139.95</con:value>
+          <con:value>14032.14</con:value>
         </con:property>
         <con:property>
           <con:name>termBasis</con:name>
@@ -681,11 +684,11 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>insuranceExpiry</con:name>
-          <con:value>2020-05-14</con:value>
+          <con:value>2020-12-03</con:value>
         </con:property>
         <con:property>
           <con:name>insuranceDeathRate</con:name>
-          <con:value>1.0</con:value>
+          <con:value>1.02</con:value>
         </con:property>
         <con:property>
           <con:name>insuranceDisabilityRate</con:name>
@@ -693,7 +696,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>insuranceRetrenchmentRate</con:name>
-          <con:value>1.61</con:value>
+          <con:value>3.37</con:value>
         </con:property>
         <con:property>
           <con:name>insuranceOption</con:name>
@@ -701,19 +704,19 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>clientName</con:name>
-          <con:value>MRS NOMABHONGO MDLALOSE                           N</con:value>
+          <con:value>MISS LIZL JOSEPH                             LR</con:value>
         </con:property>
         <con:property>
-          <con:name>fixedIntiationFee</con:name>
-          <con:value>250.0</con:value>
+          <con:name>fixedInitiationFee</con:name>
+          <con:value>300.0</con:value>
         </con:property>
         <con:property>
           <con:name>interestRateMargin</con:name>
-          <con:value>8.6</con:value>
+          <con:value>10.5</con:value>
         </con:property>
         <con:property>
-          <con:name>maxIntiationFee</con:name>
-          <con:value/>
+          <con:name>maxInitiationFee</con:name>
+          <con:value>300.0</con:value>
         </con:property>
         <con:property>
           <con:name>interestRateType</con:name>
@@ -729,7 +732,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>cummulativeTransferTotal</con:name>
-          <con:value>35000.0</con:value>
+          <con:value>219879.0</con:value>
         </con:property>
         <con:property>
           <con:name>nonUsageServiceFee</con:name>
@@ -741,39 +744,39 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>riskCategory</con:name>
-          <con:value>AF</con:value>
+          <con:value>C</con:value>
         </con:property>
         <con:property>
           <con:name>minimumTransferAmount</con:name>
-          <con:value>1000.0</con:value>
+          <con:value>0.01</con:value>
         </con:property>
         <con:property>
           <con:name>contractedCapital</con:name>
-          <con:value>35250.0</con:value>
+          <con:value>187942.54</con:value>
         </con:property>
         <con:property>
           <con:name>contractedTerm</con:name>
-          <con:value>60</con:value>
+          <con:value>42</con:value>
         </con:property>
         <con:property>
           <con:name>contractCapitalDate</con:name>
-          <con:value>2020-03-06</con:value>
+          <con:value>2021-06-29</con:value>
         </con:property>
         <con:property>
           <con:name>collectionDate</con:name>
-          <con:value>2020-03-13</con:value>
+          <con:value>2021-09-27</con:value>
         </con:property>
         <con:property>
           <con:name>contractedRepayment</con:name>
-          <con:value>1150.23</con:value>
+          <con:value>6687.51</con:value>
         </con:property>
         <con:property>
           <con:name>suspensiveCondition</con:name>
-          <con:value/>
+          <con:value>N</con:value>
         </con:property>
         <con:property>
           <con:name>ccsStatus</con:name>
-          <con:value/>
+          <con:value>N</con:value>
         </con:property>
         <con:property>
           <con:name>deActiveDate</con:name>
@@ -785,7 +788,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>loanStop</con:name>
-          <con:value/>
+          <con:value>N</con:value>
         </con:property>
         <con:property>
           <con:name>clientUnderAdminstration</con:name>
@@ -793,11 +796,11 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>afInArrears</con:name>
-          <con:value/>
+          <con:value>N</con:value>
         </con:property>
         <con:property>
           <con:name>unEmployed</con:name>
-          <con:value/>
+          <con:value>N</con:value>
         </con:property>
         <con:property>
           <con:name>debtRestructuring</con:name>
@@ -805,12 +808,16 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>otherAccountInArrears</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>addDuesDate</con:name>
           <con:value/>
         </con:property>
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Repayment(Transfer)Data" id="765ffdcd-be76-4f1f-b57b-856d4ccab6ce">
+  <con:testStep type="groovy" name="Repayment(Transfer)Data" id="765ffdcd-be76-4f1f-b57b-856d4ccab6ce" disabled="true">
     <con:settings/>
     <con:config>
       <script>//Get data values
@@ -827,9 +834,9 @@ log.info(jsonMessage)
 testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="Repayment(Transfer)" id="d65aed6a-32b7-4f76-96e1-cb8639b9fab6">
+  <con:testStep type="restrequest" name="Repayment(Transfer)" id="d65aed6a-32b7-4f76-96e1-cb8639b9fab6" disabled="true">
     <con:settings/>
-    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/repayment" methodName="Repayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="Access Facility" resourcePath="/access-facility/repayment" methodName="Repayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Repayment(Transfer)" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -898,7 +905,7 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Repayment(Transfer)SinkData" id="f6f6acd3-67c1-4ccb-ad9c-ca6a087a1fb1">
+  <con:testStep type="groovy" name="Repayment(Transfer)SinkData" id="f6f6acd3-67c1-4ccb-ad9c-ca6a087a1fb1" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -951,7 +958,7 @@ for (int i=0; i&lt; n; i=i+1){
 }</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="Repayment(Transfer)SaveResponse" id="b6d2e805-5d85-44bb-8cf3-7805953fa53d">
+  <con:testStep type="datasink" name="Repayment(Transfer)SaveResponse" id="b6d2e805-5d85-44bb-8cf3-7805953fa53d" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -2185,7 +2192,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="PaymentPlanData" id="6a3b8e93-0d71-4778-9f19-5d57d2f42355">
+  <con:testStep type="groovy" name="PaymentPlanData" id="6a3b8e93-0d71-4778-9f19-5d57d2f42355" disabled="true">
     <con:settings/>
     <con:config>
       <script>//Get data values
@@ -2202,9 +2209,9 @@ log.info(jsonMessage)
 testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="PaymentPlan" id="f4e7cfa5-bd54-46cf-a188-3c9376647c13">
+  <con:testStep type="restrequest" name="PaymentPlan" id="f4e7cfa5-bd54-46cf-a188-3c9376647c13" disabled="true">
     <con:settings/>
-    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/transfer/paymentplan" methodName="PaymentPlan" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="Access Facility" resourcePath="/access-facility/transfer/paymentplan" methodName="PaymentPlan" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="PaymentPlan" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -2331,7 +2338,7 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="PaymentPlanSinkData" id="6db348ad-bbfa-4aab-8679-0928f3656ce3">
+  <con:testStep type="groovy" name="PaymentPlanSinkData" id="6db348ad-bbfa-4aab-8679-0928f3656ce3" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -2406,7 +2413,7 @@ for (int i=0; i&lt; n; i=i+1){
 }</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="PaymentPlanSaveResponse" id="55f1a1a0-ca15-4baa-b3bb-1383d652e42b">
+  <con:testStep type="datasink" name="PaymentPlanSaveResponse" id="55f1a1a0-ca15-4baa-b3bb-1383d652e42b" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -2492,9 +2499,9 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="Operations(Transfer)" id="6ad04178-04ad-4d0e-a1e5-7376164db22b">
+  <con:testStep type="restrequest" name="Operations(Transfer)" id="6ad04178-04ad-4d0e-a1e5-7376164db22b" disabled="true">
     <con:settings/>
-    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="Access Facility" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Operations(Transfer)" id="4da46116-2d86-4ebf-9368-58f74d8456fd" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -2649,7 +2656,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Operations(Transfer)SinkData" id="4e74aa14-25f9-4357-ad6b-32a193b55352">
+  <con:testStep type="groovy" name="Operations(Transfer)SinkData" id="4e74aa14-25f9-4357-ad6b-32a193b55352" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -2729,7 +2736,7 @@ for (int i=0; i&lt; n; i=i+1){
 }</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="Operations(Transfer)SaveResponse" id="cdb5728d-6b05-4211-9e6e-e7838bdf575c">
+  <con:testStep type="datasink" name="Operations(Transfer)SaveResponse" id="cdb5728d-6b05-4211-9e6e-e7838bdf575c" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -2807,7 +2814,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="49ebc529-63bc-4ca9-9809-ad1ccde06ad0">
+  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="49ebc529-63bc-4ca9-9809-ad1ccde06ad0" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -2818,7 +2825,7 @@ def fromAccount = context.expand( '${PaymentPlan#Response#$[\'accountNumber\']}'
 def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ConnectionString" id="8bd66088-c5f8-4a86-8187-1447b0fb03a3">
+  <con:testStep type="datasource" name="ConnectionString" id="8bd66088-c5f8-4a86-8187-1447b0fb03a3" disabled="true">
     <con:settings>
       <con:setting id="com.eviware.soapui.impl.wsdl.teststeps.datasource.DataSourceContainer@prepared-properties">&lt;xml-fragment/></con:setting>
     </con:settings>
@@ -2839,7 +2846,7 @@ def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
       <con:restartOnRun>true</con:restartOnRun>
     </con:config>
   </con:testStep>
-  <con:testStep type="jdbc" name="SQLQueryBefore" id="b1c3fdfa-2053-441b-9d3d-c641dc0f1ced">
+  <con:testStep type="jdbc" name="SQLQueryBefore" id="b1c3fdfa-2053-441b-9d3d-c641dc0f1ced" disabled="true">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -2926,7 +2933,7 @@ AND A.KEY_1 > 0X30303330303030303030313635383037343639
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="GetSQLResponseBefore" id="4c636a9c-78a5-4c58-8a2a-12f9e1d321e3">
+  <con:testStep type="groovy" name="GetSQLResponseBefore" id="4c636a9c-78a5-4c58-8a2a-12f9e1d321e3" disabled="true">
     <con:settings/>
     <con:config>
       <script>import groovy.xml.*
@@ -2957,7 +2964,7 @@ testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("SAVACCT(Bef
 testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("SAVBAL(BeforeTransfer)", SAVBAL.toString())</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="SaveSQLDataBefore" id="84cc44fc-f8dd-4cc4-8aa7-22328ce0a51e">
+  <con:testStep type="datasink" name="SaveSQLDataBefore" id="84cc44fc-f8dd-4cc4-8aa7-22328ce0a51e" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -2998,7 +3005,7 @@ testRunner.testCase.testSteps["SaveSQLDataBefore"].setPropertyValue("SAVBAL(Befo
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="TransferData" id="72eecdc4-aef5-485b-9979-94e03e63dc13">
+  <con:testStep type="groovy" name="TransferData" id="72eecdc4-aef5-485b-9979-94e03e63dc13" disabled="true">
     <con:settings/>
     <con:config>
       <script>//Get data values
@@ -3020,9 +3027,9 @@ log.info(jsonMessage)
 testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="Transfer" id="d0bf69ac-9a4f-4e72-a97d-714dd8cff403">
+  <con:testStep type="restrequest" name="Transfer" id="d0bf69ac-9a4f-4e72-a97d-714dd8cff403" disabled="true">
     <con:settings/>
-    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/transfer" methodName="Transfer" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="Access Facility" resourcePath="/access-facility/transfer" methodName="Transfer" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Transfer" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -3086,7 +3093,7 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="TransferSinkData" id="1e506a21-85f6-48d7-8760-1c5dfc67fa37">
+  <con:testStep type="groovy" name="TransferSinkData" id="1e506a21-85f6-48d7-8760-1c5dfc67fa37" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -3133,7 +3140,7 @@ for (int i=0; i&lt; n; i=i+1){
 }</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="TransferSaveResponse" id="ffd27ea0-0184-4ea7-94c8-1b8a019d3e55">
+  <con:testStep type="datasink" name="TransferSaveResponse" id="ffd27ea0-0184-4ea7-94c8-1b8a019d3e55" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -3191,7 +3198,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="623c073f-894e-42f3-aa84-bf776ca35ccd">
+  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="623c073f-894e-42f3-aa84-bf776ca35ccd" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -3202,7 +3209,7 @@ def fromAccount = context.expand( '${Transfer#Response#$[\'fromAccount\']}' )
 def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="jdbc" name="SQLQueryAfter" id="8b5c0387-91af-4edc-be98-4154c82fae3c">
+  <con:testStep type="jdbc" name="SQLQueryAfter" id="8b5c0387-91af-4edc-be98-4154c82fae3c" disabled="true">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -3289,7 +3296,7 @@ AND A.KEY_1 > 0X30303330303030303030313635383037343639
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="GetSQLResponseAfter" id="f178e8e0-5126-4cbd-a8d2-b5b9bcfcd791">
+  <con:testStep type="groovy" name="GetSQLResponseAfter" id="f178e8e0-5126-4cbd-a8d2-b5b9bcfcd791" disabled="true">
     <con:settings/>
     <con:config>
       <script>import groovy.xml.*
@@ -3320,7 +3327,7 @@ testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVACCT(Afte
 testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVBAL(AfterTransfer)", SAVBAL.toString())</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="SaveSQLDataAfter" id="223ca7f8-f8c1-4af5-a790-a99347921540">
+  <con:testStep type="datasink" name="SaveSQLDataAfter" id="223ca7f8-f8c1-4af5-a790-a99347921540" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -3361,7 +3368,7 @@ testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVBAL(After
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Validation" id="e83baa7e-6912-419c-b646-b2e38d062a64">
+  <con:testStep type="groovy" name="Validation" id="e83baa7e-6912-419c-b646-b2e38d062a64" disabled="true">
     <con:settings/>
     <con:config>
       <script>import groovy.xml.*
@@ -3449,7 +3456,15 @@ if(savbalBefore.equals(savbalAfter)) {
     </con:property>
     <con:property>
       <con:name>URLEncoded</con:name>
-      <con:value>grant_type=password&amp;username=CP343094&amp;password=Vadyca!77</con:value>
+      <con:value>grant_type=password&amp;username=CP343094&amp;password=Dylrissatipsy@7</con:value>
+    </con:property>
+    <con:property>
+      <con:name>tsMin</con:name>
+      <con:value>11-49-02</con:value>
+    </con:property>
+    <con:property>
+      <con:name>tsDay</con:name>
+      <con:value>08-09-2021</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
@@ -3620,6 +3635,11 @@ if(savbalBefore.equals(savbalAfter)) {
   </con:breakPoints>
   <con:breakPoints>
     <con:testStepId>24d7aa60-5caf-418a-9790-75192d8203b0</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>04306ed4-fa4e-4db9-98e3-8cdf7e309281</con:testStepId>
     <con:status>NONE</con:status>
     <con:properties/>
   </con:breakPoints>
