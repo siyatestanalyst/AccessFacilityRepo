@@ -366,7 +366,30 @@ return resultFolder</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="ProductInfoSinkData" id="b3cef134-4cfc-4335-9d85-1873db45d42a">
+  <con:testStep type="groovy" name="ProductInfoRawRequest" id="758f95db-6b5f-44ca-a8f1-aecef77ea968">
+    <con:settings/>
+    <con:config>
+      <script>def myRequestStep = testRunner.testCase.getTestStepByName('ProductInfo')
+def GetrequestData = new String(myRequestStep.testRequest.messageExchange.rawRequestData)
+def RequestData = new String(GetrequestData+"\r\n"+"\r\n")</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ResultOutcome1" id="d8a6565d-1c53-419f-87f6-45a2ecf74407">
+    <con:settings/>
+    <con:config>
+      <script>//Check for HTTP code
+def HTTPCodeExpected = context.expand( '${DataSource#ExpectedHTTPStatusCode}' )
+def HTTPCodeActual = context.expand( '${ProductInfo#HarResponse#$[\'status\']}' )
+
+//Result output
+if (HTTPCodeActual == HTTPCodeExpected){
+	def Result = "PASS  "+testRunner.testCase.testSteps["ProductInfo"].testRequest.response.timeTaken+"ms";
+}else{
+	def Result = "FAIL  "+testRunner.testCase.testSteps["ProductInfo"].testRequest.response.timeTaken+"ms";
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ProductInfoSinkData" id="b3cef134-4cfc-4335-9d85-1873db45d42a" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -834,18 +857,21 @@ log.info(jsonMessage)
 testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="Repayment(Transfer)" id="d65aed6a-32b7-4f76-96e1-cb8639b9fab6" disabled="true">
+  <con:testStep type="restrequest" name="Repayment(Transfer)" id="d65aed6a-32b7-4f76-96e1-cb8639b9fab6">
     <con:settings/>
     <con:config service="Access Facility" resourcePath="/access-facility/repayment" methodName="Repayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Repayment(Transfer)" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
-  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+  &lt;con:entry key="Authorization" value="Bearer ${Token#Response#$['access_token']}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="${DataSource#SourceSystemIdentifier}"/>
 &lt;/xml-fragment></con:setting>
         </con:settings>
         <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
-        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:request>{
+ "accountNumber": "${ProductInfo#Response#$['accountNumber']}",
+ "transferAmount": "${DataSource#TransferAmount}"
+}</con:request>
         <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
         <con:assertion type="JsonPath Existence Match" id="d832459b-fbf9-4cc4-bafd-00127738b191" name="Check for existence of [accountNumber]">
           <con:configuration>
@@ -903,6 +929,29 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Repayment(Transfer)RawRequest" id="3edb3f79-5d74-4a14-82e2-3d1bed01ceca">
+    <con:settings/>
+    <con:config>
+      <script>def myRequestStep = testRunner.testCase.getTestStepByName('Repayment(Transfer)')
+def GetrequestData = new String(myRequestStep.testRequest.messageExchange.rawRequestData)
+def RequestData = new String(GetrequestData+"\r\n"+"\r\n")</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ResultOutcome2" id="1abda534-452c-4bff-83cf-f46f4d9743b5">
+    <con:settings/>
+    <con:config>
+      <script>//Check for HTTP code
+def HTTPCodeExpected = context.expand( '${DataSource#ExpectedHTTPStatusCode}' )
+def HTTPCodeActual = context.expand( '${Repayment(Transfer)#HarResponse#$[\'status\']}' )
+
+//Result output
+if (HTTPCodeActual == HTTPCodeExpected){
+	def Result = "PASS  "+testRunner.testCase.testSteps["Repayment(Transfer)"].testRequest.response.timeTaken+"ms";
+}else{
+	def Result = "FAIL  "+testRunner.testCase.testSteps["Repayment(Transfer)"].testRequest.response.timeTaken+"ms";
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Repayment(Transfer)SinkData" id="f6f6acd3-67c1-4ccb-ad9c-ca6a087a1fb1" disabled="true">
@@ -2209,18 +2258,23 @@ log.info(jsonMessage)
 testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="PaymentPlan" id="f4e7cfa5-bd54-46cf-a188-3c9376647c13" disabled="true">
+  <con:testStep type="restrequest" name="PaymentPlan" id="f4e7cfa5-bd54-46cf-a188-3c9376647c13">
     <con:settings/>
     <con:config service="Access Facility" resourcePath="/access-facility/transfer/paymentplan" methodName="PaymentPlan" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="PaymentPlan" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
-  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+  &lt;con:entry key="Authorization" value="Bearer ${Token#Response#$['access_token']}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="${DataSource#SourceSystemIdentifier}"/>
 &lt;/xml-fragment></con:setting>
         </con:settings>
         <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
-        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:request>{
+ "accountNumber": "${Repayment(Transfer)#Response#$['accountNumber']}",
+ "transferAmount": "${Repayment(Transfer)#Response#$['transferAmount']}",
+ "noOfInstalment": "${Repayment(Transfer)#Response#$['repaymentOptions'][0]['numberOfInstalment']}",
+ "instalmentAmount": "${Repayment(Transfer)#Response#$['repaymentOptions'][0]['instalmentAmount']}"
+}</con:request>
         <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
         <con:assertion type="JsonPath Existence Match" id="1e3717bf-617c-4d33-b188-fc1c5e67b54e" name="Check for existence of [accountNumber]">
           <con:configuration>
@@ -2336,6 +2390,29 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="PaymentPlanRawRequest" id="1851b7e6-acd3-47bd-b2f1-0de3a1362352">
+    <con:settings/>
+    <con:config>
+      <script>def myRequestStep = testRunner.testCase.getTestStepByName('PaymentPlan')
+def GetrequestData = new String(myRequestStep.testRequest.messageExchange.rawRequestData)
+def RequestData = new String(GetrequestData+"\r\n"+"\r\n")</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ResultOutcome3" id="17e9887f-c2ec-468f-af5d-393ec19f49f9">
+    <con:settings/>
+    <con:config>
+      <script>//Check for HTTP code
+def HTTPCodeExpected = context.expand( '${DataSource#ExpectedHTTPStatusCode}' )
+def HTTPCodeActual = context.expand( '${PaymentPlan#HarResponse#$[\'status\']}' )
+
+//Result output
+if (HTTPCodeActual == HTTPCodeExpected){
+	def Result = "PASS  "+testRunner.testCase.testSteps["PaymentPlan"].testRequest.response.timeTaken+"ms";
+}else{
+	def Result = "FAIL  "+testRunner.testCase.testSteps["PaymentPlan"].testRequest.response.timeTaken+"ms";
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="PaymentPlanSinkData" id="6db348ad-bbfa-4aab-8679-0928f3656ce3" disabled="true">
@@ -2499,14 +2576,14 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="Operations(Transfer)" id="6ad04178-04ad-4d0e-a1e5-7376164db22b" disabled="true">
+  <con:testStep type="restrequest" name="Operations(Transfer)" id="6ad04178-04ad-4d0e-a1e5-7376164db22b">
     <con:settings/>
     <con:config service="Access Facility" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Operations(Transfer)" id="4da46116-2d86-4ebf-9368-58f74d8456fd" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
-  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+  &lt;con:entry key="Authorization" value="Bearer ${Token#Response#$['access_token']}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="${DataSource#SourceSystemIdentifier}"/>
 &lt;/xml-fragment></con:setting>
         </con:settings>
         <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
@@ -2654,6 +2731,29 @@ for (int i=0; i&lt; n; i=i+1){
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Operations(Transfer)RawRequest" id="2a41faac-eae5-4238-973b-9b4aec3f63e1">
+    <con:settings/>
+    <con:config>
+      <script>def myRequestStep = testRunner.testCase.getTestStepByName('Operations(Transfer)')
+def GetrequestData = new String(myRequestStep.testRequest.messageExchange.rawRequestData)
+def RequestData = new String(GetrequestData+"\r\n"+"\r\n")</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ResultOutcome4" id="f1f26b47-8546-4ea9-bf37-86041768784f">
+    <con:settings/>
+    <con:config>
+      <script>//Check for HTTP code
+def HTTPCodeExpected = context.expand( '${DataSource#ExpectedHTTPStatusCode}' )
+def HTTPCodeActual = context.expand( '${Operations(Transfer)#HarResponse#$[\'status\']}' )
+
+//Result output
+if (HTTPCodeActual == HTTPCodeExpected){
+	def Result = "PASS  "+testRunner.testCase.testSteps["Operations(Transfer)"].testRequest.response.timeTaken+"ms";
+}else{
+	def Result = "FAIL  "+testRunner.testCase.testSteps["Operations(Transfer)"].testRequest.response.timeTaken+"ms";
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Operations(Transfer)SinkData" id="4e74aa14-25f9-4357-ad6b-32a193b55352" disabled="true">
@@ -3027,18 +3127,32 @@ log.info(jsonMessage)
 testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="Transfer" id="d0bf69ac-9a4f-4e72-a97d-714dd8cff403" disabled="true">
+  <con:testStep type="restrequest" name="Transfer" id="d0bf69ac-9a4f-4e72-a97d-714dd8cff403">
     <con:settings/>
     <con:config service="Access Facility" resourcePath="/access-facility/transfer" methodName="Transfer" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Transfer" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
-  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+  &lt;con:entry key="Authorization" value="Bearer ${Token#Response#$['access_token']}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="${DataSource#SourceSystemIdentifier}"/>
 &lt;/xml-fragment></con:setting>
         </con:settings>
         <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
-        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:request>{
+ "fromAccount": "${PaymentPlan#Response#$['accountNumber']}",
+ "toAccount": "${Operations(Transfer)#Response#$['operatableAccount'][0]['accountNumber']}",
+ "transferAmount": "${PaymentPlan#Response#$['transferAmount']}",
+ "statementDescription": "${DataSource#StatementDescription}",
+ "repaymentNoOfInstalment": "${Repayment(Transfer)#Response#$['repaymentOptions'][0]['numberOfInstalment']}",
+ "repaymentInstalmentAmount": "${Repayment(Transfer)#Response#$['repaymentOptions'][0]['instalmentAmount']}",
+ "paymentPlan": [ 
+  { 
+   "firstInstalmentDate": "${PaymentPlan#Response#$['newPaymentPlan'][0]['firstInstalmentDate']}",
+   "noOfInstalments": "${PaymentPlan#Response#$['newPaymentPlan'][0]['noOfInstalments']}",
+   "instalmentAmount": "${PaymentPlan#Response#$['newPaymentPlan'][0]['instalmentAmount']}" 
+  } 
+ ] 
+}</con:request>
         <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
         <con:assertion type="JsonPath Existence Match" id="dd054223-be10-49f5-a8be-c109d35923c8" name="Check for existence of [fromAccount]">
           <con:configuration>
@@ -3091,6 +3205,29 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="TransferRawRequest" id="25260a69-a9d6-4345-9565-d5f5bb659f54">
+    <con:settings/>
+    <con:config>
+      <script>def myRequestStep = testRunner.testCase.getTestStepByName('Transfer')
+def GetrequestData = new String(myRequestStep.testRequest.messageExchange.rawRequestData)
+def RequestData = new String(GetrequestData+"\r\n"+"\r\n")</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ResultOutcome5" id="ad1b275d-da23-4ce0-9672-ba351ea24a99">
+    <con:settings/>
+    <con:config>
+      <script>//Check for HTTP code
+def HTTPCodeExpected = context.expand( '${DataSource#ExpectedHTTPStatusCode}' )
+def HTTPCodeActual = context.expand( '${Transfer#HarResponse#$[\'status\']}' )
+
+//Result output
+if (HTTPCodeActual == HTTPCodeExpected){
+	def Result = "PASS  "+testRunner.testCase.testSteps["Transfer"].testRequest.response.timeTaken+"ms";
+}else{
+	def Result = "FAIL  "+testRunner.testCase.testSteps["Transfer"].testRequest.response.timeTaken+"ms";
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="TransferSinkData" id="1e506a21-85f6-48d7-8760-1c5dfc67fa37" disabled="true">
@@ -3449,6 +3586,167 @@ if(savbalBefore.equals(savbalAfter)) {
 }</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="datasink" name="DataSink" id="107c7893-f427-4630-972a-20aa4a0d2dc3">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file>C:/Temp/Access Facility/Transfer/Template/AFTransferTemplate.xlsx</file>
+          <outfile>C:/Temp/Access Facility/Transfer/${#TestCase#tsDay}/AFTransfer Response ${#TestCase#tsMin}.xls</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>A2</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:properties>
+        <con:property>
+          <con:name>Test CaseNumber</con:name>
+          <con:value>${DataSource#Test CaseNumber}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Test CaseName</con:name>
+          <con:value>${DataSource#Test CaseName}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TestDescription</con:name>
+          <con:value>${DataSource#TestDescription}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ExpectedResult</con:name>
+          <con:value>${DataSource#ExpectedResult}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>CustomerNumber</con:name>
+          <con:value>${DataSource#CustomerNumber}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferAmount</con:name>
+          <con:value>${DataSource#TransferAmount}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>StatementDescription</con:name>
+          <con:value>${DataSource#StatementDescription}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SourceSystemIdentifier</con:name>
+          <con:value>${DataSource#SourceSystemIdentifier}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ExpectedHTTPStatusCode</con:name>
+          <con:value>${DataSource#ExpectedHTTPStatusCode}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ProductInfoRequest</con:name>
+          <con:value>${ProductInfoRawRequest#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ProductInfoResponse</con:name>
+          <con:value>${ProductInfo#Response}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ProductInfoTimeStamp</con:name>
+          <con:value>${ProductInfo#HarResponse#$['headers'][2]['value']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ProductInfoActualHTTPStatusCode</con:name>
+          <con:value>${ProductInfo#HarResponse#$['status']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ProductInfoRESULT</con:name>
+          <con:value>${ResultOutcome1#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Repayment(Transfer)Request</con:name>
+          <con:value>${Repayment(Transfer)RawRequest#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Repayment(Transfer)Response</con:name>
+          <con:value>${Repayment(Transfer)#Response}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Repayment(Transfer)TimeStamp</con:name>
+          <con:value>${Repayment(Transfer)#HarResponse#$['headers'][2]['value']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Repayment(Transfer)ActualHTTPStatusCode</con:name>
+          <con:value>${Repayment(Transfer)#HarResponse#$['status']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Repayment(Transfer)RESULT</con:name>
+          <con:value>${ResultOutcome2#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>PaymentPlanRequest</con:name>
+          <con:value>${PaymentPlanRawRequest#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>PaymentPlanResponse</con:name>
+          <con:value>${Repayment(Transfer)#Response}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>PaymentPlanTimeStamp</con:name>
+          <con:value>${Repayment(Transfer)#HarResponse#$['headers'][2]['value']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>PaymentPlanActualHTTPStatusCode</con:name>
+          <con:value>${Repayment(Transfer)#HarResponse#$['status']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>PaymentPlanRESULT</con:name>
+          <con:value>${ResultOutcome3#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Operations(Transfer)Request</con:name>
+          <con:value>${Operations(Transfer)RawRequest#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Operations(Transfer)Response</con:name>
+          <con:value>${Operations(Transfer)#Response}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Operations(Transfer)TimeStamp</con:name>
+          <con:value>${Operations(Transfer)#HarResponse#$['headers'][2]['value']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Operations(Transfer)ActualHTTPStatusCode</con:name>
+          <con:value>${Operations(Transfer)#HarResponse#$['status']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>Operations(Transfer)RESULT</con:name>
+          <con:value>${ResultOutcome4#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferRequest</con:name>
+          <con:value>${TransferRawRequest#result}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferResponse</con:name>
+          <con:value>${Transfer#Response}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferTimeStamp</con:name>
+          <con:value>${Transfer#HarResponse#$['headers'][2]['value']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferActualHTTPStatusCode</con:name>
+          <con:value>${Transfer#HarResponse#$['status']}</con:value>
+        </con:property>
+        <con:property>
+          <con:name>TransferRESULT</con:name>
+          <con:value>${ResultOutcome5#result}</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasourceloop" name="DataSource Loop" id="5e16b948-0e1d-4252-b0ba-45b74159e5da" disabled="true">
+    <con:settings/>
+    <con:config>
+      <dataSourceStep>GetData</dataSourceStep>
+      <targetStep>RequestToken</targetStep>
+      <discardResults>false</discardResults>
+    </con:config>
+  </con:testStep>
   <con:properties>
     <con:property>
       <con:name>JSONMessageProperty</con:name>
@@ -3640,6 +3938,56 @@ if(savbalBefore.equals(savbalAfter)) {
   </con:breakPoints>
   <con:breakPoints>
     <con:testStepId>04306ed4-fa4e-4db9-98e3-8cdf7e309281</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>758f95db-6b5f-44ca-a8f1-aecef77ea968</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>3edb3f79-5d74-4a14-82e2-3d1bed01ceca</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>1851b7e6-acd3-47bd-b2f1-0de3a1362352</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>2a41faac-eae5-4238-973b-9b4aec3f63e1</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>25260a69-a9d6-4345-9565-d5f5bb659f54</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>d8a6565d-1c53-419f-87f6-45a2ecf74407</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>1abda534-452c-4bff-83cf-f46f4d9743b5</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>17e9887f-c2ec-468f-af5d-393ec19f49f9</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>f1f26b47-8546-4ea9-bf37-86041768784f</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>ad1b275d-da23-4ce0-9672-ba351ea24a99</con:testStepId>
     <con:status>NONE</con:status>
     <con:properties/>
   </con:breakPoints>

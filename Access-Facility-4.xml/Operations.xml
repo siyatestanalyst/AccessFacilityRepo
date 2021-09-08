@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="Operations" path="/access-facility/operations" id="052cc707-6d2e-4c3d-910f-4d8b377ff3fb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="052cc707-6d2e-4c3d-910f-4d8b377ff3fbfileName">Operations</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="Operations" id="f5eed192-a02a-4b86-8181-571399cb7cd8" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>accountNumber</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>operationIdentifier</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+    </con:parameters>
+    <con:representation type="REQUEST">
+      <con:mediaType>application/json</con:mediaType>
+      <con:params/>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>401 500 404</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json; charset=utf-8</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:tran="https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer">tran:Response</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>409 412</con:status>
+      <con:params/>
+      <con:element xmlns:tran="https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer">tran:Fault</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>text/plain</con:mediaType>
+      <con:status>502</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>0</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>application/text</con:mediaType>
+      <con:status>400 403 412</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:request name="operations" id="4da46116-2d86-4ebf-9368-58f74d8456fd" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="Bearer access_token"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+      </con:settings>
+      <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+      <con:request>{\r
+   "accountNumber" : "",\r
+   "transferAmount" : ""\r
+}</con:request>
+      <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+      <con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="operationIdentifier" value="transfer"/>
+        <con:entry key="accountNumber" value="1681245890"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>accountNumber</con:entry>
+        <con:entry>operationIdentifier</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+          <con:authProfile>No Authorization</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:request>
+    <con:environmentSpec>
+      <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+        <con:authProfile>Inherit From Parent</con:authProfile>
+      </con:entry>
+    </con:environmentSpec>
+  </con:method>
+  <con:environmentSpec>
+    <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:resource>
