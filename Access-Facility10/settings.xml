@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <con:testSuite id="2d6a0cfc-6374-42c9-97ef-a3a1ef991b0e" name="Access Facility" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="2d6a0cfc-6374-42c9-97ef-a3a1ef991b0efileName">Access-Facility</con:setting>
+    <con:setting id="2d6a0cfc-6374-42c9-97ef-a3a1ef991b0efileName">Access-Facility10</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
   <con:runType>SEQUENTIAL</con:runType>

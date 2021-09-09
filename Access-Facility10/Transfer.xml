@@ -143,6 +143,7 @@ return resultFolder</script>
       <con:property>TransferAmount</con:property>
       <con:property>StatementDescription</con:property>
       <con:property>SourceSystemIdentifier</con:property>
+      <con:property>RepaymentTerm</con:property>
       <con:property>ExpectedHTTPStatusCode</con:property>
       <con:restartOnRun>true</con:restartOnRun>
     </con:config>
@@ -635,71 +636,71 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>approvedDate</con:name>
-          <con:value>2020-09-04</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>availableLimit</con:name>
-          <con:value>200000.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>interestRateYearly</con:name>
-          <con:value>17.5</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>accountBalance</con:name>
-          <con:value>188942.55</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>availableToTransfer</con:name>
-          <con:value>11057.45</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>remainingTerm</con:name>
-          <con:value>42</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>nextInstalmentDue</con:name>
-          <con:value>6697.47</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>nextInstalmentDate</con:name>
-          <con:value>2021-09-27</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>autoLimitIncrease</con:name>
-          <con:value>Y</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>monthlyServiceFee</con:name>
-          <con:value>69.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>minimumTerm</con:name>
-          <con:value>1</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>maximumTerm</con:name>
-          <con:value>42</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>maximumRepayment</con:name>
-          <con:value>14032.14</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>termBasis</con:name>
-          <con:value>MONTHLY</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>lastArrearsDate</con:name>
-          <con:value>0001-01-01</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>decemberArrears</con:name>
-          <con:value>0.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>totalArrearsPayable</con:name>
-          <con:value>0.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>productInsurance</con:name>
@@ -707,111 +708,111 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>insuranceExpiry</con:name>
-          <con:value>2020-12-03</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>insuranceDeathRate</con:name>
-          <con:value>1.02</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>insuranceDisabilityRate</con:name>
-          <con:value>0.11</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>insuranceRetrenchmentRate</con:name>
-          <con:value>3.37</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>insuranceOption</con:name>
-          <con:value>CAPITEC_BANK_CREDIT_INSURANCE</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>clientName</con:name>
-          <con:value>MISS LIZL JOSEPH                             LR</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>fixedInitiationFee</con:name>
-          <con:value>300.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>interestRateMargin</con:name>
-          <con:value>10.5</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>maxInitiationFee</con:name>
-          <con:value>300.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>interestRateType</con:name>
-          <con:value>V</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>initiationFee1</con:name>
-          <con:value>0.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>initiationFee2</con:name>
-          <con:value>0.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>cummulativeTransferTotal</con:name>
-          <con:value>220879.01</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>nonUsageServiceFee</con:name>
-          <con:value>0.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>initiationFeeBracketAmt</con:name>
-          <con:value>0.0</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>riskCategory</con:name>
-          <con:value>C</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>minimumTransferAmount</con:name>
-          <con:value>0.01</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>contractedCapital</con:name>
-          <con:value>188942.55</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>contractedTerm</con:name>
-          <con:value>42</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>contractCapitalDate</con:name>
-          <con:value>2021-09-08</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>collectionDate</con:name>
-          <con:value>2021-09-27</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>contractedRepayment</con:name>
-          <con:value>6662.83</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>suspensiveCondition</con:name>
-          <con:value>N</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>ccsStatus</con:name>
-          <con:value>N</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>deActiveDate</con:name>
-          <con:value>0001-01-01</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>suspensiveDate</con:name>
-          <con:value>0001-01-01</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>loanStop</con:name>
-          <con:value>N</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>clientUnderAdminstration</con:name>
@@ -819,11 +820,11 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>afInArrears</con:name>
-          <con:value>N</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>unEmployed</con:name>
-          <con:value>N</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>debtRestructuring</con:name>
@@ -831,7 +832,7 @@ testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("addDu
         </con:property>
         <con:property>
           <con:name>otherAccountInArrears</con:name>
-          <con:value>N</con:value>
+          <con:value/>
         </con:property>
         <con:property>
           <con:name>addDuesDate</con:name>
@@ -929,6 +930,25 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Groovy Script" id="865d3102-663f-4acf-ba7a-3aa0b7b6b522">
+    <con:settings/>
+    <con:config>
+      <script>def responseTerm60 = context.expand( '${Repayment(Transfer)#Response#$[\'repaymentOptions\'][0][\'month\']}' )
+def responseTerm48 = context.expand( '${Repayment(Transfer)#Response#$[\'repaymentOptions\'][12][\'month\']}' )
+
+def response = context.expand( '${Repayment(Transfer)#Response#$[\'repaymentOptions\']}' )
+log.info response
+
+//Loop through repayment options until repaymentTerm from datasource is found
+def repaymentTerm = context.expand( '${DataSource#RepaymentTerm}' )
+def response1 = context.expand( '${Repayment(Transfer)#Response#$[\'repaymentOptions\'][x]}' )
+log.info response1
+
+if (repaymentTerm == responseTerm){
+	
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Repayment(Transfer)RawRequest" id="3edb3f79-5d74-4a14-82e2-3d1bed01ceca">
@@ -2914,7 +2934,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="49ebc529-63bc-4ca9-9809-ad1ccde06ad0">
+  <con:testStep type="groovy" name="SinkDataFromAccountBefore" id="49ebc529-63bc-4ca9-9809-ad1ccde06ad0" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -2925,7 +2945,7 @@ def fromAccount = context.expand( '${PaymentPlan#Response#$[\'accountNumber\']}'
 def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ConnectionString" id="8bd66088-c5f8-4a86-8187-1447b0fb03a3">
+  <con:testStep type="datasource" name="ConnectionString" id="8bd66088-c5f8-4a86-8187-1447b0fb03a3" disabled="true">
     <con:settings>
       <con:setting id="com.eviware.soapui.impl.wsdl.teststeps.datasource.DataSourceContainer@prepared-properties">&lt;xml-fragment/></con:setting>
     </con:settings>
@@ -2946,7 +2966,7 @@ def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
       <con:restartOnRun>true</con:restartOnRun>
     </con:config>
   </con:testStep>
-  <con:testStep type="jdbc" name="SQLQueryBefore" id="b1c3fdfa-2053-441b-9d3d-c641dc0f1ced">
+  <con:testStep type="jdbc" name="SQLQueryBefore" id="b1c3fdfa-2053-441b-9d3d-c641dc0f1ced" disabled="true">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -3363,7 +3383,7 @@ for (int i=0; i&lt; n; i=i+1){
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="623c073f-894e-42f3-aa84-bf776ca35ccd">
+  <con:testStep type="groovy" name="SinkDataFromAccountAfter" id="623c073f-894e-42f3-aa84-bf776ca35ccd" disabled="true">
     <con:settings/>
     <con:config>
       <script>import com.eviware.soapui.support.JsonUtil
@@ -3374,7 +3394,7 @@ def fromAccount = context.expand( '${Transfer#Response#$[\'fromAccount\']}' )
 def accessFacility = fromAccount.substring(0, fromAccount.length() - 1)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="jdbc" name="SQLQueryAfter" id="8b5c0387-91af-4edc-be98-4154c82fae3c">
+  <con:testStep type="jdbc" name="SQLQueryAfter" id="8b5c0387-91af-4edc-be98-4154c82fae3c" disabled="true">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -3492,7 +3512,7 @@ testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVACCT(Afte
 testRunner.testCase.testSteps["SaveSQLDataAfter"].setPropertyValue("SAVBAL(AfterTransfer)", SAVBAL.toString())</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasink" name="SaveSQLDataAfter" id="223ca7f8-f8c1-4af5-a790-a99347921540">
+  <con:testStep type="datasink" name="SaveSQLDataAfter" id="223ca7f8-f8c1-4af5-a790-a99347921540" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSink type="Excel">
@@ -3839,7 +3859,7 @@ if(savbalBefore.equals(savbalAfter)) {
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasourceloop" name="DataSource Loop" id="5e16b948-0e1d-4252-b0ba-45b74159e5da">
+  <con:testStep type="datasourceloop" name="DataSource Loop" id="5e16b948-0e1d-4252-b0ba-45b74159e5da" disabled="true">
     <con:settings/>
     <con:config>
       <dataSourceStep>DataSource</dataSourceStep>
@@ -3858,11 +3878,15 @@ if(savbalBefore.equals(savbalAfter)) {
     </con:property>
     <con:property>
       <con:name>tsMin</con:name>
-      <con:value>17-59-22</con:value>
+      <con:value>11-52-58</con:value>
     </con:property>
     <con:property>
       <con:name>tsDay</con:name>
-      <con:value>08-09-2021</con:value>
+      <con:value>09-09-2021</con:value>
+    </con:property>
+    <con:property>
+      <con:name>accountNumber</con:name>
+      <con:value/>
     </con:property>
   </con:properties>
   <con:reportParameters/>
@@ -4088,6 +4112,11 @@ if(savbalBefore.equals(savbalAfter)) {
   </con:breakPoints>
   <con:breakPoints>
     <con:testStepId>ad1b275d-da23-4ce0-9672-ba351ea24a99</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>865d3102-663f-4acf-ba7a-3aa0b7b6b522</con:testStepId>
     <con:status>NONE</con:status>
     <con:properties/>
   </con:breakPoints>
