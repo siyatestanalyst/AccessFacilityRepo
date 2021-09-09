@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="AutoIncreaseLimit" path="/access-facility/autoIncreaseLimit" id="f45336c6-a224-4d8e-b362-6e0e3bd36476" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="f45336c6-a224-4d8e-b362-6e0e3bd36476fileName">AutoIncreaseLimit</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="AutoIncreaseLimit" id="20ef7e13-59ae-4c8b-a723-bb8cf47e5946" method="PUT">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="autoIncreaseLimit" id="78dc09c9-32e5-4167-9abb-6fbecb2f3d21" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="Bearer access_token"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="APP"/>
+  &lt;con:entry key="Content-Type" value="application/json"/>
+&lt;/xml-fragment></con:setting>
+      </con:settings>
+      <con:endpoint>https://onramp-dev.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+      <con:request>{
+  "accountNumber": "1680807283",
+  "autoLimitIncrease": false
+}</con:request>
+      <con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>
