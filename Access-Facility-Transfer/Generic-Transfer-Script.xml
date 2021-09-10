@@ -57,7 +57,7 @@ testRunner.testCase.setPropertyValue( "URLEncoded", URLEncoded )</script>
   </con:testStep>
   <con:testStep type="restrequest" name="Token" id="46226d97-5aae-443b-ab8f-41d94593c785">
     <con:settings/>
-    <con:config service="AccessToken" resourcePath="/token" methodName="Token" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="https://idp-non-prod.int.capinet" resourcePath="/token" methodName="Token" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Token" id="3fff67e7-5a37-44b8-8893-cbce56d10cf0" mediaType="Form URL Encoded" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/x-www-form-urlencoded" xmlns="http://eviware.com/soapui/config"/></con:setting>
@@ -146,7 +146,7 @@ return 'Bearer ' + token</script>
   </con:testStep>
   <con:testStep type="restrequest" name="ProductInfo" id="cac8b07d-2ea3-49f9-a1b1-d77192b62600">
     <con:settings/>
-    <con:config service="Access Facility" resourcePath="/access-facility/productInfo" methodName="ProductInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/productInfo" methodName="ProductInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="ProductInfo" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="sourceSystemIdentifier" value="USSD" xmlns="http://eviware.com/soapui/config"/></con:setting>
@@ -829,7 +829,7 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
   </con:testStep>
   <con:testStep type="restrequest" name="Repayment(Transfer)" id="9876c44d-d080-4996-a817-f354ee2d0e31">
     <con:settings/>
-    <con:config service="Access Facility" resourcePath="/access-facility/repayment" methodName="Repayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/repayment" methodName="Repayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Repayment(Transfer)" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -2204,7 +2204,7 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
   </con:testStep>
   <con:testStep type="restrequest" name="PaymentPlan" id="dd5e526e-07a1-43d7-bac0-e54e0431ea85">
     <con:settings/>
-    <con:config service="Access Facility" resourcePath="/access-facility/transfer/paymentplan" methodName="PaymentPlan" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/transfer/paymentplan" methodName="PaymentPlan" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="PaymentPlan" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -2494,7 +2494,7 @@ for (int i=0; i&lt; n; i=i+1){
   </con:testStep>
   <con:testStep type="restrequest" name="Operations(Transfer)" id="33f2bfd9-a510-4bf1-8950-c2945dd433e1">
     <con:settings/>
-    <con:config service="Access Facility" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Operations(Transfer)" id="4da46116-2d86-4ebf-9368-58f74d8456fd" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
@@ -3022,7 +3022,7 @@ testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</scri
   </con:testStep>
   <con:testStep type="restrequest" name="Transfer" id="5b0ad71d-4eb6-4137-8a9a-09a469dff4c4">
     <con:settings/>
-    <con:config service="Access Facility" resourcePath="/access-facility/transfer" methodName="Transfer" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/transfer" methodName="Transfer" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="Transfer" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">

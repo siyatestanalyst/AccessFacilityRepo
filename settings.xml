@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="1823a8e5-0fa1-410d-8ccf-add902c8ad43" created="2.8.2" activeEnvironment="DEV" name="New Credit Product Service" resourceRoot="" updated="3.4.0" encryptionMode="Not encrypted" savePropertyValues="true" disableCarriageReturnEscaping="false" scriptLibrary="" defaultScriptLanguage="Groovy" abortOnError="false" runType="SEQUENTIAL" soapui-version="5.5.0" compositeProjectFormat="1.3" xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project id="1823a8e5-0fa1-410d-8ccf-add902c8ad43" created="2.8.2" activeEnvironment="INT" name="New Credit Product Service" resourceRoot="" updated="3.4.0" encryptionMode="Not encrypted" savePropertyValues="true" disableCarriageReturnEscaping="false" scriptLibrary="" defaultScriptLanguage="Groovy" abortOnError="false" runType="SEQUENTIAL" soapui-version="5.5.0" compositeProjectFormat="1.3" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="1823a8e5-0fa1-410d-8ccf-add902c8ad43fileName">New-Credit-Product-Service-readyapi-project</con:setting>
+    <con:setting id="1823a8e5-0fa1-410d-8ccf-add902c8ad43fileName">New-Credit-Product-Service</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
   <con:requirements/>
@@ -113,6 +113,7 @@
       <con:accessTokenStartingStatus>ENTERED_MANUALLY</con:accessTokenStartingStatus>
     </con:oAuth1Profile>
   </con:oAuth1ProfileContainer>
+  <con:reporting/>
   <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
     <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
 // This code is often used for adding custom authentication to SoapUI Pro tests
@@ -143,16 +144,16 @@
 // fos.close()</con:script>
   </con:eventHandlers>
   <con:environment id="d762859b-28b7-4b5a-be3e-b89bb67042dc" name="DEV">
-    <con:service type="REST" name="AccessToken">
+    <con:service type="REST" name="https://idp-non-prod.int.capinet">
       <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="">https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect</con:endpoint>
     </con:service>
-    <con:service type="REST" name="Access Facility">
+    <con:service type="REST" name="https://onramp-int.int.capinet">
       <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">https://onramp-dev.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
     </con:service>
     <con:service type="REST" name="https://creditproductservice-v1-dev.int.capinet 2">
       <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword=""/>
     </con:service>
-    <con:service type="REST" name="Access Facility">
+    <con:service type="REST" name="https://onramp-int.int.capinet">
       <con:endpoint authProfile="No Authorization" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="">https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/</con:endpoint>
     </con:service>
     <con:property>
@@ -167,16 +168,16 @@
     <con:jmsConnectionContainer/>
   </con:environment>
   <con:environment id="c6d10c3f-13fd-496d-a352-d5e1b3ffb3e4" name="INT">
-    <con:service type="REST" name="AccessToken">
+    <con:service type="REST" name="https://idp-non-prod.int.capinet">
       <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://idp-non-prod.int.capinet/auth/realms/INT/protocol/openid-connect</con:endpoint>
     </con:service>
-    <con:service type="REST" name="Access Facility">
+    <con:service type="REST" name="https://onramp-int.int.capinet">
       <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://onramp-int.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
     </con:service>
     <con:service type="REST" name="https://creditproductservice-v1-dev.int.capinet 2">
       <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword=""/>
     </con:service>
-    <con:service type="REST" name="Access Facility">
+    <con:service type="REST" name="https://onramp-int.int.capinet">
       <con:endpoint authProfile="No Authorization" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="">https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/</con:endpoint>
     </con:service>
     <con:property>
@@ -191,10 +192,10 @@
     <con:jmsConnectionContainer/>
   </con:environment>
   <con:environment id="89bfff1c-d314-464e-8dc2-7c368a0011af" name="QA">
-    <con:service type="REST" name="AccessToken">
+    <con:service type="REST" name="https://idp-non-prod.int.capinet">
       <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://idp-non-prod.int.capinet/auth/realms/QA/protocol/openid-connect</con:endpoint>
     </con:service>
-    <con:service type="REST" name="Access Facility">
+    <con:service type="REST" name="https://onramp-int.int.capinet">
       <con:endpoint authProfile="No Authorization" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://onramp-qa.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
     </con:service>
     <con:property>
