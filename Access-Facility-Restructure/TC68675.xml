@@ -1,0 +1,2822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="572a08d4-cfc9-4744-b2f5-1117d9ceb266" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="TC68675" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" zephyrTestName="" zephyrTestId="" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:description>Test Case Name:
+Restructure on AF with existing balance.
+
+Description:
+Perform a restructure on AF account with a existing balance.
+
+Expected Result:
+If 3 months has passed the client can only qualify for the max term that he qualified for minus 3 
+Balance - Remains the same
+Repay amount - New repay amount that was selected
+Theoretical balance - Remains the same
+Arrears/AdvanceArrears accruel - None
+Service fee R35
+Interest rate 20%
+Remaining repays - New term that was selected
+Term - New term that was selected
+CBCIPayment plan - New term and instalment that was selected
+Contracted term - New term that was selected 
+Contracted repayment - New repay amount that was selected 
+Contracted capital- Remains the same</con:description>
+  <con:settings>
+    <con:setting id="572a08d4-cfc9-4744-b2f5-1117d9ceb266fileName">TC68675</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="datasource" name="UsernamePasswordDataSource" id="609293ac-6128-4f74-8847-d83c6936a49c">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/UsernamePassword.xlsx</file>
+          <worksheet>Sheet1</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>false</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>grant_type</con:property>
+      <con:property>username</con:property>
+      <con:property>password</con:property>
+      <con:startRow/>
+      <con:endRow/>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:failOnEmpty>true</con:failOnEmpty>
+      <con:trimValues>true</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="UsernamePassword" id="d71b2c8b-56a7-4c2b-9cbd-9a8461edf125">
+    <con:settings/>
+    <con:config>
+      <script>//Get URL Encoded
+def grant_type = context.expand( '${UsernamePasswordDataSource#grant_type}' )
+def username = context.expand( '${UsernamePasswordDataSource#username}' )
+def password = context.expand( '${UsernamePasswordDataSource#password}' )
+
+//Build URLEncoded
+//grant_type=password&amp;username=CP343094&amp;password=Vadyca!22
+def URLEncoded = ('grant_type='+grant_type+'&amp;username='+username+'&amp;password='+password)
+log.info(URLEncoded)
+//Create variable 
+testRunner.testCase.setPropertyValue( "URLEncoded", URLEncoded )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Token" id="00e133d1-6b27-4764-a0e1-722ccd61e4a4">
+    <con:settings/>
+    <con:config service="https://idp-non-prod.int.capinet" resourcePath="/token" methodName="Token" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Token" id="3fff67e7-5a37-44b8-8893-cbce56d10cf0" mediaType="Form URL Encoded" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/x-www-form-urlencoded" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect</con:endpoint>
+        <con:request>${#TestCase#URLEncoded}</con:request>
+        <con:originalUri>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="bc731ccc-e45b-4121-969b-7b4dde6be7e9" name="Check for existence of [access_token]">
+          <con:configuration>
+            <path>$['access_token']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:username>Platform-DEV</con:username>
+          <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+          <con:selectedAuthProfile>Basic</con:selectedAuthProfile>
+          <con:preemptive>true</con:preemptive>
+          <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
+          <con:authType>Preemptive</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:parameterOrder/>
+        <con:environmentSpec>
+          <con:entry environmentId="d762859b-28b7-4b5a-be3e-b89bb67042dc">
+            <con:authProfile>Basic</con:authProfile>
+            <con:username>Platform-DEV</con:username>
+            <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+            <con:preemptive>true</con:preemptive>
+          </con:entry>
+          <con:entry environmentId="c6d10c3f-13fd-496d-a352-d5e1b3ffb3e4">
+            <con:authProfile>Basic</con:authProfile>
+            <con:username>Platform-INT</con:username>
+            <con:password>3a6198ea-eed5-43b2-bee2-a5a4895096ec</con:password>
+            <con:preemptive>true</con:preemptive>
+          </con:entry>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>Basic</con:authProfile>
+            <con:username>Platform-DEV</con:username>
+            <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+            <con:preemptive>true</con:preemptive>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="TransferToken" id="6c170d66-e64e-4ecb-a1ea-6e5294695fa7">
+    <con:settings/>
+    <con:config>
+      <script>//Get token value
+def token = context.expand( '${Token#Response#$[\'access_token\']}' )
+return 'Bearer ' + token</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasource" name="DataSource" id="91ef5405-86b4-4473-b75c-3aa1f0100429">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/RestructureAF/1.ProductInfo.xlsx</file>
+          <worksheet>Sheet1</worksheet>
+          <cell>E1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>customerNumber</con:property>
+      <con:property>transferAmount</con:property>
+      <con:property>statementDescription</con:property>
+      <con:property>paymentOptions</con:property>
+      <con:startRow>1</con:startRow>
+      <con:endRow>1</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="ProductInfo" id="09f1dbeb-b2a4-49be-93aa-0298f202da12">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/productInfo" methodName="ProductInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="ProductInfo" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="sourceSystemIdentifier" value="USSD" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="discardResponse">false</con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>{\r
+   "accountNumber" : "",\r
+   "transferAmount" : ""\r
+}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="d66da373-023f-449b-9b61-b19efb12c2a6" name="Check for existence of [accountNumber]">
+          <con:configuration>
+            <path>$['accountNumber']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d0be1a4b-0752-4283-bda3-0d44f9b5abf1" name="Check for existence of [approvedDate]">
+          <con:configuration>
+            <path>$['approvedDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0bac3ac3-d10d-4de9-a097-ff9ed9dfef04" name="Check for existence of [availableLimit]">
+          <con:configuration>
+            <path>$['availableLimit']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="97955657-c446-4947-8a76-9dff6086aba5" name="Check for existence of [interestRateYearly]">
+          <con:configuration>
+            <path>$['interestRateYearly']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="2b469790-cc56-4d0e-8974-f02d9bf9cc47" name="Check for existence of [accountBalance]">
+          <con:configuration>
+            <path>$['accountBalance']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="17f0f37d-5a69-44c9-ad1c-8e809851ef11" name="Check for existence of [availableToTransfer]">
+          <con:configuration>
+            <path>$['availableToTransfer']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b1695fd5-c56f-41b2-b68b-5077e9bce9ad" name="Check for existence of [remainingTerm]">
+          <con:configuration>
+            <path>$['remainingTerm']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="4307ab89-cf5a-4a71-b9a5-826e24002bc6" name="Check for existence of [nextInstalmentDue]">
+          <con:configuration>
+            <path>$['nextInstalmentDue']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="f253700a-0421-4e34-b412-0d4bb773b308" name="Check for existence of [nextInstalmentDate]">
+          <con:configuration>
+            <path>$['nextInstalmentDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0751e283-a671-4474-a8a7-c2a646bd6631" name="Check for existence of [autoLimitIncrease]">
+          <con:configuration>
+            <path>$['autoLimitIncrease']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="383e0422-831b-482f-ba11-b24dc6c0bc56" name="Check for existence of [monthlyServiceFee]">
+          <con:configuration>
+            <path>$['monthlyServiceFee']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="737626d8-ec94-49ac-8340-621b714ba2fb" name="Check for existence of [minimumTerm]">
+          <con:configuration>
+            <path>$['minimumTerm']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="3284d06a-3ee9-49bc-8bf9-6771dc5f3fa8" name="Check for existence of [maximumTerm]">
+          <con:configuration>
+            <path>$['maximumTerm']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="ab1984d2-611f-4f8b-8b3f-4fc6dfd60e81" name="Check for existence of [minimumTransferAmount]">
+          <con:configuration>
+            <path>$['minimumTransferAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="40715926-3258-4a50-9b54-d628c4877084" name="Check for existence of [maximumRepayment]">
+          <con:configuration>
+            <path>$['maximumRepayment']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="20ee2386-3fe6-4085-b00b-e7f1571bfbd4" name="Check for existence of [termBasis]">
+          <con:configuration>
+            <path>$['termBasis']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="cb110b71-60e9-46e8-be24-3e1b235f5e92" name="Check for existence of [lastArrearsDate]">
+          <con:configuration>
+            <path>$['lastArrearsDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="dee5ccc1-0129-4fec-80af-e3b707c222d3" name="Check for existence of [decemberArrears]">
+          <con:configuration>
+            <path>$['decemberArrears']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="88740023-2d4c-4d9a-9e32-860b4e88afdf" name="Check for existence of [totalArrearsPayable]">
+          <con:configuration>
+            <path>$['totalArrearsPayable']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="9e16e8a5-4c42-4a40-abd8-2c2160e133f0" name="Check for existence of [productInsurance]">
+          <con:configuration>
+            <path>$['productInsurance']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="Authorization" value="${TransferToken#result}"/>
+          <con:entry key="customerNumber" value="${DataSource#customerNumber}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>customerNumber</con:entry>
+          <con:entry>Authorization</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="ProductInfoSinkData" id="45e49092-ea60-4330-ac25-4a4cbfc2339a">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("ProductInfoSaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//accountNumber
+def accountNumber = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("accountNumber", accountNumber.toString()) 
+
+//approvedDate
+def approvedDate = context.expand( '${ProductInfo#Response#$[\'approvedDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("approvedDate", approvedDate.toString())
+
+//availableLimit
+def availableLimit = context.expand( '${ProductInfo#Response#$[\'availableLimit\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("availableLimit", availableLimit.toString())
+
+//interestRateYearly
+def interestRateYearly = context.expand( '${ProductInfo#Response#$[\'interestRateYearly\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("interestRateYearly", interestRateYearly.toString())
+
+//accountBalance
+def accountBalance = context.expand( '${ProductInfo#Response#$[\'accountBalance\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("accountBalance", accountBalance.toString())
+
+//availableToTransfer
+def availableToTransfer = context.expand( '${ProductInfo#Response#$[\'availableToTransfer\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("availableToTransfer", availableToTransfer.toString())
+
+//remainingTerm
+def remainingTerm = context.expand( '${ProductInfo#Response#$[\'remainingTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("remainingTerm", remainingTerm.toString())
+
+//nextInstalmentDue
+def nextInstalmentDue = context.expand( '${ProductInfo#Response#$[\'nextInstalmentDue\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("nextInstalmentDue", nextInstalmentDue.toString())
+
+//nextInstalmentDate
+def nextInstalmentDate = context.expand( '${ProductInfo#Response#$[\'nextInstalmentDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("nextInstalmentDate", nextInstalmentDate.toString())
+
+//autoLimitIncrease
+def autoLimitIncrease = context.expand( '${ProductInfo#Response#$[\'autoLimitIncrease\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("autoLimitIncrease", autoLimitIncrease.toString())
+
+//monthlyServiceFee
+def monthlyServiceFee = context.expand( '${ProductInfo#Response#$[\'monthlyServiceFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("monthlyServiceFee", monthlyServiceFee.toString())
+
+//minimumTerm
+def minimumTerm = context.expand( '${ProductInfo#Response#$[\'minimumTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("minimumTerm", minimumTerm.toString())
+
+//maximumTerm
+def maximumTerm = context.expand( '${ProductInfo#Response#$[\'maximumTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("maximumTerm", maximumTerm.toString())
+
+//maximumRepayment
+def maximumRepayment = context.expand( '${ProductInfo#Response#$[\'maximumRepayment\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("maximumRepayment", maximumRepayment.toString())
+
+//termBasis
+def termBasis = context.expand( '${ProductInfo#Response#$[\'termBasis\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("termBasis", termBasis.toString())
+
+//lastArrearsDate
+def lastArrearsDate = context.expand( '${ProductInfo#Response#$[\'lastArrearsDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("lastArrearsDate", lastArrearsDate.toString())
+
+//decemberArrears
+def decemberArrears = context.expand( '${ProductInfo#Response#$[\'decemberArrears\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("decemberArrears", decemberArrears.toString())
+
+//totalArrearsPayable
+def totalArrearsPayable = context.expand( '${ProductInfo#Response#$[\'totalArrearsPayable\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("totalArrearsPayable", totalArrearsPayable.toString())
+
+//productInsurance
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("productInsurance", "-".toString())
+
+//insuranceExpiry
+def insuranceExpiry = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceExpiry\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceExpiry", insuranceExpiry.toString()) 
+
+//insuranceDeathRate
+def insuranceDeathRate = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceDeathRate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceDeathRate", insuranceDeathRate.toString()) 
+
+//insuranceDisabilityRate
+def insuranceDisabilityRate = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceDisabilityRate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceDisabilityRate", insuranceDisabilityRate.toString()) 
+
+//insuranceRetrenchmentRate
+def insuranceRetrenchmentRate = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceRetrenchmentRate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceRetrenchmentRate", insuranceRetrenchmentRate.toString()) 
+
+//insuranceOption
+def insuranceOption = context.expand( '${ProductInfo#Response#$[\'productInsurance\'][\'insuranceOption\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("insuranceOption", insuranceOption.toString())
+
+//clientName
+def clientName = context.expand( '${ProductInfo#Response#$[\'clientName\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("clientName", clientName.toString()) 
+
+//fixedIntiationFee
+def fixedInitiationFee = context.expand( '${ProductInfo#Response#$[\'fixedInitiationFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("fixedInitiationFee", fixedInitiationFee.toString()) 
+
+//interestRateMargin
+def interestRateMargin = context.expand( '${ProductInfo#Response#$[\'interestRateMargin\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("interestRateMargin", interestRateMargin.toString()) 
+
+//maxIntiationFee
+def maxInitiationFee = context.expand( '${ProductInfo#Response#$[\'maxInitiationFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("maxInitiationFee", maxInitiationFee.toString()) 
+
+//interestRateType
+def interestRateType = context.expand( '${ProductInfo#Response#$[\'interestRateType\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("interestRateType", interestRateType.toString()) 
+
+//initiationFee1
+def initiationFee1 = context.expand( '${ProductInfo#Response#$[\'initiationFee1\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("initiationFee1", initiationFee1.toString()) 
+
+//initiationFee2
+def initiationFee2 = context.expand( '${ProductInfo#Response#$[\'initiationFee2\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("initiationFee2", initiationFee2.toString()) 
+
+//cummulativeTransferTotal
+def cummulativeTransferTotal = context.expand( '${ProductInfo#Response#$[\'cummulativeTransferTotal\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("cummulativeTransferTotal", cummulativeTransferTotal.toString()) 
+
+//nonUsageServiceFee
+def nonUsageServiceFee = context.expand( '${ProductInfo#Response#$[\'nonUsageServiceFee\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("nonUsageServiceFee", nonUsageServiceFee.toString()) 
+
+//initiationFeeBracketAmt
+def initiationFeeBracketAmt = context.expand( '${ProductInfo#Response#$[\'initiationFeeBracketAmt\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("initiationFeeBracketAmt", initiationFeeBracketAmt.toString()) 
+
+//riskCategory
+def riskCategory = context.expand( '${ProductInfo#Response#$[\'riskCategory\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("riskCategory", riskCategory.toString()) 
+
+//minimumTransferAmount
+def minimumTransferAmount = context.expand( '${ProductInfo#Response#$[\'minimumTransferAmount\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("minimumTransferAmount", minimumTransferAmount.toString()) 
+
+//contractedCapital
+def contractedCapital = context.expand( '${ProductInfo#Response#$[\'contractedCapital\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractedCapital", contractedCapital.toString()) 
+
+//contractedTerm
+def contractedTerm = context.expand( '${ProductInfo#Response#$[\'contractedTerm\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractedTerm", contractedTerm.toString()) 
+
+//contractCapitalDate
+def contractCapitalDate = context.expand( '${ProductInfo#Response#$[\'contractCapitalDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractCapitalDate", contractCapitalDate.toString()) 
+
+//collectionDate
+def collectionDate = context.expand( '${ProductInfo#Response#$[\'collectionDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("collectionDate", collectionDate.toString()) 
+
+//contractedRepayment
+def contractedRepayment = context.expand( '${ProductInfo#Response#$[\'contractedRepayment\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("contractedRepayment", contractedRepayment.toString()) 
+
+//suspensiveCondition
+def suspensiveCondition = context.expand( '${ProductInfo#Response#$[\'suspensiveCondition\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("suspensiveCondition", suspensiveCondition.toString()) 
+if(suspensiveCondition.equals("Y")) {
+	log.info "FAIL: Client has a suspensive condition."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client has a suspensive condition.")
+}
+
+//ccsStatus
+def ccsStatus = context.expand( '${ProductInfo#Response#$[\'ccsStatus\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("ccsStatus", ccsStatus.toString()) 
+
+//deActiveDate
+def deActiveDate = context.expand( '${ProductInfo#Response#$[\'deActiveDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("deActiveDate", deActiveDate.toString()) 
+
+//suspensiveDate
+def suspensiveDate = context.expand( '${ProductInfo#Response#$[\'suspensiveDate\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("suspensiveDate", suspensiveDate.toString()) 
+
+//loanStop
+def loanStop = context.expand( '${ProductInfo#Response#$[\'loanStop\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("loanStop", loanStop.toString()) 
+
+//clientUnderAdminstration
+def clientUnderAdminstration = context.expand( '${ProductInfo#Response#$[\'clientUnderAdminstration\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("clientUnderAdminstration", clientUnderAdminstration.toString()) 
+
+//afInArrears
+def afInArrears = context.expand( '${ProductInfo#Response#$[\'afInArrears\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("afInArrears", afInArrears.toString()) 
+
+//unEmployed
+def unEmployed = context.expand( '${ProductInfo#Response#$[\'unEmployed\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("unEmployed", unEmployed.toString()) 
+
+//debtRestructuring
+def debtRestructuring = context.expand( '${ProductInfo#Response#$[\'debtRestructuring\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("debtRestructuring", debtRestructuring.toString()) 
+
+//otherAccountInArrears
+def otherAccountInArrears = context.expand( '${ProductInfo#Response#$[\'otherAccountInArrears\']}' )
+testRunner.testCase.testSteps["ProductInfoSaveResponse"].setPropertyValue("otherAccountInArrears", otherAccountInArrears.toString())</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="ProductInfoSaveResponse" id="dd789427-f87c-4d12-b67f-a6cb644ccee5">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/RestructureAF/1.ProductInfoResults.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E2</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>accountNumber</con:name>
+          <con:value>1688852652</con:value>
+        </con:property>
+        <con:property>
+          <con:name>approvedDate</con:name>
+          <con:value>2020-04-16</con:value>
+        </con:property>
+        <con:property>
+          <con:name>availableLimit</con:name>
+          <con:value>80000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interestRateYearly</con:name>
+          <con:value>7.75</con:value>
+        </con:property>
+        <con:property>
+          <con:name>accountBalance</con:name>
+          <con:value>1500.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>availableToTransfer</con:name>
+          <con:value>78500.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>remainingTerm</con:name>
+          <con:value>48</con:value>
+        </con:property>
+        <con:property>
+          <con:name>nextInstalmentDue</con:name>
+          <con:value>65.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>nextInstalmentDate</con:name>
+          <con:value>2020-05-22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>autoLimitIncrease</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>monthlyServiceFee</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>minimumTerm</con:name>
+          <con:value>0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>maximumTerm</con:name>
+          <con:value>48</con:value>
+        </con:property>
+        <con:property>
+          <con:name>maximumRepayment</con:name>
+          <con:value>5000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>termBasis</con:name>
+          <con:value>MONTHLY</con:value>
+        </con:property>
+        <con:property>
+          <con:name>lastArrearsDate</con:name>
+          <con:value>0001-01-01</con:value>
+        </con:property>
+        <con:property>
+          <con:name>decemberArrears</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalArrearsPayable</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>productInsurance</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceExpiry</con:name>
+          <con:value>2020-07-15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceDeathRate</con:name>
+          <con:value>5.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceDisabilityRate</con:name>
+          <con:value>1.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceRetrenchmentRate</con:name>
+          <con:value>9.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>insuranceOption</con:name>
+          <con:value>CAPITEC_BANK_CREDIT_INSURANCE</con:value>
+        </con:property>
+        <con:property>
+          <con:name>clientName</con:name>
+          <con:value>MRS NYAMBENI NELWAMONDO                         NV</con:value>
+        </con:property>
+        <con:property>
+          <con:name>fixedInitiationFee</con:name>
+          <con:value>250.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interestRateMargin</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>maxInitiationFee</con:name>
+          <con:value>250.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interestRateType</con:name>
+          <con:value>v</con:value>
+        </con:property>
+        <con:property>
+          <con:name>initiationFee1</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>initiationFee2</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>cummulativeTransferTotal</con:name>
+          <con:value>3000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>nonUsageServiceFee</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>initiationFeeBracketAmt</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>riskCategory</con:name>
+          <con:value>0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>minimumTransferAmount</con:name>
+          <con:value>1.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractedCapital</con:name>
+          <con:value>1500.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractedTerm</con:name>
+          <con:value>47</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractCapitalDate</con:name>
+          <con:value>2020-04-16</con:value>
+        </con:property>
+        <con:property>
+          <con:name>collectionDate</con:name>
+          <con:value>2020-05-22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>contractedRepayment</con:name>
+          <con:value>49.92</con:value>
+        </con:property>
+        <con:property>
+          <con:name>suspensiveCondition</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>ccsStatus</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>deActiveDate</con:name>
+          <con:value>0001-01-01</con:value>
+        </con:property>
+        <con:property>
+          <con:name>suspensiveDate</con:name>
+          <con:value>0001-01-01</con:value>
+        </con:property>
+        <con:property>
+          <con:name>loanStop</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>clientUnderAdminstration</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>afInArrears</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>unEmployed</con:name>
+          <con:value>N</con:value>
+        </con:property>
+        <con:property>
+          <con:name>debtRestructuring</con:name>
+          <con:value/>
+        </con:property>
+        <con:property>
+          <con:name>otherAccountInArrears</con:name>
+          <con:value>Y</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Operations(Payment)" id="bf8fd153-a5df-4f04-a688-7bf4a53ba7ef">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/operations" methodName="Operations" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Operations(Payment)" id="4da46116-2d86-4ebf-9368-58f74d8456fd" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>{\r
+   "accountNumber" : "",\r
+   "transferAmount" : ""\r
+}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="d69098ec-8b92-43ce-a428-e44332a32664" name="Check for existence of [loanBalance]">
+          <con:configuration>
+            <path>$['loanBalance']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="fc03a275-5768-4ebe-bf82-45aec7cb1256" name="Check for existence of [originalLimit]">
+          <con:configuration>
+            <path>$['originalLimit']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d9b196bd-eae4-4059-a588-83cb8f6f1c68" name="Check for existence of [currentInstalmentDue]">
+          <con:configuration>
+            <path>$['currentInstalmentDue']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b05264b4-9b2c-4ce0-ad9d-e5151d59a41f" name="Check for existence of [currentInstalmentDate]">
+          <con:configuration>
+            <path>$['currentInstalmentDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="8415f4d5-c9e5-43e3-9aba-924c15d55297" name="Check for existence of [currentNoOfInstalment]">
+          <con:configuration>
+            <path>$['currentNoOfInstalment']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="b80121fb-7712-4386-9afc-0a3d3d08a431" name="Check for existence of [followingInstalmentDue]">
+          <con:configuration>
+            <path>$['followingInstalmentDue']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="eaab4e05-7159-476f-b854-dea4dc41209f" name="Check for existence of [followingInstalmentDate]">
+          <con:configuration>
+            <path>$['followingInstalmentDate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="48911d9b-4d80-4953-b700-a5391c3d59d2" name="Check for existence of [followingNoOfInstalment]">
+          <con:configuration>
+            <path>$['followingNoOfInstalment']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="c647bbd7-089d-489c-82cb-4688295d2ba2" name="Check for existence of [operatableAccount]">
+          <con:configuration>
+            <path>$['operatableAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="operationIdentifier" value="payment"/>
+          <con:entry key="accountNumber" value="${ProductInfo#Response#$['accountNumber']}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>accountNumber</con:entry>
+          <con:entry>operationIdentifier</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Operations(Payment)SinkData" id="438016ba-1e36-4d7c-93db-8aaaef1f8d0f">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("Operations(Payment)SaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//loanBalance
+def loanBalance = context.expand( '${Operations(Payment)#Response#$[\'loanBalance\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("loanBalance", loanBalance.toString()) 
+
+//originalLimit
+def originalLimit = context.expand( '${Operations(Payment)#Response#$[\'originalLimit\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("originalLimit", originalLimit.toString())
+
+//currentInstalmentDue
+def currentInstalmentDue = context.expand( '${Operations(Payment)#Response#$[\'currentInstalmentDue\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("currentInstalmentDue", currentInstalmentDue.toString())
+
+//currentInstalmentDate
+def currentInstalmentDate = context.expand( '${Operations(Payment)#Response#$[\'currentInstalmentDate\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("currentInstalmentDate", currentInstalmentDate.toString())
+
+//currentNoOfInstalment
+def currentNoOfInstalment = context.expand( '${Operations(Payment)#Response#$[\'currentNoOfInstalment\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("currentNoOfInstalment", currentNoOfInstalment.toString())
+
+//followingInstalmentDue
+def followingInstalmentDue = context.expand( '${Operations(Payment)#Response#$[\'followingInstalmentDue\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("followingInstalmentDue", followingInstalmentDue.toString())
+
+//followingInstalmentDate
+def followingInstalmentDate = context.expand( '${Operations(Payment)#Response#$[\'followingInstalmentDate\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("followingInstalmentDate", followingInstalmentDate.toString())
+
+//followingNoOfInstalment
+def followingNoOfInstalment = context.expand( '${Operations(Payment)#Response#$[\'followingNoOfInstalment\']}' )
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("followingNoOfInstalment", followingNoOfInstalment.toString())
+
+//operatableAccount
+testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("operatableAccount", "-".toString()) 
+def Records = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\']}' )
+//Records is now a string of all your items in the array
+def RecordsArray = JsonUtil.parseTrimmedText(Records );
+//Convereted back to an arry
+def n = RecordsArray.size()
+//Count how many records items  there are in the array
+for (int i=0; i&lt; n; i=i+1){
+	//Create a for loop to go through all the elements of the array
+	def accountName = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\']['+i+'][\'accountName\']}' )
+	def accountNumber = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\']['+i+'][\'accountNumber\']}' )
+	//Log accountName
+	testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("accountName"+i, accountName.toString()) 
+	//Log accountNumber
+	testRunner.testCase.testSteps["Operations(Payment)SaveResponse"].setPropertyValue("accountNumber"+i, accountNumber.toString()) 
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="Operations(Payment)SaveResponse" id="0412ad2e-58ed-405c-b129-858948642acd">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/RestructureAF/2.Operations(Payment)Results.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E2</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>loanBalance</con:name>
+          <con:value>1500.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>originalLimit</con:name>
+          <con:value>80000.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>currentInstalmentDue</con:name>
+          <con:value>65.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>currentInstalmentDate</con:name>
+          <con:value>2020-05-22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>currentNoOfInstalment</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>followingInstalmentDue</con:name>
+          <con:value>49.92</con:value>
+        </con:property>
+        <con:property>
+          <con:name>followingInstalmentDate</con:name>
+          <con:value>2020-06-22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>followingNoOfInstalment</con:name>
+          <con:value>47</con:value>
+        </con:property>
+        <con:property>
+          <con:name>operatableAccount</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>accountName0</con:name>
+          <con:value>SAVINGS ACCOUNT</con:value>
+        </con:property>
+        <con:property>
+          <con:name>accountNumber0</con:name>
+          <con:value>1328799288</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="RepaymentInfoData" id="38375e6f-d052-4bbf-82fb-f08b13e992b4">
+    <con:settings/>
+    <con:config>
+      <script>//Get data values
+def toAccount = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+def fromAccount = context.expand( '${Operations(Payment)#Response#$[\'operatableAccount\'][0][\'accountNumber\']}' )
+def transferAmount = context.expand( '${ProductInfo#Response#$[\'minimumTransferAmount\']}' )
+if (transferAmount &lt; "1") {
+	transferAmount = context.expand( '${DataSource#transferAmount}' );	
+}
+def paymentOptions = context.expand( '${DataSource#paymentOptions}' )
+
+//Build JSON message
+def jsonMessage = '{"fromAccount": "'+fromAccount+'","toAccount": "'+toAccount+'","transferAmount": "'+transferAmount+'","paymentOptions": "'+paymentOptions+'" }'
+
+log.info(jsonMessage)
+//Create variable 
+testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RepaymentInfo" id="0c53670c-09eb-4791-b6d5-0c4927485a2d">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/payment/repaymentInfo" methodName="RepaymentInfo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RepaymentInfo" id="e3e23ea5-7a1a-49fd-ae51-a433b78c894a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="e1f68df2-41a8-47e7-8219-4cf801167bea" name="Check for existence of [fromAccount]">
+          <con:configuration>
+            <path>$['fromAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="d595267e-cd4a-4410-b634-03d019f6eefc" name="Check for existence of [toAccount]">
+          <con:configuration>
+            <path>$['toAccount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="06bddaec-4fe5-4263-ab6f-3086bd4096c1" name="Check for existence of [transferAmount]">
+          <con:configuration>
+            <path>$['transferAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="413d2cdb-aff7-4885-841b-ad5d4eeb5085" name="Check for existence of [deathRate]">
+          <con:configuration>
+            <path>$['deathRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="aacb6659-6360-4728-905f-9e74db2be25a" name="Check for existence of [retrenchRate]">
+          <con:configuration>
+            <path>$['retrenchRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="c297704f-6bbb-46c8-8208-4854c2a12d12" name="Check for existence of [disabilityRate]">
+          <con:configuration>
+            <path>$['disabilityRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="48f4c23d-fd87-45fd-9fc3-3fa41a7e6b05" name="Check for existence of [monthlyServiceFee]">
+          <con:configuration>
+            <path>$['monthlyServiceFee']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="7564e6f3-8691-4b95-9af4-252165d956b9" name="Check for existence of [noOfInstalments]">
+          <con:configuration>
+            <path>$['noOfInstalments']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="0c6ef2fa-f175-48af-a0c8-6f02f60c2201" name="Check for existence of [instalmentAmount]">
+          <con:configuration>
+            <path>$['instalmentAmount']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="RepaymentInfoSinkData" id="07e36a52-31cf-45ab-ba53-09a8ac90f73b">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("RepaymentInfoSaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//fromAccount
+def fromAccount = context.expand( '${RepaymentInfo#Response#$[\'fromAccount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("fromAccount", fromAccount.toString()) 
+
+//toAccount
+def toAccount = context.expand( '${RepaymentInfo#Response#$[\'toAccount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("toAccount", toAccount.toString())
+
+//transferAmount
+def transferAmount = context.expand( '${RepaymentInfo#Response#$[\'transferAmount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("transferAmount", transferAmount.toString())
+
+//deathRate
+def deathRate = context.expand( '${RepaymentInfo#Response#$[\'deathRate\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("deathRate", deathRate.toString())
+
+//retrenchRate
+def retrenchRate = context.expand( '${RepaymentInfo#Response#$[\'retrenchRate\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("retrenchRate", retrenchRate.toString())
+
+//disabilityRate
+def disabilityRate = context.expand( '${RepaymentInfo#Response#$[\'disabilityRate\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("disabilityRate", disabilityRate.toString())
+
+//monthlyServiceFee
+def monthlyServiceFee = context.expand( '${RepaymentInfo#Response#$[\'monthlyServiceFee\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("monthlyServiceFee", monthlyServiceFee.toString())
+
+//noOfInstalments
+def noOfInstalments = context.expand( '${RepaymentInfo#Response#$[\'noOfInstalments\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("noOfInstalments", noOfInstalments.toString())
+
+//instalmentAmount
+def instalmentAmount = context.expand( '${RepaymentInfo#Response#$[\'instalmentAmount\']}' )
+testRunner.testCase.testSteps["RepaymentInfoSaveResponse"].setPropertyValue("instalmentAmount", instalmentAmount.toString())</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="RepaymentInfoSaveResponse" id="24798226-c240-49bb-899d-e66330ca817c">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/RestructureAF/3.RepaymentInfoResults.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E2</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>fromAccount</con:name>
+          <con:value>1328799288</con:value>
+        </con:property>
+        <con:property>
+          <con:name>toAccount</con:name>
+          <con:value>1688852652</con:value>
+        </con:property>
+        <con:property>
+          <con:name>transferAmount</con:name>
+          <con:value>1.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>deathRate</con:name>
+          <con:value>5.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>retrenchRate</con:name>
+          <con:value>9.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>disabilityRate</con:name>
+          <con:value>1.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>monthlyServiceFee</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>noOfInstalments</con:name>
+          <con:value>48</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount</con:name>
+          <con:value>49.92</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Repayment(Restructure)Data" id="89fcc3af-3aa6-43f5-9302-a65ebca1d7c5">
+    <con:settings/>
+    <con:config>
+      <script>//Get data values
+def accountNumber = context.expand( '${ProductInfo#Response#$[\'accountNumber\']}' )
+def transferAmount = context.expand( '${DataSource#transferAmount}' )
+
+//Build JSON message
+def jsonMessage = '{"accountNumber": "'+accountNumber+'","transferAmount": "'+transferAmount+'" }'
+log.info(jsonMessage)
+//Create variable 
+testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Repayment(Restructure)" id="8acaceda-e091-4847-b6fc-1c0fb87da730">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/repayment" methodName="Repayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Repayment(Restructure)" id="25faacab-7612-4435-99a3-007ff47aca74" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="d832459b-fbf9-4cc4-bafd-00127738b191" name="Check for existence of [accountNumber]">
+          <con:configuration>
+            <path>$['accountNumber']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="c7753272-94dc-403a-838d-7f090aeeb0c7" name="Check for existence of [repaymentOptions]">
+          <con:configuration>
+            <path>$['repaymentOptions']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <entry key="operationId" value="restructure" xmlns="http://eviware.com/soapui/config"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>operationId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Repayment(Restructure)SinkData" id="c7fdab3b-af17-407f-82b5-8aea928895dc">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("Repayment(Restructure)SaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//accountNumber
+def accountNumber = context.expand( '${Repayment(Restructure)#Response#$[\'accountNumber\']}' )
+testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("accountNumber", accountNumber.toString()) 
+
+//repaymentOptions
+testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("repaymentOptions", "-".toString()) 
+def Records = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\']}' )
+//Records is now a string of all your items in the array
+def RecordsArray = JsonUtil.parseTrimmedText(Records );
+//Convereted back to an arry
+def n = RecordsArray.size()
+//Count how many records items  there are in the array
+for (int i=0; i&lt; n; i=i+1){
+	//Create a for loop to go through all the elements of the array
+	def numberOfInstalment = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\']['+i+'][\'numberOfInstalment\']}' )
+	def instalmentAmount = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\']['+i+'][\'instalmentAmount\']}' )
+	def month = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\']['+i+'][\'month\']}' )
+	def totalCostOfCredit = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\']['+i+'][\'totalCostOfCredit\']}' )
+	def interest = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\']['+i+'][\'interest\']}' )
+	//Log numberOfInstalment
+	testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("numberOfInstalment"+i, numberOfInstalment.toString()) 
+	//Log instalmentAmount
+	testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("instalmentAmount"+i, instalmentAmount.toString()) 
+	//Log month
+	testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("month"+i, month.toString()) 
+	//Log totalCostOfCredit
+	testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("totalCostOfCredit"+i, totalCostOfCredit.toString()) 
+	//Log interest
+	testRunner.testCase.testSteps["Repayment(Restructure)SaveResponse"].setPropertyValue("interest"+i, interest.toString()) 
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="Repayment(Restructure)SaveResponse" id="3e7d1597-1ba2-452b-af75-4e5c7f69559d">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/RestructureAF/2.Repayment(Restructure)Results.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E2</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>accountNumber</con:name>
+          <con:value>1688852652</con:value>
+        </con:property>
+        <con:property>
+          <con:name>repaymentOptions</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment0</con:name>
+          <con:value>47</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount0</con:name>
+          <con:value>49.92</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month0</con:name>
+          <con:value>47</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit0</con:name>
+          <con:value>2411.59</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest0</con:name>
+          <con:value>911.59</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment1</con:name>
+          <con:value>46</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount1</con:name>
+          <con:value>50.55</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month1</con:name>
+          <con:value>46</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit1</con:name>
+          <con:value>2390.65</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest1</con:name>
+          <con:value>890.65</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment2</con:name>
+          <con:value>45</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount2</con:name>
+          <con:value>51.21</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month2</con:name>
+          <con:value>45</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit2</con:name>
+          <con:value>2369.8</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest2</con:name>
+          <con:value>869.8</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment3</con:name>
+          <con:value>44</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount3</con:name>
+          <con:value>51.91</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month3</con:name>
+          <con:value>44</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit3</con:name>
+          <con:value>2349.39</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest3</con:name>
+          <con:value>849.39</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment4</con:name>
+          <con:value>43</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount4</con:name>
+          <con:value>52.64</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month4</con:name>
+          <con:value>43</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit4</con:name>
+          <con:value>2328.87</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest4</con:name>
+          <con:value>828.87</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment5</con:name>
+          <con:value>42</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount5</con:name>
+          <con:value>53.41</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month5</con:name>
+          <con:value>42</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit5</con:name>
+          <con:value>2308.57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest5</con:name>
+          <con:value>808.57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment6</con:name>
+          <con:value>41</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount6</con:name>
+          <con:value>54.22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month6</con:name>
+          <con:value>41</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit6</con:name>
+          <con:value>2288.37</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest6</con:name>
+          <con:value>788.37</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment7</con:name>
+          <con:value>40</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount7</con:name>
+          <con:value>55.07</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month7</con:name>
+          <con:value>40</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit7</con:name>
+          <con:value>2268.15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest7</con:name>
+          <con:value>768.15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment8</con:name>
+          <con:value>39</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount8</con:name>
+          <con:value>55.97</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month8</con:name>
+          <con:value>39</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit8</con:name>
+          <con:value>2248.18</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest8</con:name>
+          <con:value>748.18</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment9</con:name>
+          <con:value>38</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount9</con:name>
+          <con:value>56.92</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month9</con:name>
+          <con:value>38</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit9</con:name>
+          <con:value>2228.31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest9</con:name>
+          <con:value>728.31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment10</con:name>
+          <con:value>37</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount10</con:name>
+          <con:value>57.92</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month10</con:name>
+          <con:value>37</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit10</con:name>
+          <con:value>2208.39</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest10</con:name>
+          <con:value>708.39</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment11</con:name>
+          <con:value>36</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount11</con:name>
+          <con:value>58.98</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month11</con:name>
+          <con:value>36</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit11</con:name>
+          <con:value>2188.63</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest11</con:name>
+          <con:value>688.63</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment12</con:name>
+          <con:value>35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount12</con:name>
+          <con:value>60.1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month12</con:name>
+          <con:value>35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit12</con:name>
+          <con:value>2168.85</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest12</con:name>
+          <con:value>668.85</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment13</con:name>
+          <con:value>34</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount13</con:name>
+          <con:value>61.3</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month13</con:name>
+          <con:value>34</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit13</con:name>
+          <con:value>2149.55</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest13</con:name>
+          <con:value>649.55</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment14</con:name>
+          <con:value>33</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount14</con:name>
+          <con:value>62.56</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month14</con:name>
+          <con:value>33</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit14</con:name>
+          <con:value>2129.83</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest14</con:name>
+          <con:value>629.83</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment15</con:name>
+          <con:value>32</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount15</con:name>
+          <con:value>63.92</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month15</con:name>
+          <con:value>32</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit15</con:name>
+          <con:value>2110.79</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest15</con:name>
+          <con:value>610.79</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment16</con:name>
+          <con:value>31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount16</con:name>
+          <con:value>65.36</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month16</con:name>
+          <con:value>31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit16</con:name>
+          <con:value>2091.51</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest16</con:name>
+          <con:value>591.51</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment17</con:name>
+          <con:value>30</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount17</con:name>
+          <con:value>66.9</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month17</con:name>
+          <con:value>30</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit17</con:name>
+          <con:value>2072.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest17</con:name>
+          <con:value>572.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment18</con:name>
+          <con:value>29</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount18</con:name>
+          <con:value>68.55</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month18</con:name>
+          <con:value>29</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit18</con:name>
+          <con:value>2053.3</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest18</con:name>
+          <con:value>553.3</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment19</con:name>
+          <con:value>28</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount19</con:name>
+          <con:value>70.32</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month19</con:name>
+          <con:value>28</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit19</con:name>
+          <con:value>2034.31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest19</con:name>
+          <con:value>534.31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment20</con:name>
+          <con:value>27</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount20</con:name>
+          <con:value>72.23</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month20</con:name>
+          <con:value>27</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit20</con:name>
+          <con:value>2015.56</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest20</con:name>
+          <con:value>515.56</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment21</con:name>
+          <con:value>26</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount21</con:name>
+          <con:value>74.29</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month21</con:name>
+          <con:value>26</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit21</con:name>
+          <con:value>1996.89</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest21</con:name>
+          <con:value>496.89</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment22</con:name>
+          <con:value>25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount22</con:name>
+          <con:value>76.52</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month22</con:name>
+          <con:value>25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit22</con:name>
+          <con:value>1978.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest22</con:name>
+          <con:value>478.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment23</con:name>
+          <con:value>24</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount23</con:name>
+          <con:value>78.94</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month23</con:name>
+          <con:value>24</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit23</con:name>
+          <con:value>1959.91</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest23</con:name>
+          <con:value>459.91</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment24</con:name>
+          <con:value>23</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount24</con:name>
+          <con:value>81.57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month24</con:name>
+          <con:value>23</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit24</con:name>
+          <con:value>1941.46</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest24</con:name>
+          <con:value>441.46</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment25</con:name>
+          <con:value>22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount25</con:name>
+          <con:value>84.45</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month25</con:name>
+          <con:value>22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit25</con:name>
+          <con:value>1923.25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest25</con:name>
+          <con:value>423.25</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment26</con:name>
+          <con:value>21</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount26</con:name>
+          <con:value>87.61</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month26</con:name>
+          <con:value>21</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit26</con:name>
+          <con:value>1905.16</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest26</con:name>
+          <con:value>405.16</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment27</con:name>
+          <con:value>20</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount27</con:name>
+          <con:value>91.09</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month27</con:name>
+          <con:value>20</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit27</con:name>
+          <con:value>1887.15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest27</con:name>
+          <con:value>387.15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment28</con:name>
+          <con:value>19</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount28</con:name>
+          <con:value>94.94</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month28</con:name>
+          <con:value>19</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit28</con:name>
+          <con:value>1869.21</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest28</con:name>
+          <con:value>369.21</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment29</con:name>
+          <con:value>18</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount29</con:name>
+          <con:value>99.23</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month29</con:name>
+          <con:value>18</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit29</con:name>
+          <con:value>1851.49</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest29</con:name>
+          <con:value>351.49</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment30</con:name>
+          <con:value>17</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount30</con:name>
+          <con:value>104.02</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month30</con:name>
+          <con:value>17</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit30</con:name>
+          <con:value>1833.69</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest30</con:name>
+          <con:value>333.69</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment31</con:name>
+          <con:value>16</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount31</con:name>
+          <con:value>109.43</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month31</con:name>
+          <con:value>16</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit31</con:name>
+          <con:value>1816.23</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest31</con:name>
+          <con:value>316.23</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment32</con:name>
+          <con:value>15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount32</con:name>
+          <con:value>115.56</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month32</con:name>
+          <con:value>15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit32</con:name>
+          <con:value>1798.75</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest32</con:name>
+          <con:value>298.75</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment33</con:name>
+          <con:value>14</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount33</con:name>
+          <con:value>122.57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month33</con:name>
+          <con:value>14</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit33</con:name>
+          <con:value>1781.33</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest33</con:name>
+          <con:value>281.33</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment34</con:name>
+          <con:value>13</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount34</con:name>
+          <con:value>130.67</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month34</con:name>
+          <con:value>13</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit34</con:name>
+          <con:value>1764.06</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest34</con:name>
+          <con:value>264.06</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment35</con:name>
+          <con:value>12</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount35</con:name>
+          <con:value>140.13</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month35</con:name>
+          <con:value>12</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit35</con:name>
+          <con:value>1746.91</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest35</con:name>
+          <con:value>246.91</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment36</con:name>
+          <con:value>11</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount36</con:name>
+          <con:value>151.32</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month36</con:name>
+          <con:value>11</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit36</con:name>
+          <con:value>1729.87</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest36</con:name>
+          <con:value>229.87</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment37</con:name>
+          <con:value>10</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount37</con:name>
+          <con:value>164.76</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month37</con:name>
+          <con:value>10</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit37</con:name>
+          <con:value>1712.95</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest37</con:name>
+          <con:value>212.95</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment38</con:name>
+          <con:value>9</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount38</con:name>
+          <con:value>181.2</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month38</con:name>
+          <con:value>9</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit38</con:name>
+          <con:value>1696.15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest38</con:name>
+          <con:value>196.15</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment39</con:name>
+          <con:value>8</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount39</con:name>
+          <con:value>201.76</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month39</con:name>
+          <con:value>8</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit39</con:name>
+          <con:value>1679.43</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest39</con:name>
+          <con:value>179.43</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment40</con:name>
+          <con:value>7</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount40</con:name>
+          <con:value>228.22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month40</con:name>
+          <con:value>7</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit40</con:name>
+          <con:value>1662.89</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest40</con:name>
+          <con:value>162.89</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment41</con:name>
+          <con:value>6</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount41</con:name>
+          <con:value>263.5</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month41</con:name>
+          <con:value>6</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit41</con:name>
+          <con:value>1646.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest41</con:name>
+          <con:value>146.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment42</con:name>
+          <con:value>5</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount42</con:name>
+          <con:value>312.93</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month42</con:name>
+          <con:value>5</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit42</con:name>
+          <con:value>1630.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest42</con:name>
+          <con:value>130.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment43</con:name>
+          <con:value>4</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount43</con:name>
+          <con:value>387.1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month43</con:name>
+          <con:value>4</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit43</con:name>
+          <con:value>1613.75</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest43</con:name>
+          <con:value>113.75</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment44</con:name>
+          <con:value>3</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount44</con:name>
+          <con:value>510.75</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month44</con:name>
+          <con:value>3</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit44</con:name>
+          <con:value>1597.6</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest44</con:name>
+          <con:value>97.6</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment45</con:name>
+          <con:value>2</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount45</con:name>
+          <con:value>758.11</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month45</con:name>
+          <con:value>2</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit45</con:name>
+          <con:value>1581.57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest45</con:name>
+          <con:value>81.57</con:value>
+        </con:property>
+        <con:property>
+          <con:name>numberOfInstalment46</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount46</con:name>
+          <con:value>1500.31</con:value>
+        </con:property>
+        <con:property>
+          <con:name>month46</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>totalCostOfCredit46</con:name>
+          <con:value>1565.66</con:value>
+        </con:property>
+        <con:property>
+          <con:name>interest46</con:name>
+          <con:value>65.66</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="RestructureData" id="c4452c05-88ae-4a62-b75e-d715f6a87b91">
+    <con:settings/>
+    <con:config>
+      <script>//Get data values
+def accountNumber = context.expand( '${Repayment(Restructure)#Response#$[\'accountNumber\']}' )
+def noOfInstalment = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\'][0][\'numberOfInstalment\']}' )
+def currentnoOfInstalment = context.expand( '${RepaymentInfo#Response#$[\'noOfInstalments\']}' )
+if (noOfInstalment.equals(currentnoOfInstalment)){
+	noOfInstalment = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\'][1][\'numberOfInstalment\']}' )
+}
+def instalmentAmount = context.expand( '${Repayment(Restructure)#Response#$[\'repaymentOptions\'][0][\'instalmentAmount\']}' )
+//Build JSON message
+def jsonMessage = '{"accountNumber": "'+accountNumber+'","noOfInstalment": "'+noOfInstalment+'","instalmentAmount": "'+instalmentAmount+'" }'
+
+log.info(jsonMessage)
+//Create variable 
+testRunner.testCase.setPropertyValue( "JSONMessageProperty", jsonMessage )</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Restructure" id="f0ad798d-ffb3-4183-b938-c1984f3e431a">
+    <con:settings/>
+    <con:config service="https://onramp-int.int.capinet" resourcePath="/access-facility/restructure" methodName="Restructure" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Restructure" id="e3e23ea5-7a1a-49fd-ae51-a433b78c894a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Authorization" value="${TransferToken#result}"/>
+  &lt;con:entry key="sourceSystemIdentifier" value="USSD"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility</con:endpoint>
+        <con:request>${#TestCase#JSONMessageProperty}</con:request>
+        <con:originalUri>https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/transfer</con:originalUri>
+        <con:assertion type="JsonPath Existence Match" id="d1c938a3-9959-426f-b4c7-2e5997775fab" name="Check for existence of [accountNumber]">
+          <con:configuration>
+            <path>$['accountNumber']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="5edbc539-1735-4844-adb3-1923a3572f3a" name="Check for existence of [deathRate]">
+          <con:configuration>
+            <path>$['deathRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="6c51e0f3-13a8-4e83-a325-656fc89ca430" name="Check for existence of [retrenchRate]">
+          <con:configuration>
+            <path>$['retrenchRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="2757f4e4-7e57-43ea-add1-323c9ecc1f1f" name="Check for existence of [disabilityRate]">
+          <con:configuration>
+            <path>$['disabilityRate']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="90a24b97-bae0-4e99-a7cc-4c4a60f9b8ec" name="Check for existence of [monthlyServiceFee]">
+          <con:configuration>
+            <path>$['monthlyServiceFee']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Existence Match" id="03be6c49-a579-4da6-a989-22a96b6c0fd9" name="Check for existence of [paymentPlan]">
+          <con:configuration>
+            <path>$['paymentPlan']</path>
+            <content>true</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="RestructureSinkData" id="64022488-63ff-43f2-ae30-b113d4dfd55c">
+    <con:settings/>
+    <con:config>
+      <script>import com.eviware.soapui.support.JsonUtil
+
+//Clear property values in datasink
+data = context.testCase.getTestStepByName("RestructureSaveResponse");
+String[] propToRemove = new String[data.getPropertyCount()];
+propToRemove = data.getPropertyNames();
+for ( int i = 0 ; i &lt; propToRemove.size(); i++ ){
+    data.removeProperty( propToRemove[i] );
+}
+
+//accountNumber
+def accountNumber = context.expand( '${Restructure#Response#$[\'accountNumber\']}' )
+testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("accountNumber", accountNumber.toString()) 
+
+//deathRate
+def deathRate = context.expand( '${Restructure#Response#$[\'deathRate\']}' )
+testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("deathRate", deathRate.toString())
+
+//retrenchRate
+def retrenchRate = context.expand( '${Restructure#Response#$[\'retrenchRate\']}' )
+testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("retrenchRate", retrenchRate.toString())
+
+//disabilityRate
+def disabilityRate = context.expand( '${Restructure#Response#$[\'disabilityRate\']}' )
+testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("disabilityRate", disabilityRate.toString())
+
+//monthlyServiceFee
+def monthlyServiceFee = context.expand( '${Restructure#Response#$[\'monthlyServiceFee\']}' )
+testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("monthlyServiceFee", monthlyServiceFee.toString())
+
+//paymentPlan
+testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("paymentPlan", "-".toString()) 
+def Records = context.expand( '${Restructure#Response#$[\'paymentPlan\']}' )
+//Records is now a string of all your items in the array
+def RecordsArray = JsonUtil.parseTrimmedText(Records );
+//Convereted back to an arry
+def n = RecordsArray.size()
+//Count how many records items  there are in the array
+for (int i=0; i&lt; n; i=i+1){
+	//Create a for loop to go through all the elements of the array
+	def firstInstalmentDate = context.expand( '${Restructure#Response#$[\'paymentPlan\']['+i+'][\'firstInstalmentDate\']}' )
+	def noOfInstalments = context.expand( '${Restructure#Response#$[\'paymentPlan\']['+i+'][\'noOfInstalments\']}' )
+	def instalmentAmount = context.expand( '${Restructure#Response#$[\'paymentPlan\']['+i+'][\'instalmentAmount\']}' )	
+	//Log firstInstalmentDate
+	testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("firstInstalmentDate"+i, firstInstalmentDate.toString()) 
+	//Log noOfInstalments
+	testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("noOfInstalments"+i, noOfInstalments.toString()) 
+	//Log instalmentAmount
+	testRunner.testCase.testSteps["RestructureSaveResponse"].setPropertyValue("instalmentAmount"+i, instalmentAmount.toString()) 
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasink" name="RestructureSaveResponse" id="5637b67d-ea83-42e4-9f02-dcc34bc03903">
+    <con:settings/>
+    <con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSink type="Excel">
+        <con:configuration>
+          <file/>
+          <outfile>O:/UAT/Test Automation/CVS New Credit Products/Credit Product Service/RestructureAF/3.RestructureResults.xlsx</outfile>
+          <worksheet>Sheet1</worksheet>
+          <cell>E2</cell>
+          <evaluateFormulas>false</evaluateFormulas>
+          <append>false</append>
+        </con:configuration>
+      </con:dataSink>
+      <con:shared>false</con:shared>
+      <con:properties>
+        <con:property>
+          <con:name>accountNumber</con:name>
+          <con:value>1688852652</con:value>
+        </con:property>
+        <con:property>
+          <con:name>deathRate</con:name>
+          <con:value>5.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>retrenchRate</con:name>
+          <con:value>9.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>disabilityRate</con:name>
+          <con:value>1.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>monthlyServiceFee</con:name>
+          <con:value>0.0</con:value>
+        </con:property>
+        <con:property>
+          <con:name>paymentPlan</con:name>
+          <con:value>-</con:value>
+        </con:property>
+        <con:property>
+          <con:name>firstInstalmentDate0</con:name>
+          <con:value>2020-05-22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>noOfInstalments0</con:name>
+          <con:value>1</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount0</con:name>
+          <con:value>65.35</con:value>
+        </con:property>
+        <con:property>
+          <con:name>firstInstalmentDate1</con:name>
+          <con:value>2020-06-22</con:value>
+        </con:property>
+        <con:property>
+          <con:name>noOfInstalments1</con:name>
+          <con:value>47</con:value>
+        </con:property>
+        <con:property>
+          <con:name>instalmentAmount1</con:name>
+          <con:value>49.92</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation" id="e13f0ec5-d1ab-4d27-9d9a-c0c81d7286cd" disabled="true">
+    <con:settings/>
+    <con:config>
+      <script>import groovy.xml.*
+import groovy.json.*
+
+//CIF
+def customerBefore = context.expand( '${SaveSQLDataBefore#CUSTOMER(BeforeTransfer)}' )
+def customerAfter = context.expand( '${SaveSQLDataAfter#CUSTOMER(AfterTransfer)}' )
+if(customerBefore.equals(customerAfter)) {
+	log.info "PASS: Client CIF is the same."
+} else {
+	log.info "FAIL: Client CIF is not the same, Before:'${customerBefore}' does not match After:'${customerAfter}'."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client CIF is not the same, Before:'${customerBefore}' does not match After:'${customerAfter}'.")
+}
+
+//AF Account
+def afacctBefore = context.expand( '${SaveSQLDataBefore#AFACCT(BeforeTransfer)}' )
+def afacctAfter = context.expand( '${SaveSQLDataAfter#AFACCT(AfterTransfer)}' )
+if(afacctBefore.equals(afacctAfter)) {
+	log.info "PASS: Client AF account is the same."
+} else {
+	log.info "FAIL: Client AF account is not the same, Before:'${afacctBefore}' does not match After:'${afacctAfter}'."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client AF account is not the same, Before:'${afacctBefore}' does not match After:'${afacctAfter}'." )
+}
+
+//AF Balance
+def afbalBefore = context.expand( '${SaveSQLDataBefore#AFBAL(BeforeTransfer)}' ) as Double
+assert afbalBefore instanceof Double
+
+def afbalAfter = context.expand( '${SaveSQLDataAfter#AFBAL(AfterTransfer)}' ) as Double
+assert afbalAfter instanceof Double
+
+def afbaldiffTotal = (afbalBefore - afbalAfter)
+if(afbalBefore.equals(afbalAfter)) {
+	log.info "FAIL: Client AF balance is the same, transfer did not occur."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client AF balance is the same, transfer did not occur." )
+} else {
+	log.info "PASS: Client AF balance is not the same, Before:'${afbalBefore}' does not match After:'${afbalAfter}'."
+	log.info "PASS: Client AF balance difference = '${afbaldiffTotal}'."
+}
+
+//AF Theo Balance
+def aftheobalBefore = context.expand( '${SaveSQLDataBefore#AFTHEOBAL(BeforeTransfer)}' ) as Double
+assert aftheobalBefore instanceof Double
+def aftheobalAfter = context.expand( '${SaveSQLDataAfter#AFTHEOBAL(AfterTransfer)}' ) as Double
+assert aftheobalAfter instanceof Double
+
+def aftheodiffTotal = (aftheobalBefore - aftheobalAfter)
+def paymentOptions = context.expand( '${DataSource#paymentOptions}' )
+//Payment Option 1
+if (paymentOptions == '1'){
+	if(aftheobalBefore.equals(aftheobalAfter)) {
+		log.info "PASS: Client AF theo balance is the same. With payment option 1 done, Before:'${aftheobalBefore}' is the same as After:'${aftheobalAfter}'."
+	} else {
+		log.info "FAIL: Client AF theo balance difference = '${aftheodiffTotal} '."
+		testRunner.fail(testRunner.testCase.name + " FAIL: Client AF theo balance is not the same. With payment option 1 done, AF theo balance should not change." )
+	}
+//Payment Option 2
+}else if (paymentOptions == "2"){
+	if(aftheobalBefore.equals(aftheobalAfter)) {
+		log.info "FAIL: Client AF theo balance is the same. With payment option 2 done, AF theo balance should change."
+		testRunner.fail(testRunner.testCase.name + " Failed: Client AF theo balance is the same. With payment option 2 done, AF theo balance should change." )
+	} else {
+		log.info "PASS: Client AF theo balance is not the same. With payment option 2 done, Before:'${aftheobalBefore}' does not match After:'${aftheobalAfter}'."
+		log.info "PASS: Client AF theo balance difference = '${aftheodiffTotal} '."
+	}	
+//Payment Option 3
+}else if (paymentOptions == "3"){
+	if(aftheobalBefore.equals(aftheobalAfter)) {
+		log.info "FAIL: Client AF theo balance is the same. With payment option 3 done, AF theo balance should change."
+		testRunner.fail(testRunner.testCase.name + " Failed: Client AF theo balance is the same. With payment option 3 done, AF theo balance should change." )
+	} else {
+		log.info "PASS: Client AF theo balance is not the same. With payment option 3 done, Before:'${aftheobalBefore}' does not match After:'${aftheobalAfter}'."
+		log.info "PASS: Client AF theo balance difference = '${aftheodiffTotal} '."
+	}
+}
+
+//Sav Acc
+def savacctBefore = context.expand( '${SaveSQLDataBefore#SAVACCT(BeforeTransfer)}' )
+def savacctAfter = context.expand( '${SaveSQLDataAfter#SAVACCT(AfterTransfer)}' )
+if(savacctBefore.equals(savacctAfter)) {
+	log.info "PASS: Client savings account is the same."
+} else {
+	log.info "FAIL: Client savings account is not the same, Before:'${savacctBefore}' does not match After:'${savacctAfter}'."
+	testRunner.fail(testRunner.testCase.name + " Failed: Client savings account is not the same, Before:'${savacctBefore}' does not match After:'${savacctAfter}'." )
+}
+
+//Sav Bal
+def savbalBefore = context.expand( '${SaveSQLDataBefore#SAVBAL(BeforeTransfer)}' ) as Double
+assert savbalBefore instanceof Double
+def savbalAfter = context.expand( '${SaveSQLDataAfter#SAVBAL(AfterTransfer)}' ) as Double
+assert savbalAfter instanceof Double
+def savbaldiffTotal = (savbalBefore - savbalAfter)
+if(savbalBefore.equals(savbalAfter)) {
+	log.info "FAIL: Client AF theo balance is the same."
+} else {
+	log.info "PASS: Client savings balance is not the same, Before:'${savbalBefore}' does not match After:'${savbalAfter}'."
+	log.info "PASS: Client savings balance difference = '${savbaldiffTotal} '."
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>JSONMessageProperty</con:name>
+      <con:value>{"accountNumber": "1688852652","noOfInstalment": "47","instalmentAmount": "49.92" }</con:value>
+    </con:property>
+    <con:property>
+      <con:name>URLEncoded</con:name>
+      <con:value>grant_type=password&amp;username=CP343094&amp;password=Vadyca#33</con:value>
+    </con:property>
+  </con:properties>
+  <con:reportParameters/>
+  <con:breakPoints>
+    <con:testStepId>966505bd-0671-4573-b212-d72639a9ce3f</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>c50f7230-dcc4-400b-8039-1cc6979d8d2b</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>d6031f08-1bbe-4574-ab21-ec371d8ea9b4</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>1137439d-3b27-42a1-8743-737e1c4bc10b</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>675315e5-6e86-4b82-bb77-8918de4f4693</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>ce943618-1022-463e-8784-73282767549a</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>45d544f6-f481-4764-8dff-3cd17c1ab06a</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>2482627f-3aa2-4919-ac69-41e9aff21bf8</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>84106085-a98e-4991-af29-3b6cf8a1a013</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>abeebc03-8112-469c-87ef-eaf85a824494</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>a4e52090-9143-4a2b-b032-3487f6ab2e01</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>64a9eb6a-ed31-4d0e-8ced-c88f07206631</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>a9562781-db23-47df-a2ac-d4ca0d111d0b</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>bf8fd153-a5df-4f04-a688-7bf4a53ba7ef</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>438016ba-1e36-4d7c-93db-8aaaef1f8d0f</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>0412ad2e-58ed-405c-b129-858948642acd</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>38375e6f-d052-4bbf-82fb-f08b13e992b4</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>0c53670c-09eb-4791-b6d5-0c4927485a2d</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>07e36a52-31cf-45ab-ba53-09a8ac90f73b</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>24798226-c240-49bb-899d-e66330ca817c</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+</con:testCase>

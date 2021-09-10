@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="Token" path="/token" id="4c9aaf68-e0ad-4760-b31c-4a4300416adb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="4c9aaf68-e0ad-4760-b31c-4a4300416adbfileName">Token</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="Token" id="5613fc4f-2243-4847-a90b-256951f4a85c" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:representation type="REQUEST">
+      <con:mediaType>application/x-www-form-urlencoded</con:mediaType>
+      <con:params/>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:tok="https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token">tok:Response</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>400 401</con:status>
+      <con:params/>
+      <con:element xmlns:tok="https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token">tok:Fault</con:element>
+    </con:representation>
+    <con:representation type="FAULT">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>404 500</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>0</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
+    <con:request name="tokenRequest" id="3fff67e7-5a37-44b8-8893-cbce56d10cf0" mediaType="Form URL Encoded" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/x-www-form-urlencoded" xmlns="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:endpoint>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect</con:endpoint>
+      <con:request>grant_type=password&amp;username=CP343094&amp;password=Vadyca!11</con:request>
+      <con:originalUri>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:originalUri>
+      <con:credentials>
+        <con:username>Platform-DEV</con:username>
+        <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+        <con:selectedAuthProfile>Basic</con:selectedAuthProfile>
+        <con:preemptive>true</con:preemptive>
+        <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
+        <con:authType>Preemptive</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+      <con:parameterOrder/>
+      <con:environmentSpec>
+        <con:entry environmentId="d762859b-28b7-4b5a-be3e-b89bb67042dc">
+          <con:authProfile>Basic</con:authProfile>
+          <con:username>Platform-DEV</con:username>
+          <con:password>5d2448d6-205a-489a-937e-fa2479521bfd</con:password>
+          <con:preemptive>true</con:preemptive>
+        </con:entry>
+        <con:entry environmentId="c6d10c3f-13fd-496d-a352-d5e1b3ffb3e4">
+          <con:authProfile>Basic</con:authProfile>
+          <con:username>Platform-INT</con:username>
+          <con:password>3a6198ea-eed5-43b2-bee2-a5a4895096ec</con:password>
+          <con:preemptive>true</con:preemptive>
+        </con:entry>
+        <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="89bfff1c-d314-464e-8dc2-7c368a0011af">
+          <con:authProfile>Basic</con:authProfile>
+          <con:username>Platform-QA</con:username>
+          <con:password/>
+          <con:preemptive>true</con:preemptive>
+        </con:entry>
+      </con:environmentSpec>
+    </con:request>
+    <con:environmentSpec>
+      <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+        <con:authProfile>Inherit From Parent</con:authProfile>
+      </con:entry>
+    </con:environmentSpec>
+  </con:method>
+  <con:environmentSpec>
+    <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:resource>

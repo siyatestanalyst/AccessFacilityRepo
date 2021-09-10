@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="1823a8e5-0fa1-410d-8ccf-add902c8ad43" created="2.8.2" activeEnvironment="INT" name="New Credit Product Service" resourceRoot="" updated="3.4.0" encryptionMode="Not encrypted" savePropertyValues="true" disableCarriageReturnEscaping="false" scriptLibrary="" defaultScriptLanguage="Groovy" abortOnError="false" runType="SEQUENTIAL" soapui-version="5.5.0" compositeProjectFormat="1.3" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:requirements/>
+  <con:properties>
+    <con:property>
+      <con:name>Token</con:name>
+    </con:property>
+    <con:property>
+      <con:name>CIN</con:name>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer>
+    <con:oAuth2Profile>
+      <con:name>Bearer Token</con:name>
+      <con:type>OAuth 2.0</con:type>
+      <con:authorizationURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:authorizationURI>
+      <con:accessTokenURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:accessTokenURI>
+      <con:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJKZU5rZC1fenRCbU9MWjJuaGNvVzBLZ1hseGRBVExPbHVjMWd6N01ZVVN3In0.eyJqdGkiOiJmNDgyNmZhZS1jNmQ4LTQwZTMtOWQxZC01ZTU4YWFkMGVlOGIiLCJleHAiOjE1NzQxNjkxMzAsIm5iZiI6MCwiaWF0IjoxNTc0MTY1NTMwLCJpc3MiOiJodHRwczovL2lkcC1ub24tcHJvZC5pbnQuY2FwaW5ldC9hdXRoL3JlYWxtcy9ERVYiLCJhdWQiOiJQbGF0Zm9ybS1ERVYiLCJzdWIiOiI3Y2NjYWM1ZS02ZGQzLTQxNTMtODJiZS01MjNmOGFjZTI3NDMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJQbGF0Zm9ybS1ERVYiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI0N2Q0NTVkNC03N2YzLTRmMmEtOWQzYS0xMGUyNTg5N2JlNjkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3QiXSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJDcmVkaXRQcm9kdWN0U2VydmljZUNsaWVudHMiXSwibmFtZSI6IkR5bGFuIEtsZWluaGVudHoiLCJjbGllbnRfaXAiOiIxMC4yMjQuMzEuMTIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjcDM0MzA5NCIsImdpdmVuX25hbWUiOiJEeWxhbiIsImZhbWlseV9uYW1lIjoiS2xlaW5oZW50eiIsImVtYWlsIjoiRHlsYW5LbGVpbmhlbnR6QGNhcGl0ZWNiYW5rLmNvLnphIn0.RCz6iYbiUbRBXqzspPaenqYHdvrlBSaeyS3YRHR_3WBon18ig0Jv9VO0Gotfymi2QB9pY1dJ-txhTfCQvCEFQMRSkvFGPEV_76JmIaZCo6Hw3REYi_xxdu3-W92SW9_jy4AK2BVy1jnh72WJnBg4orf64iDw99PVvyRysFoYS8WU2zqtKPMtpZZgxfx2eztG5m4GM414hWaY4djRJTRceLMdXtQpxBW_xbtIiWQ5NknJvtqu2rokVvbNik3XbeCyuxlayvVP6_lHQGAb9hc_Dd8BWbnht31yRGmBAm3lSz1Zqf9DkT3xcNxKHrPGcZcURFmEEriA2GnUSSc2ZzWOCw</con:accessToken>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:accessTokenStartingStatus>ENTERED_MANUALLY</con:accessTokenStartingStatus>
+      <con:manualAccessTokenExpirationTime/>
+      <con:manualAccessTokenExpirationTimeUnit>SECONDS</con:manualAccessTokenExpirationTimeUnit>
+      <con:clientID>re</con:clientID>
+      <con:resourceOwnerName>Platform-DEV</con:resourceOwnerName>
+      <con:resourceOwnerPassword>5d2448d6-205a-489a-937e-fa2479521bfd</con:resourceOwnerPassword>
+      <con:oAuth2Flow>AUTHORIZATION_CODE_GRANT</con:oAuth2Flow>
+      <con:refreshAccessTokenMethod>AUTOMATIC</con:refreshAccessTokenMethod>
+      <con:useAuthHeader>true</con:useAuthHeader>
+      <con:applyJwtAssertion>true</con:applyJwtAssertion>
+      <con:jwtAssertion>eyJhbGciOiJOT05FIiwidHlwIjoiSldUIiwiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkIn0.eyJleHAiOjE1NzQ3Njg2ODIsImlhdCI6MTU3NDE2Mzg4MiwicGFzc3dvcmQiOiJWYWR5Y2FAMTEiLCJncmFudF90eXBlIjoicGFzc3dvcmQiLCJ1c2VybmFtZSI6IkNQMzQzMDk0In0</con:jwtAssertion>
+      <con:jwtConfiguration>
+        <con:keystoreId/>
+        <con:keystoreKeyAlias/>
+        <con:keystoreKeyPassword/>
+        <con:secretKey/>
+        <con:signAlgorithm>None</con:signAlgorithm>
+        <con:headerProperties>
+          <con:property>
+            <con:name>Content-Type</con:name>
+            <con:value>application/x-www-form-urlencoded</con:value>
+          </con:property>
+          <con:property>
+            <con:name>alg</con:name>
+            <con:value>NONE</con:value>
+          </con:property>
+        </con:headerProperties>
+        <con:payloadProperties>
+          <con:property>
+            <con:name>username</con:name>
+            <con:value>CP343094</con:value>
+          </con:property>
+          <con:property>
+            <con:name>grant_type</con:name>
+            <con:value>password</con:value>
+          </con:property>
+          <con:property>
+            <con:name>password</con:name>
+            <con:value>Vadyca@11</con:value>
+          </con:property>
+          <con:property>
+            <con:name>exp</con:name>
+            <con:value>1574768682</con:value>
+          </con:property>
+          <con:property>
+            <con:name>iat</con:name>
+            <con:value>1574163882</con:value>
+          </con:property>
+        </con:payloadProperties>
+      </con:jwtConfiguration>
+      <con:responseType>id_token</con:responseType>
+    </con:oAuth2Profile>
+    <con:oAuth2Profile>
+      <con:name>Bearer</con:name>
+      <con:type>OAuth 2.0</con:type>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:manualAccessTokenExpirationTime/>
+      <con:manualAccessTokenExpirationTimeUnit>SECONDS</con:manualAccessTokenExpirationTimeUnit>
+      <con:oAuth2Flow>AUTHORIZATION_CODE_GRANT</con:oAuth2Flow>
+      <con:refreshAccessTokenMethod>AUTOMATIC</con:refreshAccessTokenMethod>
+      <con:jwtConfiguration/>
+      <con:responseType>id_token</con:responseType>
+    </con:oAuth2Profile>
+  </con:oAuth2ProfileContainer>
+  <con:oAuth1ProfileContainer>
+    <con:oAuth1Profile>
+      <con:name>Token</con:name>
+      <con:type>OAuth 1.0</con:type>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+    </con:oAuth1Profile>
+    <con:oAuth1Profile>
+      <con:name>Testing</con:name>
+      <con:type>OAuth 1.0</con:type>
+      <con:authorizationURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:authorizationURI>
+      <con:accessTokenURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:accessTokenURI>
+      <con:redirectURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:redirectURI>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:temporaryTokenURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:temporaryTokenURI>
+      <con:consumerKey>key1</con:consumerKey>
+      <con:consumerSecret>secret</con:consumerSecret>
+    </con:oAuth1Profile>
+    <con:oAuth1Profile>
+      <con:name>11</con:name>
+      <con:type>OAuth 1.0</con:type>
+      <con:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJKZU5rZC1fenRCbU9MWjJuaGNvVzBLZ1hseGRBVExPbHVjMWd6N01ZVVN3In0.eyJqdGkiOiJmNDgyNmZhZS1jNmQ4LTQwZTMtOWQxZC01ZTU4YWFkMGVlOGIiLCJleHAiOjE1NzQxNjkxMzAsIm5iZiI6MCwiaWF0IjoxNTc0MTY1NTMwLCJpc3MiOiJodHRwczovL2lkcC1ub24tcHJvZC5pbnQuY2FwaW5ldC9hdXRoL3JlYWxtcy9ERVYiLCJhdWQiOiJQbGF0Zm9ybS1ERVYiLCJzdWIiOiI3Y2NjYWM1ZS02ZGQzLTQxNTMtODJiZS01MjNmOGFjZTI3NDMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJQbGF0Zm9ybS1ERVYiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI0N2Q0NTVkNC03N2YzLTRmMmEtOWQzYS0xMGUyNTg5N2JlNjkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3QiXSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJDcmVkaXRQcm9kdWN0U2VydmljZUNsaWVudHMiXSwibmFtZSI6IkR5bGFuIEtsZWluaGVudHoiLCJjbGllbnRfaXAiOiIxMC4yMjQuMzEuMTIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjcDM0MzA5NCIsImdpdmVuX25hbWUiOiJEeWxhbiIsImZhbWlseV9uYW1lIjoiS2xlaW5oZW50eiIsImVtYWlsIjoiRHlsYW5LbGVpbmhlbnR6QGNhcGl0ZWNiYW5rLmNvLnphIn0.RCz6iYbiUbRBXqzspPaenqYHdvrlBSaeyS3YRHR_3WBon18ig0Jv9VO0Gotfymi2QB9pY1dJ-txhTfCQvCEFQMRSkvFGPEV_76JmIaZCo6Hw3REYi_xxdu3-W92SW9_jy4AK2BVy1jnh72WJnBg4orf64iDw99PVvyRysFoYS8WU2zqtKPMtpZZgxfx2eztG5m4GM414hWaY4djRJTRceLMdXtQpxBW_xbtIiWQ5NknJvtqu2rokVvbNik3XbeCyuxlayvVP6_lHQGAb9hc_Dd8BWbnht31yRGmBAm3lSz1Zqf9DkT3xcNxKHrPGcZcURFmEEriA2GnUSSc2ZzWOCw</con:accessToken>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:accessTokenStartingStatus>ENTERED_MANUALLY</con:accessTokenStartingStatus>
+    </con:oAuth1Profile>
+  </con:oAuth1ProfileContainer>
+  <con:reporting/>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+// This code is often used for adding custom authentication to SoapUI Pro tests
+
+// If hardcoding the token, uncomment and change line 5
+// def token = '4567'
+
+// If your token is parameterized in Project level custom property, uncomment line 8
+// def token = request.parent.testCase.testSuite.project.getProperty('auth_token').getValue()
+
+// To modify all outgoing calls, remove comments from lines 11 to 16
+// def headers = request.requestHeaders
+// if (headers.containsKey('auth_token2') == false) {
+//   headers.put('auth_token2', token)
+//   request.requestHeaders = headers
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
+// Change the directory path in line 5 to a location where you want to store details
+// then uncomment lines 5 to 10
+
+// filePath = 'C:\\tempOutputDirectory\\'
+// fos = new FileOutputStream(filePath + testStepResult.testStep.label + '.txt', true)
+// pw = new PrintWriter(fos)
+// testStepResult.writeTo(pw)
+// pw.close()
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:environment id="d762859b-28b7-4b5a-be3e-b89bb67042dc" name="DEV">
+    <con:service type="REST" name="https://idp-non-prod.int.capinet">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="">https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="https://onramp-int.int.capinet">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">https://onramp-dev.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="https://creditproductservice-v1-dev.int.capinet 2">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword=""/>
+    </con:service>
+    <con:service type="REST" name="https://onramp-int.int.capinet">
+      <con:endpoint authProfile="No Authorization" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="">https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>Token</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>CIN</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="c6d10c3f-13fd-496d-a352-d5e1b3ffb3e4" name="INT">
+    <con:service type="REST" name="https://idp-non-prod.int.capinet">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://idp-non-prod.int.capinet/auth/realms/INT/protocol/openid-connect</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="https://onramp-int.int.capinet">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://onramp-int.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="https://creditproductservice-v1-dev.int.capinet 2">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword=""/>
+    </con:service>
+    <con:service type="REST" name="https://onramp-int.int.capinet">
+      <con:endpoint authProfile="No Authorization" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="">https://onramp-int.int.capinet/credit-services/creditproductservice-v1/credit-products/v1/access-facility/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>Token</con:name>
+      <con:value>1</con:value>
+    </con:property>
+    <con:property>
+      <con:name>CIN</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="89bfff1c-d314-464e-8dc2-7c368a0011af" name="QA">
+    <con:service type="REST" name="https://idp-non-prod.int.capinet">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://idp-non-prod.int.capinet/auth/realms/QA/protocol/openid-connect</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="https://onramp-int.int.capinet">
+      <con:endpoint authProfile="No Authorization" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://onramp-qa.int.capinet/credit-services/creditproductservice-v2/credit-products/v2</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>Token</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>CIN</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:authRepository>
+    <con:oAuth20AuthEntry>
+      <con:name>Bearer Token</con:name>
+      <con:type>OAuth 2.0</con:type>
+      <con:authorizationURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:authorizationURI>
+      <con:accessTokenURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:accessTokenURI>
+      <con:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJKZU5rZC1fenRCbU9MWjJuaGNvVzBLZ1hseGRBVExPbHVjMWd6N01ZVVN3In0.eyJqdGkiOiJmNDgyNmZhZS1jNmQ4LTQwZTMtOWQxZC01ZTU4YWFkMGVlOGIiLCJleHAiOjE1NzQxNjkxMzAsIm5iZiI6MCwiaWF0IjoxNTc0MTY1NTMwLCJpc3MiOiJodHRwczovL2lkcC1ub24tcHJvZC5pbnQuY2FwaW5ldC9hdXRoL3JlYWxtcy9ERVYiLCJhdWQiOiJQbGF0Zm9ybS1ERVYiLCJzdWIiOiI3Y2NjYWM1ZS02ZGQzLTQxNTMtODJiZS01MjNmOGFjZTI3NDMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJQbGF0Zm9ybS1ERVYiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI0N2Q0NTVkNC03N2YzLTRmMmEtOWQzYS0xMGUyNTg5N2JlNjkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3QiXSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJDcmVkaXRQcm9kdWN0U2VydmljZUNsaWVudHMiXSwibmFtZSI6IkR5bGFuIEtsZWluaGVudHoiLCJjbGllbnRfaXAiOiIxMC4yMjQuMzEuMTIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjcDM0MzA5NCIsImdpdmVuX25hbWUiOiJEeWxhbiIsImZhbWlseV9uYW1lIjoiS2xlaW5oZW50eiIsImVtYWlsIjoiRHlsYW5LbGVpbmhlbnR6QGNhcGl0ZWNiYW5rLmNvLnphIn0.RCz6iYbiUbRBXqzspPaenqYHdvrlBSaeyS3YRHR_3WBon18ig0Jv9VO0Gotfymi2QB9pY1dJ-txhTfCQvCEFQMRSkvFGPEV_76JmIaZCo6Hw3REYi_xxdu3-W92SW9_jy4AK2BVy1jnh72WJnBg4orf64iDw99PVvyRysFoYS8WU2zqtKPMtpZZgxfx2eztG5m4GM414hWaY4djRJTRceLMdXtQpxBW_xbtIiWQ5NknJvtqu2rokVvbNik3XbeCyuxlayvVP6_lHQGAb9hc_Dd8BWbnht31yRGmBAm3lSz1Zqf9DkT3xcNxKHrPGcZcURFmEEriA2GnUSSc2ZzWOCw</con:accessToken>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:accessTokenStartingStatus>ENTERED_MANUALLY</con:accessTokenStartingStatus>
+      <con:manualAccessTokenExpirationTime/>
+      <con:manualAccessTokenExpirationTimeUnit>SECONDS</con:manualAccessTokenExpirationTimeUnit>
+      <con:clientID>re</con:clientID>
+      <con:resourceOwnerName>Platform-DEV</con:resourceOwnerName>
+      <con:resourceOwnerPassword>5d2448d6-205a-489a-937e-fa2479521bfd</con:resourceOwnerPassword>
+      <con:oAuth2Flow>AUTHORIZATION_CODE_GRANT</con:oAuth2Flow>
+      <con:refreshAccessTokenMethod>AUTOMATIC</con:refreshAccessTokenMethod>
+      <con:useAuthHeader>true</con:useAuthHeader>
+      <con:applyJwtAssertion>true</con:applyJwtAssertion>
+      <con:jwtAssertion>eyJhbGciOiJOT05FIiwidHlwIjoiSldUIiwiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkIn0.eyJleHAiOjE1NzQ3Njg2ODIsImlhdCI6MTU3NDE2Mzg4MiwicGFzc3dvcmQiOiJWYWR5Y2FAMTEiLCJncmFudF90eXBlIjoicGFzc3dvcmQiLCJ1c2VybmFtZSI6IkNQMzQzMDk0In0</con:jwtAssertion>
+      <con:jwtConfiguration>
+        <con:keystoreId/>
+        <con:keystoreKeyAlias/>
+        <con:keystoreKeyPassword/>
+        <con:secretKey/>
+        <con:signAlgorithm>None</con:signAlgorithm>
+        <con:headerProperties>
+          <con:property>
+            <con:name>Content-Type</con:name>
+            <con:value>application/x-www-form-urlencoded</con:value>
+          </con:property>
+          <con:property>
+            <con:name>alg</con:name>
+            <con:value>NONE</con:value>
+          </con:property>
+        </con:headerProperties>
+        <con:payloadProperties>
+          <con:property>
+            <con:name>username</con:name>
+            <con:value>CP343094</con:value>
+          </con:property>
+          <con:property>
+            <con:name>grant_type</con:name>
+            <con:value>password</con:value>
+          </con:property>
+          <con:property>
+            <con:name>password</con:name>
+            <con:value>Vadyca@11</con:value>
+          </con:property>
+          <con:property>
+            <con:name>exp</con:name>
+            <con:value>1574768682</con:value>
+          </con:property>
+          <con:property>
+            <con:name>iat</con:name>
+            <con:value>1574163882</con:value>
+          </con:property>
+        </con:payloadProperties>
+      </con:jwtConfiguration>
+      <con:responseType>id_token</con:responseType>
+    </con:oAuth20AuthEntry>
+    <con:oAuth20AuthEntry>
+      <con:name>Bearer</con:name>
+      <con:type>OAuth 2.0</con:type>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:manualAccessTokenExpirationTime/>
+      <con:manualAccessTokenExpirationTimeUnit>SECONDS</con:manualAccessTokenExpirationTimeUnit>
+      <con:oAuth2Flow>AUTHORIZATION_CODE_GRANT</con:oAuth2Flow>
+      <con:refreshAccessTokenMethod>AUTOMATIC</con:refreshAccessTokenMethod>
+      <con:jwtConfiguration/>
+      <con:responseType>id_token</con:responseType>
+    </con:oAuth20AuthEntry>
+    <con:oAuth10AuthEntry>
+      <con:name>Token</con:name>
+      <con:type>OAuth 1.0</con:type>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+    </con:oAuth10AuthEntry>
+    <con:oAuth10AuthEntry>
+      <con:name>Testing</con:name>
+      <con:type>OAuth 1.0</con:type>
+      <con:authorizationURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:authorizationURI>
+      <con:accessTokenURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:accessTokenURI>
+      <con:redirectURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:redirectURI>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:temporaryTokenURI>https://idp-non-prod.int.capinet/auth/realms/DEV/protocol/openid-connect/token</con:temporaryTokenURI>
+      <con:consumerKey>key1</con:consumerKey>
+      <con:consumerSecret>secret</con:consumerSecret>
+    </con:oAuth10AuthEntry>
+    <con:oAuth10AuthEntry>
+      <con:name>11</con:name>
+      <con:type>OAuth 1.0</con:type>
+      <con:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJKZU5rZC1fenRCbU9MWjJuaGNvVzBLZ1hseGRBVExPbHVjMWd6N01ZVVN3In0.eyJqdGkiOiJmNDgyNmZhZS1jNmQ4LTQwZTMtOWQxZC01ZTU4YWFkMGVlOGIiLCJleHAiOjE1NzQxNjkxMzAsIm5iZiI6MCwiaWF0IjoxNTc0MTY1NTMwLCJpc3MiOiJodHRwczovL2lkcC1ub24tcHJvZC5pbnQuY2FwaW5ldC9hdXRoL3JlYWxtcy9ERVYiLCJhdWQiOiJQbGF0Zm9ybS1ERVYiLCJzdWIiOiI3Y2NjYWM1ZS02ZGQzLTQxNTMtODJiZS01MjNmOGFjZTI3NDMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJQbGF0Zm9ybS1ERVYiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI0N2Q0NTVkNC03N2YzLTRmMmEtOWQzYS0xMGUyNTg5N2JlNjkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3QiXSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJDcmVkaXRQcm9kdWN0U2VydmljZUNsaWVudHMiXSwibmFtZSI6IkR5bGFuIEtsZWluaGVudHoiLCJjbGllbnRfaXAiOiIxMC4yMjQuMzEuMTIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjcDM0MzA5NCIsImdpdmVuX25hbWUiOiJEeWxhbiIsImZhbWlseV9uYW1lIjoiS2xlaW5oZW50eiIsImVtYWlsIjoiRHlsYW5LbGVpbmhlbnR6QGNhcGl0ZWNiYW5rLmNvLnphIn0.RCz6iYbiUbRBXqzspPaenqYHdvrlBSaeyS3YRHR_3WBon18ig0Jv9VO0Gotfymi2QB9pY1dJ-txhTfCQvCEFQMRSkvFGPEV_76JmIaZCo6Hw3REYi_xxdu3-W92SW9_jy4AK2BVy1jnh72WJnBg4orf64iDw99PVvyRysFoYS8WU2zqtKPMtpZZgxfx2eztG5m4GM414hWaY4djRJTRceLMdXtQpxBW_xbtIiWQ5NknJvtqu2rokVvbNik3XbeCyuxlayvVP6_lHQGAb9hc_Dd8BWbnht31yRGmBAm3lSz1Zqf9DkT3xcNxKHrPGcZcURFmEEriA2GnUSSc2ZzWOCw</con:accessToken>
+      <con:accessTokenPosition>HEADER</con:accessTokenPosition>
+      <con:accessTokenStartingStatus>ENTERED_MANUALLY</con:accessTokenStartingStatus>
+    </con:oAuth10AuthEntry>
+  </con:authRepository>
+  <con:environmentSpec>
+    <con:entry environmentId="abe22d3f-c611-48a2-aa3a-bbb3916687f4">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+  <con:tags/>
+</con:soapui-project>
