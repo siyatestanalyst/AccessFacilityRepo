@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:interface xsi:type="con:RestService" id="a753f306-88b2-4c77-8043-7e04dbe56383" wadlVersion="http://wadl.dev.java.net/2009/02" name="Access Facility" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+<con:interface xsi:type="con:RestService" id="a753f306-88b2-4c77-8043-7e04dbe56383" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://onramp-int.int.capinet" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
     <con:setting id="a753f306-88b2-4c77-8043-7e04dbe56383fileName">https%3A%2F%2Fonramp-int.int.capinet</con:setting>
   </con:settings>
